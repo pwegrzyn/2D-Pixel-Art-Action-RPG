@@ -1,0 +1,27 @@
+
+apply plugin: 'java-library'
+
+description = """
+Project for TO2 course on AGH UST
+
+Authors:
+Kacper Janda
+Bogdan £¹tka
+Patryk Wêgrzyn """
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '0.1'
+
+mainClassName = 'pl.edu.agh.to2.yadc.game.App'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    api 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'com.google.guava:guava:23.0'
+    testImplementation 'junit:junit:4.12'
+}
+
