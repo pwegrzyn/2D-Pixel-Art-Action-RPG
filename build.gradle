@@ -6,12 +6,17 @@ Project for TO2 course on AGH UST
 
 Authors:
 Kacper Janda
-Bogdan £¹tka
-Patryk Wêgrzyn """
+Bogdan ï¿½ï¿½tka
+Patryk Wï¿½grzyn """
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '0.1'
+
+task run(type: JavaExec, dependsOn: classes) {
+    main = 'pl.edu.agh.to2.yadc.game.App'
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 repositories {
     jcenter()
