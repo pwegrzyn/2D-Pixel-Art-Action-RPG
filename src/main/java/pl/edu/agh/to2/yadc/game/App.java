@@ -1,9 +1,11 @@
 package pl.edu.agh.to2.yadc.game;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.entity.Area;
 import pl.edu.agh.to2.yadc.entity.AreaManager;
-import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
@@ -16,6 +18,12 @@ public class App {
 		cfg.setTargetHeight(312);
 		cfg.setTargetWidth(500);
 		cfg.setTargetFps(100);
+		Map<String, Character> keyBinds = new HashMap<>();
+		keyBinds.put("up", 'w');
+		keyBinds.put("down", 's');
+		keyBinds.put("left", 'a');
+		keyBinds.put("right", 'd');
+		cfg.setKeyBinds(keyBinds);
 		
 		RenderManager.initialSetup(cfg);
 

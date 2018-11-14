@@ -124,9 +124,7 @@ public class RenderManager {
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 
-		long time = System.nanoTime();
-		double delta = (time - lastTimeUpdate) / ((double)1000000000);
-		lastTimeUpdate = time;
+		double delta = calcDelta();
 		
 		AreaManager.getCurrentArea().advanceSelf(delta);
 		AreaManager.getCurrentArea().renderSelf(graphics);
@@ -208,6 +206,13 @@ public class RenderManager {
 		menuBar.add(helpMenu);
 		frame.setMenuBar(menuBar);
 		
+	}
+
+	private static double calcDelta() {
+		long time = System.nanoTime();
+		double delta = (time - lastTimeUpdate) / ((double)1000000000);
+		lastTimeUpdate = time;
+		return delta;
 	}
 
 	public static Canvas getMainCanvas() {

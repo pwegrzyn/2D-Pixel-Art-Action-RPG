@@ -2,6 +2,9 @@ package pl.edu.agh.to2.yadc.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Map;
+
+import pl.edu.agh.to2.yadc.render.RenderManager;
 
 public class InputManager {
 
@@ -12,20 +15,22 @@ public class InputManager {
     
     private static KeyListener keyListener = new KeyListener() {
     
+        Map<String, Character> keybinds = RenderManager.getCurrentConfiguration().getKeyBinds();
+        
         @Override
         public void keyReleased(KeyEvent e) {
-            if (e.getKeyChar() == 's') downPressed = false;
-			if (e.getKeyChar() == 'w') upPressed = false;
-			if (e.getKeyChar() == 'a') leftPressed = false;
-			if (e.getKeyChar() == 'd') rightPressed = false;
+            if (e.getKeyChar() == keybinds.get("down")) downPressed = false;
+			if (e.getKeyChar() == keybinds.get("up")) upPressed = false;
+			if (e.getKeyChar() == keybinds.get("left")) leftPressed = false;
+			if (e.getKeyChar() == keybinds.get("right")) rightPressed = false;
         }
     
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyChar() == 's') downPressed = true;
-			if (e.getKeyChar() == 'w') upPressed = true;
-			if (e.getKeyChar() == 'a') leftPressed = true;
-			if (e.getKeyChar() == 'd') rightPressed = true;
+            if (e.getKeyChar() == keybinds.get("down")) downPressed = true;
+			if (e.getKeyChar() == keybinds.get("up")) upPressed = true;
+			if (e.getKeyChar() == keybinds.get("left")) leftPressed = true;
+			if (e.getKeyChar() == keybinds.get("right")) rightPressed = true;
         }
 
         @Override

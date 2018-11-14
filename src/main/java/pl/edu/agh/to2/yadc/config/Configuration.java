@@ -1,11 +1,14 @@
 package pl.edu.agh.to2.yadc.config;
 
+import java.util.Map;
+
 public class Configuration {
 
 	private int targetHeight;
 	private int targetWidth;
 	private int targetFps;
 	private int targetFrameTime;
+	private Map<String, Character> keyMapping;
 	
 	public Configuration() {
 		
@@ -47,6 +50,14 @@ public class Configuration {
 	
 	private int getFrameTimeFromFps(int fps) {
 		return 1000000000 / fps;
+	}
+
+	public void setKeyBinds(Map<String, Character> keyBinds) {
+		this.keyMapping = keyBinds;
+	}
+
+	public Map<String, Character> getKeyBinds() {
+		return this.keyMapping;
 	}
 
 }
