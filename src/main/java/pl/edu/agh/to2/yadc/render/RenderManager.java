@@ -16,7 +16,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.VolatileImage;
 
+
 import pl.edu.agh.to2.yadc.config.Configuration;
+import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.game.App;
 
 
@@ -116,7 +118,7 @@ public class RenderManager {
 		// START RENDER
 		graphics.setColor(Color.WHITE);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
-		
+
 		showMetrics(graphics);
 		
 		// END RENDER
