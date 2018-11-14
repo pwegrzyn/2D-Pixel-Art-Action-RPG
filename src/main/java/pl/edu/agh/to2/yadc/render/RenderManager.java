@@ -40,6 +40,7 @@ public class RenderManager {
 	private static Configuration config;
 	
 	private static Camera mainCamera;
+	private static BufferedImage map;
 	
 
 	public static void initialSetup(Configuration initialConfig) {
@@ -87,6 +88,12 @@ public class RenderManager {
 		mainFrame.setLocationRelativeTo(null);
 		
 		mainFrame.setVisible(true);
+		try {
+			map = ImageIO.read(new File("resources/test4.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		
 	}
@@ -144,16 +151,9 @@ public class RenderManager {
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 		
 		
-		BufferedImage im;
-		try {
-			im = ImageIO.read(new File("resources/test2.png"));
-			graphics.drawImage(im, 0 + mainCamera.getXPos(), 0 + mainCamera.getYPos(), null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		
-		}
-		
+			graphics.drawImage(map,   0 + mainCamera.getXPos(),  0 + mainCamera.getYPos(), 1000, 1000, null);
+
 		showMetrics(graphics);
 		
 		// END RENDER

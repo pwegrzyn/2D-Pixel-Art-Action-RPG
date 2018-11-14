@@ -6,7 +6,7 @@ public class Camera {
 	
 	public Camera(int xPos, int yPos) {
 		this.xPos = xPos;
-		this.yPos = yPos;
+		this.yPos = yPos;	
 	}
 	
 	public int getXPos() {
