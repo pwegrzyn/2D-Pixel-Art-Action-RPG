@@ -13,11 +13,13 @@ public abstract class Entity {
     protected BufferedImage texture;
     protected double xPos;
     protected double yPos;
+    protected Boolean collidable;
 
 
     public Entity (double xInit, double yInit) {
         this.xPos = xInit;
         this.yPos = yInit;
+        this.collidable = true;
     }
 
     abstract public void advanceSelf (double delta);
