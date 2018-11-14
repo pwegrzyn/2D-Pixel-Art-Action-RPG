@@ -1,4 +1,4 @@
-package pl.edu.agh.to2.yadc.entity;
+package pl.edu.agh.to2.yadc.area;
 
 
 public class AreaManager {

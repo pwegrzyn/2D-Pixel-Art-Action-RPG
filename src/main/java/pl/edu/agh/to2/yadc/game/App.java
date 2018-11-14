@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pl.edu.agh.to2.yadc.config.Configuration;
-import pl.edu.agh.to2.yadc.entity.Area;
-import pl.edu.agh.to2.yadc.entity.AreaManager;
+import pl.edu.agh.to2.yadc.area.Area;
+import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 

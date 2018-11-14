@@ -19,7 +19,7 @@ import java.awt.image.VolatileImage;
 
 import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.config.Configuration;
-import pl.edu.agh.to2.yadc.entity.AreaManager;
+import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 

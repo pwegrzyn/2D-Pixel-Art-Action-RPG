@@ -33,7 +33,7 @@ public class Player extends Entity {
             this.xPos -= this.velocity * delta;
         }
 
-        //enderManager.getCurrentCamera().approach((int) this.xPos, (int) this.yPos, (int) (30 * delta));
+        //RenderManager.getCurrentCamera().approach((int) this.xPos, (int) this.yPos, (int) (5 * delta));
         RenderManager.getCurrentCamera().moveTo((int) this.xPos, (int) this.yPos);
 
     }
