@@ -121,7 +121,7 @@ public class RenderManager {
 		Graphics graphics = image.getGraphics();
 
 		// START RENDER
-		graphics.setColor(Color.WHITE);
+		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 
 		double delta = calcDelta();
@@ -142,7 +142,7 @@ public class RenderManager {
 	
 	
 	private static void showMetrics(Graphics graphics) {
-		graphics.setColor(Color.BLACK);
+		graphics.setColor(Color.white);
 		graphics.drawString("FPS: " + String.valueOf(currentFps), 2, 13);
 		long usedRam = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
 		graphics.drawString("RAM: " + String.valueOf(usedRam), 2, 30);
