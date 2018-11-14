@@ -29,4 +29,20 @@ public class Camera {
 		this.xPos = deltaX;
 		this.yPos = deltaY;
 	}
+
+	// Potentially useless? :feels:
+	public void approach(int x, int y, int approachSpeed) {
+
+		if (x > this.xPos) {
+			this.xPos += approachSpeed;
+		} else if (x < this.xPos) {
+			this.xPos -= approachSpeed;
+		}
+		if (y > this.yPos) {
+			this.yPos += approachSpeed;
+		} else if (y < this.yPos) {
+			this.yPos -= approachSpeed;
+		}
+
+	}
 }

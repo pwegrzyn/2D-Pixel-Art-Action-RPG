@@ -10,7 +10,7 @@ public class Player extends Entity {
     public Player(double xInit, double yInit) {
         super(xInit, yInit);
         setTexture("resources\\test_entity.png");
-        this.velocity = 70;
+        this.velocity = 120;
     }
 
 
@@ -33,6 +33,7 @@ public class Player extends Entity {
             this.xPos -= this.velocity * delta;
         }
 
+        //enderManager.getCurrentCamera().approach((int) this.xPos, (int) this.yPos, (int) (30 * delta));
         RenderManager.getCurrentCamera().moveTo((int) this.xPos, (int) this.yPos);
 
     }

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
+import java.awt.Label;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -156,7 +157,35 @@ public class RenderManager {
 		Menu gameMenu = new Menu("Game");
 		Menu settingsMenu = new Menu("Settings");
 		Menu helpMenu = new Menu("Help");
-		
+
+		MenuItem helpItem = new MenuItem("Show Help");
+		helpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Frame helpFrame = new Frame();
+				Label label = new Label(
+					"MOVEMENT: Up -> W | Down -> S | Left -> A | Right -> D"
+				);
+				helpFrame.add(label);
+
+				helpFrame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						helpFrame.setVisible(false);
+					}
+				});
+
+				helpFrame.setTitle("YADC - Help");
+				helpFrame.setBackground(Color.white);
+				helpFrame.pack();
+				helpFrame.setResizable(false);
+				helpFrame.setLocationRelativeTo(null);
+				helpFrame.setVisible(true);
+			}
+		});
+
+		helpMenu.add(helpItem);
+
 		MenuItem newGameItem = new MenuItem("New Game");
 		newGameItem.addActionListener(new ActionListener() {
 			@Override
