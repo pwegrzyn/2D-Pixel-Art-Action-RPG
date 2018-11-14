@@ -12,20 +12,15 @@ import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import pl.edu.agh.to2.yadc.camera.Camera;
+import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.config.Configuration;
+import pl.edu.agh.to2.yadc.entity.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
+import pl.edu.agh.to2.yadc.input.InputManager;
 
 
 public class RenderManager {
@@ -37,8 +32,8 @@ public class RenderManager {
 	private static int canvasWidth;
 	private static long currentFps;
 	private static Configuration config;
-	
 	private static Camera mainCamera;
+	private static long lastTimeUpdate = System.nanoTime();
 	
 
 	public static void initialSetup(Configuration initialConfig) {
@@ -68,16 +63,9 @@ public class RenderManager {
 			}
 		});
 		
-		mainFrame.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == 's') mainCamera.move(0, -100);
-				if (e.getKeyChar() == 'w') mainCamera.move(0, 100);
-				if (e.getKeyChar() == 'a') mainCamera.move(100, 0);
-				if (e.getKeyChar() == 'd') mainCamera.move(-100, 0);
-			}
-		});
-		
 		setUpMenuBar(mainFrame);
+
+		mainCanvas.addKeyListener(InputManager.getKeyListener());
 		
 		mainFrame.setTitle("YADC");
 		mainFrame.setBackground(Color.white);
@@ -86,7 +74,6 @@ public class RenderManager {
 		mainFrame.setLocationRelativeTo(null);
 		
 		mainFrame.setVisible(true);
-		
 		
 	}
 	
@@ -135,18 +122,14 @@ public class RenderManager {
 
 		// START RENDER
 		graphics.setColor(Color.WHITE);
-		
-	//	graphics.drawImage(image, 0, 0, null);
-		
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
+
+		long time = System.nanoTime();
+		double delta = (time - lastTimeUpdate) / ((double)1000000000);
+		lastTimeUpdate = time;
 		
-		BufferedImage im;
-		try {
-			im = ImageIO.read(new File("resources/test2.png"));
-			graphics.drawImage(im, 0 + mainCamera.getXPos(), 0 + mainCamera.getYPos(), null);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		AreaManager.getCurrentArea().advanceSelf(delta);
+		AreaManager.getCurrentArea().renderSelf(graphics);
 
 		showMetrics(graphics);
 		
@@ -229,6 +212,14 @@ public class RenderManager {
 
 	public static Canvas getMainCanvas() {
 		return mainCanvas;
+	}
+
+	public static Camera getCurrentCamera() {
+		return mainCamera;
+	}
+
+	public static Configuration getCurrentConfiguration() {
+		return config;
 	}
 
 }

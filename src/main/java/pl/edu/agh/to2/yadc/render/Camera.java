@@ -1,4 +1,4 @@
-package pl.edu.agh.to2.yadc.camera;
+package pl.edu.agh.to2.yadc.render;
 
 public class Camera {
 	private int xPos;
@@ -25,8 +25,8 @@ public class Camera {
 		this.yPos = yPos;
 	}
 	
-	public void move(int deltaX, int deltaY) {
-		this.xPos += deltaX;
-		this.yPos += deltaY;
+	public void moveTo(int deltaX, int deltaY) {
+		this.xPos = deltaX;
+		this.yPos = deltaY;
 	}
 }

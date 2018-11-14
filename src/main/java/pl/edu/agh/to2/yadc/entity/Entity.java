@@ -3,31 +3,41 @@ package pl.edu.agh.to2.yadc.entity;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
+import pl.edu.agh.to2.yadc.render.RenderManager;
 
-public class Entity {
 
-    private BufferedImage texture;
-    private double xPos;
-    private double yPos;
+public abstract class Entity {
+
+    protected BufferedImage texture;
+    protected double xPos;
+    protected double yPos;
+
 
     public Entity (double xInit, double yInit) {
         this.xPos = xInit;
         this.yPos = yInit;
     }
 
-    public void advance (double delta) {
-    
-        // LOGIC HERE
+    abstract public void advanceSelf (double delta);
 
-    }
 
     public void renderSelf(Graphics graphics) {
-        graphics.drawImage(this.texture, (int) xPos - texture.getWidth() / 2, (int) yPos - texture.getHeight() / 2, 
-            texture.getWidth(), texture.getHeight(), null);
+
+        Camera currentCamera = RenderManager.getCurrentCamera();
+        int width = RenderManager.getCurrentConfiguration().getTargetWidth();
+        int height = RenderManager.getCurrentConfiguration().getTargetHeight();
+        int xApparent = (int) xPos - currentCamera.getXPos() + width / 2;
+        int yApparent = (int) yPos - currentCamera.getYPos() + height / 2;
+            
+        graphics.drawImage(this.texture, xApparent, yApparent, texture.getWidth(), texture.getHeight(), null);
+
     }
 
-    public void setTexture(BufferedImage texture) {
-        this.texture = texture;
+
+    public void setTexture(String texturePath) {
+        this.texture = ImageLoader.fetchImage(texturePath);
     }
 
 }
