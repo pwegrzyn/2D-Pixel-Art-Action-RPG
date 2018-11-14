@@ -22,7 +22,7 @@ import pl.edu.agh.to2.yadc.game.App;
 
 public class RenderManager {
 	
-	
+
 	private static Frame mainFrame;
 	private static Canvas mainCanvas;
 	private static int canvasHeight;
@@ -30,6 +30,7 @@ public class RenderManager {
 	private static long currentFps;
 	private static Configuration config;
 	
+
 	public static void initialSetup(Configuration initialConfig) {
 		
 		config = initialConfig;
@@ -63,7 +64,7 @@ public class RenderManager {
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		
-		mainFrame.setVisible(true);	
+		mainFrame.setVisible(true);
 		
 	}
 	
@@ -113,6 +114,8 @@ public class RenderManager {
 		Graphics graphics = image.getGraphics();
 		
 		// START RENDER
+		graphics.setColor(Color.WHITE);
+		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 		
 		showMetrics(graphics);
 		
@@ -127,8 +130,6 @@ public class RenderManager {
 	
 	
 	private static void showMetrics(Graphics graphics) {
-		graphics.setColor(Color.WHITE);
-		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 		graphics.setColor(Color.BLACK);
 		graphics.drawString("FPS: " + String.valueOf(currentFps), 2, 13);
 		long usedRam = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
@@ -193,6 +194,10 @@ public class RenderManager {
 		menuBar.add(helpMenu);
 		frame.setMenuBar(menuBar);
 		
+	}
+
+	public static Canvas getMainCanvas() {
+		return mainCanvas;
 	}
 
 }

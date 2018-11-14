@@ -3,6 +3,7 @@ package pl.edu.agh.to2.yadc.game;
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
+
 public class App {
 
 	public static void main(String[] args) {
@@ -13,6 +14,7 @@ public class App {
 		cfg.setTargetFps(100);
 		
 		RenderManager.initialSetup(cfg);
+
 		RenderManager.startRendering();
 		
 	}
