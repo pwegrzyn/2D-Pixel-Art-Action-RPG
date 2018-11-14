@@ -13,16 +13,10 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 version = '0.1'
 
-task run(type: JavaExec, dependsOn: classes) {
-    main = 'pl.edu.agh.to2.yadc.game.App'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
 repositories {
     jcenter()
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
 }
 
