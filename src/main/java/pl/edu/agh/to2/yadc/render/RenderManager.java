@@ -89,7 +89,7 @@ public class RenderManager {
 		
 		mainFrame.setVisible(true);
 		try {
-			map = ImageIO.read(new File("resources/aaa.png"));
+			map = ImageIO.read(new File("resources/beznazwy.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -152,7 +152,7 @@ public class RenderManager {
 		
 		
 		
-			graphics.drawImage(map,   0 + mainCamera.getXPos(),  0 + mainCamera.getYPos(), 2500, 1500, null);
+			graphics.drawImage(map,   0 + mainCamera.getXPos(),  0 + mainCamera.getYPos(), 12500, 7500, null);
 
 		showMetrics(graphics);
 		
