@@ -41,7 +41,7 @@ public class RenderManager {
 		int factor = Math.min(widthRatio,  heightRatio);
 		canvasWidth = config.getTargetWidth() * factor;
 		canvasHeight = config.getTargetHeight() * factor;
-		
+
 		mainFrame = new Frame();
 		mainCanvas = new Canvas();
 		Dimension dim = new Dimension(canvasWidth, canvasHeight);
