@@ -2,6 +2,7 @@ package pl.edu.agh.to2.yadc.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class EntityRegister {
 
@@ -31,5 +32,13 @@ public class EntityRegister {
         activeEntities.removeAll(toDeleteEntities);
         activeEntities.addAll(toAddEntites);
     }
+
+	public void foreach(Consumer<Entity> mapper) {
+
+        for (Entity ent : this.activeEntities) {
+            mapper.accept(ent);
+        }
+
+	}
 
 }

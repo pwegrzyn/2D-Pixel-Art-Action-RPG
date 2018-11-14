@@ -27,12 +27,14 @@ public class Area {
     }
 
 
+    public void removeEntity(Entity toDelete) {
+        this.entityRegister.unregister(toDelete);
+    }
+
+
     public void advanceSelf(double delta) {
 
-        for (Entity ent : entityRegister.getActiveSet()) {
-            ent.advanceSelf(delta);
-        }
-
+        entityRegister.foreach(e -> e.advanceSelf(delta));
         entityRegister.synchronize();
 
     }
@@ -43,9 +45,7 @@ public class Area {
         Camera camera = RenderManager.getCurrentCamera();
         graphics.drawImage(this.texture, camera.getXPos(), camera.getYPos(), texture.getWidth(), texture.getHeight(), null);
         
-        for (Entity ent : entityRegister.getActiveSet()) {
-            ent.renderSelf(graphics);
-        }
+        entityRegister.foreach(e -> e.renderSelf(graphics));
 
     }
 
