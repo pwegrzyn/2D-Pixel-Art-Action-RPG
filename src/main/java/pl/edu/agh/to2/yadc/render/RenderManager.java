@@ -12,13 +12,19 @@ import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 
+import pl.edu.agh.to2.yadc.camera.Camera;
 import pl.edu.agh.to2.yadc.config.Configuration;
-import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.game.App;
 
 
@@ -31,6 +37,8 @@ public class RenderManager {
 	private static int canvasWidth;
 	private static long currentFps;
 	private static Configuration config;
+	
+	private static Camera mainCamera;
 	
 
 	public static void initialSetup(Configuration initialConfig) {
@@ -51,10 +59,21 @@ public class RenderManager {
 		mainCanvas.setPreferredSize(dim);
 		mainFrame.add(mainCanvas);
 		
+		mainCamera = new Camera(0, 0);
+		
 		mainFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				App.quit();
+			}
+		});
+		
+		mainFrame.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyChar() == 's') mainCamera.move(0, -100);
+				if (e.getKeyChar() == 'w') mainCamera.move(0, 100);
+				if (e.getKeyChar() == 'a') mainCamera.move(100, 0);
+				if (e.getKeyChar() == 'd') mainCamera.move(-100, 0);
 			}
 		});
 		
@@ -67,6 +86,7 @@ public class RenderManager {
 		mainFrame.setLocationRelativeTo(null);
 		
 		mainFrame.setVisible(true);
+		
 		
 	}
 	
@@ -96,11 +116,9 @@ public class RenderManager {
 					}
 					
 					long cappedFrameTime = System.nanoTime() - currentFrameStartTime;
-					currentFps = 1000000000 / cappedFrameTime;
-					
+					currentFps = 1000000000 / cappedFrameTime;	
 				}
 			}
-			
 		};
 		
 		mainThread.start();
@@ -114,10 +132,21 @@ public class RenderManager {
 		}
 		
 		Graphics graphics = image.getGraphics();
-		
+
 		// START RENDER
 		graphics.setColor(Color.WHITE);
+		
+	//	graphics.drawImage(image, 0, 0, null);
+		
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
+		
+		BufferedImage im;
+		try {
+			im = ImageIO.read(new File("resources/test2.png"));
+			graphics.drawImage(im, 0 + mainCamera.getXPos(), 0 + mainCamera.getYPos(), null);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		showMetrics(graphics);
 		
