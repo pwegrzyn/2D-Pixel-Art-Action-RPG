@@ -43,7 +43,7 @@ public class Area {
     public void renderSelf(Graphics graphics) {
 
         Camera camera = RenderManager.getCurrentCamera();
-        graphics.drawImage(this.texture, camera.getXPos(), camera.getYPos(), texture.getWidth(), texture.getHeight(), null);
+        graphics.drawImage(this.texture, 0 + camera.getXPos(), 0 + camera.getYPos(), texture.getWidth(), texture.getHeight(), null);
         
         entityRegister.foreach(e -> e.renderSelf(graphics));
 

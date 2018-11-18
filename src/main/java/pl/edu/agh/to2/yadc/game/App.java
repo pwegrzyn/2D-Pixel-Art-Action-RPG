@@ -28,7 +28,7 @@ public class App {
 		RenderManager.initialSetup(cfg);
 
 		Player player = new Player(0, 0);
-		Area area = new Area("resources\\grass_area.png");
+		Area area = new Area("resources/grass_area.png");
 		area.addEntity(player);
 		AreaManager.setCurrentArea(area);
 
