@@ -38,7 +38,10 @@ public class EntityRegister {
         for (Entity ent : this.activeEntities) {
             mapper.accept(ent);
         }
-
+	}
+	
+	public Set<Entity> getActiveEntities(){
+		return activeEntities;
 	}
 
 }

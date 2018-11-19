@@ -66,7 +66,7 @@ public class RenderManager {
 		
 		setUpMenuBar(mainFrame);
 
-		mainCanvas.addKeyListener(InputManager.getKeyListener());
+		mainFrame.addKeyListener(InputManager.getKeyListener());
 		
 		mainFrame.setTitle("YADC");
 		mainFrame.setBackground(Color.white);
@@ -126,7 +126,7 @@ public class RenderManager {
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 
 		double delta = calcDelta();
-		
+
 		AreaManager.getCurrentArea().advanceSelf(delta);
 		AreaManager.getCurrentArea().renderSelf(graphics);
 

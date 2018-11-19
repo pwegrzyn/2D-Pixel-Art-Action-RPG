@@ -2,6 +2,10 @@ package pl.edu.agh.to2.yadc.area;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.EntityRegister;
@@ -43,7 +47,9 @@ public class Area {
     public void renderSelf(Graphics graphics) {
 
         Camera camera = RenderManager.getCurrentCamera();
-        graphics.drawImage(this.texture, 0 + camera.getXPos(), 0 + camera.getYPos(), texture.getWidth(), texture.getHeight(), null);
+        int renderXPos = RenderManager.getCurrentConfiguration().getTargetWidth()/2 -camera.getXPos();
+        int renderYPos = RenderManager.getCurrentConfiguration().getTargetHeight()/2 -camera.getYPos();
+        graphics.drawImage(this.texture,  renderXPos, renderYPos, texture.getWidth(), texture.getHeight(), null);
         
         entityRegister.foreach(e -> e.renderSelf(graphics));
 
@@ -51,6 +57,15 @@ public class Area {
 
 
     public void setTexture(String texturePath) {
-        this.texture = ImageLoader.fetchImage(texturePath);
+        try {
+			this.texture = ImageIO.read(new File(texturePath));
+		} catch (IOException e) {
+			System.out.println("Error while importing map image");
+			e.printStackTrace();
+		}
+    }
+    
+    public EntityRegister getEntityRegister() {
+    	return entityRegister;
     }
 }

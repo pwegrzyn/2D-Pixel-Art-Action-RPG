@@ -6,7 +6,9 @@ import java.util.Map;
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
+import pl.edu.agh.to2.yadc.entity.Mob;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.entity.TestEnemy;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
 
@@ -27,9 +29,13 @@ public class App {
 		
 		RenderManager.initialSetup(cfg);
 
-		Player player = new Player(0, 0);
+		Player player = new Player(100, 100);
+		
+		TestEnemy mob = new TestEnemy(200, 200, 10);
+		
 		Area area = new Area("resources/grass_area.png");
 		area.addEntity(player);
+		area.addEntity(mob);
 		AreaManager.setCurrentArea(area);
 
 		RenderManager.startRendering();
