@@ -72,7 +72,7 @@ public class RenderManager {
 		if(inputManager == null) {
 			System.err.println("No Input Manager set for Render Manager");
 		} else {
-			mainFrame.addKeyListener(inputManager.getKeyListener());
+			mainCanvas.addKeyListener(inputManager.getKeyListener());
 		}
 		
 		mainFrame.setTitle("YADC");
