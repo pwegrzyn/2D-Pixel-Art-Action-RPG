@@ -2,13 +2,15 @@ package pl.edu.agh.to2.yadc.config;
 
 import java.util.Map;
 
+import pl.edu.agh.to2.yadc.input.KeybindSet;
+
 public class Configuration {
 
 	private int targetHeight;
 	private int targetWidth;
 	private int targetFps;
 	private int targetFrameTime;
-	private Map<String, Character> keyMapping;
+	private KeybindSet keyMapping;
 	
 	public Configuration() {
 		
@@ -52,11 +54,11 @@ public class Configuration {
 		return 1000000000 / fps;
 	}
 
-	public void setKeyBinds(Map<String, Character> keyBinds) {
+	public void setKeyBinds(KeybindSet keyBinds) {
 		this.keyMapping = keyBinds;
 	}
 
-	public Map<String, Character> getKeyBinds() {
+	public KeybindSet getKeyBinds() {
 		return this.keyMapping;
 	}
 

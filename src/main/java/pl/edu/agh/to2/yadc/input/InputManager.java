@@ -15,7 +15,7 @@ public class InputManager {
     
     private KeyListener keyListener = new KeyListener() {
     
-        Map<String, Character> keybinds = GlobalConfig.getGlobalConfig().getKeyBinds();
+        KeybindSet keybinds = GlobalConfig.getGlobalConfig().getKeyBinds();
         
         @Override
         public void keyReleased(KeyEvent e) {

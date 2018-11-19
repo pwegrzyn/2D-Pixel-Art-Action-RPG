@@ -10,6 +10,7 @@ import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
 import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.input.KeybindSet;
 import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
@@ -22,11 +23,7 @@ public class App {
 		cfg.setTargetHeight(312);
 		cfg.setTargetWidth(500);
 		cfg.setTargetFps(100);
-		Map<String, Character> keyBinds = new HashMap<>();
-		keyBinds.put("up", 'w');
-		keyBinds.put("down", 's');
-		keyBinds.put("left", 'a');
-		keyBinds.put("right", 'd');
+		KeybindSet keyBinds = new KeybindSet();
 		cfg.setKeyBinds(keyBinds);
 		GlobalConfig.setGlobalConfig(cfg);
 
