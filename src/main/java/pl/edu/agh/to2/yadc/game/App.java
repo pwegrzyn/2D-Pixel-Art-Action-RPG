@@ -6,7 +6,6 @@ import java.util.Map;
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
-import pl.edu.agh.to2.yadc.entity.Mob;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
 import pl.edu.agh.to2.yadc.render.RenderManager;

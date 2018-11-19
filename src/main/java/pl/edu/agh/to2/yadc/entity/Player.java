@@ -2,7 +2,6 @@ package pl.edu.agh.to2.yadc.entity;
 
 import java.nio.file.Paths;
 
-import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 

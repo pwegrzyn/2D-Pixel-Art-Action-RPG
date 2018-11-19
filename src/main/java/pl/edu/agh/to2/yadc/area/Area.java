@@ -2,10 +2,7 @@ package pl.edu.agh.to2.yadc.area;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.EntityRegister;
@@ -57,12 +54,7 @@ public class Area {
 
 
     public void setTexture(String texturePath) {
-        try {
-			this.texture = ImageIO.read(new File(texturePath));
-		} catch (IOException e) {
-			System.out.println("Error while importing map image");
-			e.printStackTrace();
-		}
+		this.texture = ImageLoader.fetchImage(texturePath);
     }
     
     public EntityRegister getEntityRegister() {

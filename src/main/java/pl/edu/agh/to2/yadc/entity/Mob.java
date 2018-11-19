@@ -4,6 +4,6 @@ public abstract class Mob extends Entity{
 
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
-		setTexture("resources/test_entity.png");
+		setTexture("resources/test_enemy.png");
 	}
 }
