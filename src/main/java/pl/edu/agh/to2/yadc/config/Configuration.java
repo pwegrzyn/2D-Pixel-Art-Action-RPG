@@ -1,8 +1,7 @@
 package pl.edu.agh.to2.yadc.config;
 
-import java.util.Map;
-
 import pl.edu.agh.to2.yadc.input.KeybindSet;
+
 
 public class Configuration {
 

@@ -2,7 +2,6 @@ package pl.edu.agh.to2.yadc.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Map;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 

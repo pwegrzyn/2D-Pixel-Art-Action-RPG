@@ -1,8 +1,5 @@
 package pl.edu.agh.to2.yadc.game;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.area.Area;
