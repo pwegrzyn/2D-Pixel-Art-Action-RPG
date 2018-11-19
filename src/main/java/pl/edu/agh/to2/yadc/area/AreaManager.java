@@ -3,13 +3,13 @@ package pl.edu.agh.to2.yadc.area;
 
 public class AreaManager {
 
-    private static Area currentArea;
+    private Area currentArea;
 
-    public static void setCurrentArea(Area area) {
-        currentArea = area;
+    public void setCurrentArea(Area area) {
+        this.currentArea = area;
     }
 
-    public static Area getCurrentArea() {
-        return currentArea;
+    public Area getCurrentArea() {
+        return this.currentArea;
     }
 }

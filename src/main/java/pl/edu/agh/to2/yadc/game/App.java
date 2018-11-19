@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pl.edu.agh.to2.yadc.config.Configuration;
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
+import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
 
@@ -25,19 +28,30 @@ public class App {
 		keyBinds.put("left", 'a');
 		keyBinds.put("right", 'd');
 		cfg.setKeyBinds(keyBinds);
-		
-		RenderManager.initialSetup(cfg);
+		GlobalConfig.setGlobalConfig(cfg);
+
+		RenderManager renderManager = new RenderManager();
+		InputManager inputManager = new InputManager();
+		AreaManager areaManager = new AreaManager();
+		renderManager.setInputManager(inputManager);
+		renderManager.initialSetup();
+		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
 
 		Player player = new Player(100, 100);
-		
+		player.setInputManager(inputManager);
+		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
+
 		TestEnemy mob = new TestEnemy(200, 200, 10);
-		
-		Area area = new Area("resources/grass_area.png");
+		mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+
+		Area area = new Area("Knowhere");
+		area.setTexture(imageLoader.fetchImage("resources/grass_area.png"));
 		area.addEntity(player);
 		area.addEntity(mob);
-		AreaManager.setCurrentArea(area);
 
-		RenderManager.startRendering();
+		areaManager.setCurrentArea(area);
+
+		renderManager.startRendering(areaManager);
 		
 	}
 

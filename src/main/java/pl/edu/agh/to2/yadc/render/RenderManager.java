@@ -19,6 +19,7 @@ import java.awt.image.VolatileImage;
 
 import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.config.Configuration;
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
@@ -27,19 +28,21 @@ import pl.edu.agh.to2.yadc.input.InputManager;
 public class RenderManager {
 	
 
-	private static Frame mainFrame;
-	private static Canvas mainCanvas;
-	private static int canvasHeight;
-	private static int canvasWidth;
-	private static long currentFps;
-	private static Configuration config;
-	private static Camera mainCamera;
-	private static long lastTimeUpdate = System.nanoTime();
+	private  Frame mainFrame;
+	private  Canvas mainCanvas;
+	private  int canvasHeight;
+	private  int canvasWidth;
+	private  long currentFps;
+	private  Configuration config;
+	private  Camera mainCamera;
+	private  InputManager inputManager;
+	private  AreaManager areaManager;
+	private  long lastTimeUpdate = System.nanoTime();
 	
 
-	public static void initialSetup(Configuration initialConfig) {
+	public void initialSetup() {
 		
-		config = initialConfig;
+		this.config = GlobalConfig.getGlobalConfig();
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenDimension = toolkit.getScreenSize();
@@ -66,7 +69,11 @@ public class RenderManager {
 		
 		setUpMenuBar(mainFrame);
 
-		mainFrame.addKeyListener(InputManager.getKeyListener());
+		if(inputManager == null) {
+			System.err.println("No Input Manager set for Render Manager");
+		} else {
+			mainFrame.addKeyListener(inputManager.getKeyListener());
+		}
 		
 		mainFrame.setTitle("YADC");
 		mainFrame.setBackground(Color.white);
@@ -79,7 +86,10 @@ public class RenderManager {
 	}
 	
 	
-	public static void startRendering() {
+	public void startRendering(AreaManager area) {
+		
+		areaManager = area;
+		
 		Thread mainThread = new Thread() {
 			
 			@Override
@@ -113,7 +123,7 @@ public class RenderManager {
 	}
 	
 	
-	private static void renderFrame(VolatileImage image, GraphicsConfiguration configuration) {
+	private void renderFrame(VolatileImage image, GraphicsConfiguration configuration) {
 		
 		if(image.validate(configuration) == VolatileImage.IMAGE_INCOMPATIBLE) {
 			image = configuration.createCompatibleVolatileImage(config.getTargetWidth(), config.getTargetHeight());
@@ -127,8 +137,11 @@ public class RenderManager {
 
 		double delta = calcDelta();
 
-		AreaManager.getCurrentArea().advanceSelf(delta);
-		AreaManager.getCurrentArea().renderSelf(graphics);
+		areaManager.getCurrentArea().advanceSelf(delta);
+		int XplayerPos = (int) areaManager.getCurrentArea().getPlayer().getXPos();
+		int YplayerPos = (int) areaManager.getCurrentArea().getPlayer().getYPos();
+		this.mainCamera.moveTo(XplayerPos, YplayerPos);
+		areaManager.getCurrentArea().renderSelf(graphics, mainCamera);
 
 		showMetrics(graphics);
 		
@@ -142,7 +155,7 @@ public class RenderManager {
 	}
 	
 	
-	private static void showMetrics(Graphics graphics) {
+	private void showMetrics(Graphics graphics) {
 		graphics.setColor(Color.white);
 		graphics.drawString("FPS: " + String.valueOf(currentFps), 2, 13);
 		long usedRam = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
@@ -150,7 +163,7 @@ public class RenderManager {
 	}
 	
 	
-	private static void setUpMenuBar(Frame frame) {
+	private void setUpMenuBar(Frame frame) {
 	
 		MenuBar menuBar = new MenuBar();
 		
@@ -237,23 +250,27 @@ public class RenderManager {
 		
 	}
 
-	private static double calcDelta() {
+
+	private double calcDelta() {
 		long time = System.nanoTime();
 		double delta = (time - lastTimeUpdate) / ((double)1000000000);
 		lastTimeUpdate = time;
 		return delta;
 	}
 
-	public static Canvas getMainCanvas() {
+
+	public Canvas getMainCanvas() {
 		return mainCanvas;
 	}
 
-	public static Camera getCurrentCamera() {
+
+	public Camera getCurrentCamera() {
 		return mainCamera;
 	}
 
-	public static Configuration getCurrentConfiguration() {
-		return config;
+
+	public void setInputManager(InputManager input) {
+		inputManager = input;
 	}
 
 }

@@ -31,6 +31,8 @@ public class EntityRegister {
     public void synchronize() {
         activeEntities.removeAll(toDeleteEntities);
         activeEntities.addAll(toAddEntites);
+        toDeleteEntities.clear();
+        toAddEntites.clear();
     }
 
 	public void foreach(Consumer<Entity> mapper) {
