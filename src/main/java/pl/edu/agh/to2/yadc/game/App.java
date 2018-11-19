@@ -23,8 +23,7 @@ public class App {
 		cfg.setTargetHeight(312);
 		cfg.setTargetWidth(500);
 		cfg.setTargetFps(100);
-		KeybindSet keyBinds = new KeybindSet();
-		cfg.setKeyBinds(keyBinds);
+		cfg.setKeyBinds(new KeybindSet());
 		GlobalConfig.setGlobalConfig(cfg);
 
 		RenderManager renderManager = new RenderManager();
