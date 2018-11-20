@@ -38,6 +38,7 @@ public class RenderManager {
 	private  InputManager inputManager;
 	private  AreaManager areaManager;
 	private  long lastTimeUpdate = System.nanoTime();
+
 	
 
 	public void initialSetup() {
@@ -81,8 +82,7 @@ public class RenderManager {
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		
-		mainFrame.setVisible(true);
-		
+		mainFrame.setVisible(true);		
 	}
 	
 	
@@ -142,6 +142,7 @@ public class RenderManager {
 		int YplayerPos = (int) areaManager.getCurrentArea().getPlayer().getYPos();
 		this.mainCamera.moveTo(XplayerPos, YplayerPos);
 		areaManager.getCurrentArea().renderSelf(graphics, mainCamera);
+
 
 		showMetrics(graphics);
 		
