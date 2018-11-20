@@ -6,6 +6,7 @@ import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
+import pl.edu.agh.to2.yadc.entity.TestProjectile;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
 import pl.edu.agh.to2.yadc.render.ImageLoader;
@@ -30,17 +31,21 @@ public class App {
 		renderManager.initialSetup();
 		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
 
-		Player player = new Player(100, 100);
+		Player player = new Player(100, 200);
 		player.setInputManager(inputManager);
 		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
 
 		TestEnemy mob = new TestEnemy(200, 200, 10);
 		mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+		
+		TestProjectile bullet = new TestProjectile(player, 5);
+		bullet.setTexture(imageLoader.fetchImage("resources/bullet.png"));
 
 		Area area = new Area("Knowhere");
 		area.setTexture(imageLoader.fetchImage("resources/grass_area.png"));
 		area.addEntity(player);
 		area.addEntity(mob);
+		area.addEntity(bullet);
 
 		areaManager.setCurrentArea(area);
 
