@@ -39,9 +39,12 @@ public class Player extends Entity {
 
 	@Override
 	public void performCollisionAction(Entity entity) {
-		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) + Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));
-		this.yPos = entity.getYPos() + (this.getYPos() > entity.getYPos() ? 1 : -1) * Math.abs(this.getYPos() - entity.getYPos())/currentDistance * (this.collisionRadius + entity.collisionRadius);
-		this.xPos = entity.getXPos() + (this.getXPos() > entity.getXPos() ? 1 : -1) * Math.abs(this.getXPos() - entity.getXPos())/currentDistance * (this.collisionRadius + entity.collisionRadius);
+		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
+			+ Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));
+		this.yPos = entity.getYPos() + (this.getYPos() > entity.getYPos() ? 1 : -1) * Math.abs(this.getYPos() 
+			- entity.getYPos())/currentDistance * (this.collisionRadius + entity.collisionRadius);
+		this.xPos = entity.getXPos() + (this.getXPos() > entity.getXPos() ? 1 : -1) * Math.abs(this.getXPos() 
+			- entity.getXPos())/currentDistance * (this.collisionRadius + entity.collisionRadius);
 		
 	}
 

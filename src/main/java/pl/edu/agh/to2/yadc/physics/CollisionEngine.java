@@ -15,14 +15,19 @@ public class CollisionEngine {
     	List<Entity> collidedEntities = new LinkedList<>();
     	for (Entity ent : activeEntities) {
     		if (ent != testedEntity) {
-				if (Math.sqrt(Math.pow(Math.abs(ent.getXPos() - testedEntity.getXPos()), 2) + Math.pow(Math.abs(ent.getYPos() 
-					- testedEntity.getYPos()), 2)) < ent.getCollisionRadius() + testedEntity.getCollisionRadius()) {
-    				
-    				collidedEntities.add(ent);
-    			}
+				if (doCollide(testedEntity, ent))
+					collidedEntities.add(ent);
     		}
     	}
     	return collidedEntities;
-    }
+	}
+	
+
+	private static Boolean doCollide(Entity entA, Entity entB) {
+		
+		return Math.sqrt(Math.pow(Math.abs(entB.getXPos() - entA.getXPos()), 2) + Math.pow(Math.abs(entB.getYPos() 
+		- entA.getYPos()), 2)) < entB.getCollisionRadius() + entA.getCollisionRadius();
+
+	}
 
 }
