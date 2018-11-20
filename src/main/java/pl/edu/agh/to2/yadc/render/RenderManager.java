@@ -6,46 +6,45 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
+import java.awt.Label;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import pl.edu.agh.to2.yadc.camera.Camera;
+import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.config.Configuration;
-import pl.edu.agh.to2.yadc.entity.Entity;
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
+import pl.edu.agh.to2.yadc.input.InputManager;
 
 
 public class RenderManager {
 	
 
-	private static Frame mainFrame;
-	private static Canvas mainCanvas;
-	private static int canvasHeight;
-	private static int canvasWidth;
-	private static long currentFps;
-	private static Configuration config;
-	
-	private static Camera mainCamera;
-	private static BufferedImage map;
+
+	private  Frame mainFrame;
+	private  Canvas mainCanvas;
+	private  int canvasHeight;
+	private  int canvasWidth;
+	private  long currentFps;
+	private  Configuration config;
+	private  Camera mainCamera;
+	private  InputManager inputManager;
+	private  AreaManager areaManager;
+	private  long lastTimeUpdate = System.nanoTime();
+
 	
 
-	public static void initialSetup(Configuration initialConfig) {
+	public void initialSetup() {
 		
-		config = initialConfig;
+		this.config = GlobalConfig.getGlobalConfig();
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenDimension = toolkit.getScreenSize();
@@ -70,16 +69,13 @@ public class RenderManager {
 			}
 		});
 		
-		mainFrame.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
-				if (e.getKeyChar() == 's') mainCamera.move(0, -100);
-				if (e.getKeyChar() == 'w') mainCamera.move(0, 100);
-				if (e.getKeyChar() == 'a') mainCamera.move(100, 0);
-				if (e.getKeyChar() == 'd') mainCamera.move(-100, 0);
-			}
-		});
-		
 		setUpMenuBar(mainFrame);
+
+		if(inputManager == null) {
+			System.err.println("No Input Manager set for Render Manager");
+		} else {
+			mainCanvas.addKeyListener(inputManager.getKeyListener());
+		}
 		
 		mainFrame.setTitle("YADC");
 		mainFrame.setBackground(Color.white);
@@ -87,19 +83,15 @@ public class RenderManager {
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		
-		mainFrame.setVisible(true);
-		try {
-			map = ImageIO.read(new File("resources/beznazwy.png"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		
+		mainFrame.setVisible(true);		
+
 	}
 	
 	
-	public static void startRendering() {
+	public void startRendering(AreaManager area) {
+		
+		areaManager = area;
+		
 		Thread mainThread = new Thread() {
 			
 			@Override
@@ -133,26 +125,27 @@ public class RenderManager {
 	}
 	
 	
-	private static void renderFrame(VolatileImage image, GraphicsConfiguration configuration) {
+	private void renderFrame(VolatileImage image, GraphicsConfiguration configuration) {
 		
 		if(image.validate(configuration) == VolatileImage.IMAGE_INCOMPATIBLE) {
 			image = configuration.createCompatibleVolatileImage(config.getTargetWidth(), config.getTargetHeight());
 		}
 		
-
 		Graphics graphics = image.getGraphics();
-		 
-		
+
 		// START RENDER
-		graphics.setColor(Color.WHITE);
-		
-	//	graphics.drawImage(image, 0, 0, null);
-		
+		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
-		
-		
-		
-			graphics.drawImage(map,   0 + mainCamera.getXPos(),  0 + mainCamera.getYPos(), 12500, 7500, null);
+
+
+		double delta = calcDelta();
+
+		areaManager.getCurrentArea().advanceSelf(delta);
+		int XplayerPos = (int) areaManager.getCurrentArea().getPlayer().getXPos();
+		int YplayerPos = (int) areaManager.getCurrentArea().getPlayer().getYPos();
+		this.mainCamera.moveTo(XplayerPos, YplayerPos);
+		areaManager.getCurrentArea().renderSelf(graphics, mainCamera);
+
 
 		showMetrics(graphics);
 		
@@ -166,22 +159,50 @@ public class RenderManager {
 	}
 	
 	
-	private static void showMetrics(Graphics graphics) {
-		graphics.setColor(Color.BLACK);
+	private void showMetrics(Graphics graphics) {
+		graphics.setColor(Color.white);
 		graphics.drawString("FPS: " + String.valueOf(currentFps), 2, 13);
 		long usedRam = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
 		graphics.drawString("RAM: " + String.valueOf(usedRam), 2, 30);
 	}
 	
 	
-	private static void setUpMenuBar(Frame frame) {
+	private void setUpMenuBar(Frame frame) {
 	
 		MenuBar menuBar = new MenuBar();
 		
 		Menu gameMenu = new Menu("Game");
 		Menu settingsMenu = new Menu("Settings");
 		Menu helpMenu = new Menu("Help");
-		
+
+		MenuItem helpItem = new MenuItem("Show Help");
+		helpItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Frame helpFrame = new Frame();
+				Label label = new Label(
+					"MOVEMENT: Up -> W | Down -> S | Left -> A | Right -> D"
+				);
+				helpFrame.add(label);
+
+				helpFrame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent e) {
+						helpFrame.setVisible(false);
+					}
+				});
+
+				helpFrame.setTitle("YADC - Help");
+				helpFrame.setBackground(Color.white);
+				helpFrame.pack();
+				helpFrame.setResizable(false);
+				helpFrame.setLocationRelativeTo(null);
+				helpFrame.setVisible(true);
+			}
+		});
+
+		helpMenu.add(helpItem);
+
 		MenuItem newGameItem = new MenuItem("New Game");
 		newGameItem.addActionListener(new ActionListener() {
 			@Override
@@ -233,8 +254,27 @@ public class RenderManager {
 		
 	}
 
-	public static Canvas getMainCanvas() {
+
+	private double calcDelta() {
+		long time = System.nanoTime();
+		double delta = (time - lastTimeUpdate) / ((double)1000000000);
+		lastTimeUpdate = time;
+		return delta;
+	}
+
+
+	public Canvas getMainCanvas() {
 		return mainCanvas;
+	}
+
+
+	public Camera getCurrentCamera() {
+		return mainCamera;
+	}
+
+
+	public void setInputManager(InputManager input) {
+		inputManager = input;
 	}
 
 }

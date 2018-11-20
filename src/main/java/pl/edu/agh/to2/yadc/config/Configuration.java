@@ -1,11 +1,15 @@
 package pl.edu.agh.to2.yadc.config;
 
+import pl.edu.agh.to2.yadc.input.KeybindSet;
+
+
 public class Configuration {
 
 	private int targetHeight;
 	private int targetWidth;
 	private int targetFps;
 	private int targetFrameTime;
+	private KeybindSet keyMapping;
 	
 	public Configuration() {
 		
@@ -47,6 +51,14 @@ public class Configuration {
 	
 	private int getFrameTimeFromFps(int fps) {
 		return 1000000000 / fps;
+	}
+
+	public void setKeyBinds(KeybindSet keyBinds) {
+		this.keyMapping = keyBinds;
+	}
+
+	public KeybindSet getKeyBinds() {
+		return this.keyMapping;
 	}
 
 }
