@@ -46,6 +46,8 @@ public class App {
 		area.addEntity(player);
 		area.addEntity(mob);
 		area.addEntity(bullet);
+		
+		player.setArea(area);
 
 		areaManager.setCurrentArea(area);
 

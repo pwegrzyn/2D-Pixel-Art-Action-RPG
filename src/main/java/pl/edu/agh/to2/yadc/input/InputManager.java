@@ -11,6 +11,7 @@ public class InputManager {
     private boolean downPressed;
     private boolean leftPressed;
     private boolean rightPressed;
+    private boolean spacePressed;
     
     private KeyListener keyListener = new KeyListener() {
     
@@ -26,6 +27,8 @@ public class InputManager {
                 leftPressed = false;
             if (e.getKeyChar() == keybinds.get("right")) 
                 rightPressed = false;
+            if (e.getKeyChar() == keybinds.get("space")) 
+                spacePressed = false;
         }
     
         @Override
@@ -38,6 +41,8 @@ public class InputManager {
                 leftPressed = true;
             if (e.getKeyChar() == keybinds.get("right")) 
                 rightPressed = true;
+            if (e.getKeyChar() == keybinds.get("space")) 
+                spacePressed = true;
         }
 
         @Override
@@ -62,6 +67,10 @@ public class InputManager {
     
     public boolean rightPressed() {
 		return rightPressed;
+	}
+    
+    public boolean spacePressed() {
+		return spacePressed;
 	}
 
     public KeyListener getKeyListener() {
