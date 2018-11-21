@@ -1,14 +1,12 @@
 package pl.edu.agh.to2.yadc.entity;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
-import pl.edu.agh.to2.yadc.render.ImageLoader;
-import pl.edu.agh.to2.yadc.render.RenderManager;
 
 
 public class Player extends Entity {
@@ -24,16 +22,12 @@ public class Player extends Entity {
         this.velocity = 120;
     }
 
-    
     private boolean up = false;
     private boolean down = false;
     private boolean right = false;
     private boolean left = false;
-    
     Vector moveVector = new Vector(0, 0);
-    
-
-    
+	private BufferedImage projectileTexture;
 
     @Override
     public void advanceSelf(double delta) {
@@ -93,27 +87,26 @@ public class Player extends Entity {
 	    	}
 	    }
     
-        if (inputManager.spacePressed()) {
-        	System.out.println(this.angularRotation);
+        if (inputManager.attackPressed()) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
 		    	TestProjectile bullet = new TestProjectile(this, 5);
 		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 500;
-				try {
-					bullet.setTexture(ImageIO.read(new File("resources/bullet.png")));
-					this.area.addEntity(bullet);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		    	this.attackCooldown = 100;
+				bullet.setTexture(this.projectileTexture);
+				this.area.addEntity(bullet);
         	}
-        }
+		}
+		
         //RenderManager.getCurrentCamera().approach((int) this.xPos, (int) this.yPos, (int) (5 * delta));
     }
 
-
 	@Override
 	public void performCollisionAction(Entity entity) {
+		if(entity instanceof Projectile) {
+			if(((Projectile)entity).getOwner() == this) {
+				return;
+			}
+		}
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
 			+ Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));
 		this.yPos = entity.getYPos() + (this.getYPos() > entity.getYPos() ? 1 : -1) * Math.abs(this.getYPos() 
@@ -123,9 +116,12 @@ public class Player extends Entity {
 		
 	}
 
-
 	public void setInputManager(InputManager input) {
 		this.inputManager = input;
+	}
+
+	public void setProjectileTexture(BufferedImage fetchImage) {
+		this.projectileTexture = fetchImage;
 	}
 
 }

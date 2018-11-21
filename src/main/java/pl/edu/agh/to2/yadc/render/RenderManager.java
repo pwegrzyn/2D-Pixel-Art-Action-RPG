@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Label;
 import java.awt.Menu;
@@ -27,7 +28,6 @@ import pl.edu.agh.to2.yadc.input.InputManager;
 
 public class RenderManager {
 	
-
 	private  Frame mainFrame;
 	private  Canvas mainCanvas;
 	private  int canvasHeight;
@@ -38,8 +38,6 @@ public class RenderManager {
 	private  InputManager inputManager;
 	private  AreaManager areaManager;
 	private  long lastTimeUpdate = System.nanoTime();
-
-	
 
 	public void initialSetup() {
 		
@@ -85,7 +83,7 @@ public class RenderManager {
 		mainFrame.setVisible(true);		
 	}
 	
-	
+
 	public void startRendering(AreaManager area) {
 		
 		areaManager = area;
@@ -251,7 +249,7 @@ public class RenderManager {
 		
 	}
 
-
+	
 	private double calcDelta() {
 		long time = System.nanoTime();
 		double delta = (time - lastTimeUpdate) / ((double)1000000000);
@@ -259,16 +257,13 @@ public class RenderManager {
 		return delta;
 	}
 
-
 	public Canvas getMainCanvas() {
 		return mainCanvas;
 	}
 
-
 	public Camera getCurrentCamera() {
 		return mainCamera;
 	}
-
 
 	public void setInputManager(InputManager input) {
 		inputManager = input;

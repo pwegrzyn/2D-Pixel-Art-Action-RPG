@@ -16,7 +16,7 @@ public abstract class Entity {
 	protected double yPos;
 	protected Boolean collidable;
 	protected double collisionRadius;
-	protected double angularRotation = 0;
+	protected double angularRotation;
 	protected Area area;
 
 	public Entity(double xInit, double yInit, double collisionRadius) {
