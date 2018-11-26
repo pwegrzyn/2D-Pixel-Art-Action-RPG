@@ -12,12 +12,10 @@ public class Configuration {
 	private KeybindSet keyMapping;
 	
 	public Configuration() {
-		
 		this.targetHeight = 312;
 		this.targetWidth = 500;
 		this.targetFps = 100;
 		this.targetFrameTime = getFrameTimeFromFps(this.targetFps);
-		
 	}
 
 	public void setTargetHeight(int height) {
