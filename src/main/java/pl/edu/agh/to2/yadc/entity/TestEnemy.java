@@ -13,13 +13,17 @@ public class TestEnemy extends Mob{
 	@Override
 	public void advanceSelf(double delta) {
 		
-		continueStraightRoam(delta);
+		//continueStraightRoam(delta);
+		approachPlayer(delta);
 
 	}
 
 	@Override
 	public void performCollisionAction(Entity entity) {
-		// TODO Auto-generated method stub
+		
+		if(entity instanceof TestProjectile) {
+			this.area.removeEntity(this);
+		}
 		
 	}
 
@@ -32,5 +36,14 @@ public class TestEnemy extends Mob{
 		} else {
 			this.roamingTimer = 0;
 		}
+	}
+
+	private void approachPlayer(double delta) {
+		int playerXPos = (int) this.area.getPlayer().getXPos();
+		int playerYPos = (int) this.area.getPlayer().getYPos();
+		int newXdirection = this.xPos > playerXPos ? -1 : 1;
+		int newYdirection = this.yPos > playerYPos ? -1 : 1;
+		this.xPos += newXdirection * this.velocity * delta;
+		this.yPos += newYdirection * this.velocity * delta;
 	}
 }

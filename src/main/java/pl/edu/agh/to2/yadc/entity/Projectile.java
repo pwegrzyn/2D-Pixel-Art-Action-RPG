@@ -27,6 +27,8 @@ public abstract class Projectile extends Entity {
 		if(entity instanceof Player) {
 			return;
 		}
-		System.out.println("BANG");
+		if(entity instanceof Mob) {
+			this.area.removeEntity(this);
+		}
 	}
 }

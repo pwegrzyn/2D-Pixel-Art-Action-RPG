@@ -2,6 +2,9 @@ package pl.edu.agh.to2.yadc.game;
 
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+
+import java.util.Random;
+
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.Player;
@@ -35,19 +38,29 @@ public class App {
 		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
 		player.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
 
-		TestEnemy mob = new TestEnemy(200, 200, 10);
-		mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
-
 		Area area = new Area("Knowhere");
 		area.setTexture(imageLoader.fetchImage("resources/grass_area.png"));
 		area.addEntity(player);
-		area.addEntity(mob);
 		
 		player.setArea(area);
 
 		areaManager.setCurrentArea(area);
 
 		renderManager.startRendering(areaManager);
+
+		Random random = new Random();
+		for(;;) {
+			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
+			TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
+			mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+			area.addEntity(mob);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

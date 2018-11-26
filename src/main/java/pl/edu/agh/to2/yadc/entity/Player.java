@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
 
@@ -91,7 +92,7 @@ public class Player extends Entity {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
 		    	TestProjectile bullet = new TestProjectile(this, 5);
 		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 100;
+		    	this.attackCooldown = 500;
 				bullet.setTexture(this.projectileTexture);
 				this.area.addEntity(bullet);
         	}
@@ -107,6 +108,12 @@ public class Player extends Entity {
 				return;
 			}
 		}
+
+		// Kek
+		if(entity instanceof TestEnemy) {
+			App.quit();
+		}
+
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
 			+ Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));
 		this.yPos = entity.getYPos() + (this.getYPos() > entity.getYPos() ? 1 : -1) * Math.abs(this.getYPos() 
