@@ -10,13 +10,7 @@ public class TestEnemy extends Mob{
 		this.velocity = 80;
 	}
 
-	@Override
-	public void advanceSelf(double delta) {
-		
-		//continueStraightRoam(delta);
-		approachPlayer(delta);
-
-	}
+	
 
 	@Override
 	public void performCollisionAction(Entity entity) {
@@ -45,5 +39,13 @@ public class TestEnemy extends Mob{
 		int newYdirection = this.yPos > playerYPos ? -1 : 1;
 		this.xPos += newXdirection * this.velocity * delta;
 		this.yPos += newYdirection * this.velocity * delta;
+	}
+
+
+
+	@Override
+	public void makeAttack() {
+		// TODO Auto-generated method stub
+		
 	}
 }
