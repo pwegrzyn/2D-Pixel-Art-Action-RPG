@@ -50,6 +50,7 @@ public abstract class Mob extends Entity{
 		if(entity instanceof TestProjectile) {
 			if(((Projectile) entity).getOwner() != this)
 			this.area.removeEntity(this);
+				
 		}
 		if(entity instanceof Player) {
 			this.angularRotation = 3.14;

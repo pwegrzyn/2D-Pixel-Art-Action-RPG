@@ -7,6 +7,7 @@ import java.util.Random;
 
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
+import pl.edu.agh.to2.yadc.entity.MobFactory;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
 import pl.edu.agh.to2.yadc.input.InputManager;
@@ -48,12 +49,16 @@ public class App {
 
 		renderManager.startRendering(areaManager);
 
+		MobFactory factory = new MobFactory();
+		
 		Random random = new Random();
 		for(;;) {
 			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
-			TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
+			/*TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
 			mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
 			mob.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
+			*/
+			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLoc, randomLoc, 10, imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
 			area.addEntity(mob);
 			try {
 				Thread.sleep(2000);

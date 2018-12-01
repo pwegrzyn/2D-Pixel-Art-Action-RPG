@@ -4,7 +4,8 @@ public class FlyingMob extends Mob{
 
 	public FlyingMob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
-		// TODO Auto-generated constructor stub
+		this.velocity = 80;
+		this.aggresive = false;
 	}
 
 	@Override
