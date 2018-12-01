@@ -53,6 +53,7 @@ public class App {
 			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
 			TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
 			mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+			mob.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
 			area.addEntity(mob);
 			try {
 				Thread.sleep(2000);
