@@ -7,7 +7,7 @@ public class TestEnemy extends Mob{
 	public TestEnemy(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
 		this.roamingTimer = 0;
-		this.velocity = 80;
+		this.velocity = 60;
 	}
 
 	@Override

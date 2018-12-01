@@ -92,7 +92,7 @@ public class Player extends Entity {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
 		    	TestProjectile bullet = new TestProjectile(this, 5);
 		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 500;
+		    	this.attackCooldown = 100;
 				bullet.setTexture(this.projectileTexture);
 				this.area.addEntity(bullet);
         	}
@@ -110,9 +110,9 @@ public class Player extends Entity {
 		}
 
 		// Kek
-		if(entity instanceof TestEnemy) {
-			App.quit();
-		}
+		// if(entity instanceof TestEnemy) {
+		// 	App.quit();
+		// }
 
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
 			+ Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));
