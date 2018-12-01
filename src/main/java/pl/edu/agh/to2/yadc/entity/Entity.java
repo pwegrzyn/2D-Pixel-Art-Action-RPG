@@ -28,8 +28,9 @@ public abstract class Entity {
 	}
 
 	abstract public void advanceSelf(double delta);
-
-	public final void renderSelf(Graphics graphics, Camera currentCamera) {
+	//abstract public void makeAttack();
+	
+	public void renderSelf(Graphics graphics, Camera currentCamera) {
 		checkCollisions();
 		int width = GlobalConfig.getGlobalConfig().getTargetWidth();
 		int height = GlobalConfig.getGlobalConfig().getTargetHeight();

@@ -24,10 +24,10 @@ public abstract class Projectile extends Entity {
 
 	@Override
 	public void performCollisionAction(Entity entity) {
-		if(entity instanceof Player) {
+		if(entity instanceof Player && owner instanceof Player) {
 			return;
 		}
-		if(entity instanceof Mob) {
+		if(entity instanceof Mob && !(owner instanceof Mob)) {
 			this.area.removeEntity(this);
 		}
 	}

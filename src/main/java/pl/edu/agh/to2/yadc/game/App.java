@@ -7,7 +7,9 @@ import java.util.Random;
 
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
+import pl.edu.agh.to2.yadc.entity.MeleeMob;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.entity.RangedMob;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
@@ -51,9 +53,13 @@ public class App {
 		Random random = new Random();
 		for(;;) {
 			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
-			TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
-			mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
-			area.addEntity(mob);
+			//MeleeMob mob = new MeleeMob(randomLoc, randomLoc, 10);
+			//mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+			RangedMob mob2 = new RangedMob(randomLoc, randomLoc, 10);
+			mob2.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
+			mob2.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
+			//area.addEntity(mob);
+			area.addEntity(mob2);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
