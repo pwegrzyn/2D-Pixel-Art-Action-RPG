@@ -17,6 +17,8 @@ public class Player extends Entity {
 	
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
+    
+    public StatManager statManager;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -98,7 +100,6 @@ public class Player extends Entity {
         	}
 		}
 		
-        //RenderManager.getCurrentCamera().approach((int) this.xPos, (int) this.yPos, (int) (5 * delta));
     }
 
 	@Override
@@ -110,9 +111,9 @@ public class Player extends Entity {
 		}
 
 		// Kek
-		if(entity instanceof TestEnemy) {
-			App.quit();
-		}
+//		if(entity instanceof TestEnemy) {
+//			App.quit();
+//		}
 
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
 			+ Math.pow(Math.abs(entity.getYPos() - this.getYPos()), 2));

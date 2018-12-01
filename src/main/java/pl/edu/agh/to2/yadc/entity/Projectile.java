@@ -22,13 +22,19 @@ public abstract class Projectile extends Entity {
 		this.yPos += Math.sin(this.angularRotation) * delta * this.velocity;
 	}
 
-	@Override
-	public void performCollisionAction(Entity entity) {
-		if(entity instanceof Player) {
-			return;
-		}
-		if(entity instanceof Mob) {
-			this.area.removeEntity(this);
-		}
-	}
+//	@Override
+//	public void performCollisionAction(Entity entity) {
+////		if(entity instanceof Player) {
+////			return;
+////		}
+////		if(entity instanceof Mob) {
+////			this.area.removeEntity(this);
+////		}
+//		
+//		if (this.owner != entity) {
+//			for (Effect effect : entity.spreadingEffects) {
+//				effect.activate(this);
+//			}
+//		}
+//	}
 }

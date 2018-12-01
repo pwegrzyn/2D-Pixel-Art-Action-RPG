@@ -1,5 +1,8 @@
 package pl.edu.agh.to2.yadc.entity;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class TestEnemy extends Mob{
 
 	private double roamingTimer;
@@ -8,6 +11,8 @@ public class TestEnemy extends Mob{
 		super(xInit, yInit, collisionRadius);
 		this.roamingTimer = 0;
 		this.velocity = 80;
+		
+		this.spreadingActions = getSpreadingEffects();
 	}
 
 	@Override
@@ -17,15 +22,27 @@ public class TestEnemy extends Mob{
 		approachPlayer(delta);
 
 	}
-
-	@Override
-	public void performCollisionAction(Entity entity) {
+	
+	private List<Action> getSpreadingEffects(){
+		List<Action> actionList = new LinkedList<>();
+		actionList.add(new Action(Projectile.class, entity -> {
+			Projectile projectile = (Projectile)entity;
+			projectile.angularRotation += Math.PI;
+			projectile.velocity /= 2;
+		}));
 		
-		if(entity instanceof TestProjectile) {
-			this.area.removeEntity(this);
-		}
-		
+		return actionList;
 	}
+	
+
+//	@Override
+//	public void performCollisionAction(Entity entity) {
+//		
+//		if(entity instanceof TestProjectile) {
+//			this.area.removeEntity(this);
+//		}
+//		
+//	}
 
 	private void continueStraightRoam(double delta) {
 		this.roamingTimer += delta;
