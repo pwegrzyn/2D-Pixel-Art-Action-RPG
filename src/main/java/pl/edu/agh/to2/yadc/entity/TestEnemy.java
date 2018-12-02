@@ -1,6 +1,9 @@
 package pl.edu.agh.to2.yadc.entity;
 
-public class TestEnemy extends Mob{
+import java.util.LinkedList;
+import java.util.List;
+
+public class TestEnemy extends RangedMob{
 
 	private double roamingTimer;
 	
@@ -8,19 +11,24 @@ public class TestEnemy extends Mob{
 		super(xInit, yInit, collisionRadius);
 		this.roamingTimer = 0;
 		this.velocity = 80;
+		this.spreadingActions = getSpreadingEffects();
 	}
 
 	
-
-	@Override
-	public void performCollisionAction(Entity entity) {
+	private List<Action> getSpreadingEffects(){
+		List<Action> actionList = new LinkedList<>();
+		actionList.add(new Action(Projectile.class, entity -> {
+			Projectile projectile = (Projectile)entity;
+			if(projectile.owner != this) {
+				projectile.angularRotation += Math.PI;
+				projectile.velocity /= 2;
+			}
+		}));
 		
-		if(entity instanceof TestProjectile) {
-			this.area.removeEntity(this);
-		}
-		
+		return actionList;
 	}
 
+	/*
 	private void continueStraightRoam(double delta) {
 		this.roamingTimer += delta;
 		if(this.roamingTimer <= 2) {
@@ -31,19 +39,5 @@ public class TestEnemy extends Mob{
 			this.roamingTimer = 0;
 		}
 	}
-
-	private void approachPlayer(double delta) {
-		int playerXPos = (int) this.area.getPlayer().getXPos();
-		int playerYPos = (int) this.area.getPlayer().getYPos();
-		int newXdirection = this.xPos > playerXPos ? -1 : 1;
-		int newYdirection = this.yPos > playerYPos ? -1 : 1;
-		this.xPos += newXdirection * this.velocity * delta;
-		this.yPos += newYdirection * this.velocity * delta;
-	}
-
-	@Override
-	public void makeAttack() {
-		// TODO Auto-generated method stub
-		
-	}
+	*/
 }

@@ -12,6 +12,8 @@ public class InputManager {
     private boolean leftPressed;
     private boolean rightPressed;
     private boolean attackPressed;
+    private boolean chatUpPressed;
+    private boolean chatDownPressed;
     
     private KeyListener keyListener = new KeyListener() {
     
@@ -29,6 +31,10 @@ public class InputManager {
                 rightPressed = false;
             if (e.getKeyChar() == keybinds.get("attack")) 
                 attackPressed = false;
+            if (e.getKeyChar() == keybinds.get("chatUp")) 
+                chatUpPressed = false;
+            if (e.getKeyChar() == keybinds.get("chatDown")) 
+                chatDownPressed = false;
         }
     
         @Override
@@ -43,6 +49,10 @@ public class InputManager {
                 rightPressed = true;
             if (e.getKeyChar() == keybinds.get("attack")) 
                 attackPressed = true;
+            if (e.getKeyChar() == keybinds.get("chatUp")) 
+                chatUpPressed = true;
+            if (e.getKeyChar() == keybinds.get("chatDown")) 
+                chatDownPressed = true;
         }
 
         @Override
@@ -70,7 +80,15 @@ public class InputManager {
     
     public boolean attackPressed() {
 		return attackPressed;
-	}
+    }
+    
+    public boolean chatDownPressed() {
+        return chatDownPressed;
+    }
+
+    public boolean chatUpPressed() {
+        return chatUpPressed;
+    }
 
     public KeyListener getKeyListener() {
         return keyListener;
