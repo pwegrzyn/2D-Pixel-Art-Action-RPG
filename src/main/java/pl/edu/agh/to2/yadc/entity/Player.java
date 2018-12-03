@@ -13,7 +13,7 @@ public class Player extends Entity {
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
     
-    public StatManager statManager;
+    private StatManager statManager;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -25,16 +25,32 @@ public class Player extends Entity {
     private boolean down = false;
     private boolean right = false;
     private boolean left = false;
-    Vector moveVector = new Vector(0, 0);
+    private Vector moveVector = new Vector(0, 0);
 	private BufferedImage projectileTexture;
+
+	private boolean performingAttack;
 
     @Override
     public void advanceSelf(double delta) {
-	    if (inputManager.upPressed()) {
+		
+		if (inputManager.upPressed()) {
 	    	this.yPos -= this.velocity * delta;
+	    }
+	    if (inputManager.downPressed()) {
+	    	this.yPos += this.velocity * delta;
+	    }
+	    if (inputManager.leftPressed()) {
+	    	this.xPos -= this.velocity * delta;
+	    } 
+	    if (inputManager.rightPressed()) {
+    	    this.xPos += this.velocity * delta;  
+	    }
+		
+		if (inputManager.lookUpPressed()) {
 	    	if (!up) {
 		        this.angularRotation = moveVector.addAndUpdate(0,  -1, this.angularRotation);
-		        up = true;
+				up = true;
+				performingAttack = true;
 	    	}
 	    }
 	    else {
@@ -44,11 +60,11 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.downPressed()) {
-	    	this.yPos += this.velocity * delta;
+	    if (inputManager.lookDownPressed()) {
 	    	if (!down) {
 		    	down = true;
-		        this.angularRotation = moveVector.addAndUpdate(0,  1, this.angularRotation);
+				this.angularRotation = moveVector.addAndUpdate(0,  1, this.angularRotation);
+				performingAttack = true;
 	    	}
 	    }
 	    else {
@@ -58,11 +74,11 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.leftPressed()) {
-	    	this.xPos -= this.velocity * delta;
+	    if (inputManager.lookLeftPressed()) {
 	    	if (!left) {
 		        left = true;
-		    	this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
+				this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
+				performingAttack = true;
 	    	}
 	    } 
 	    else {
@@ -72,11 +88,11 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.rightPressed()) {
-    	    this.xPos += this.velocity * delta;  
+	    if (inputManager.lookRightPressed()) { 
     	    if (!right) {
 		        right = true;		    
-		    	this.angularRotation = moveVector.addAndUpdate(1,  0, this.angularRotation);
+				this.angularRotation = moveVector.addAndUpdate(1,  0, this.angularRotation);
+				performingAttack = true;
 	    	}
 	    }
 	    else {
@@ -86,14 +102,15 @@ public class Player extends Entity {
 	    	}
 	    }
     
-        if (inputManager.attackPressed()) {
+        if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
 		    	TestProjectile bullet = new TestProjectile(this, 5);
 		    	this.lastAttackTime = System.currentTimeMillis();
 		    	this.attackCooldown = 100;
 				bullet.setTexture(this.projectileTexture);
 				this.area.addEntity(bullet);
-        	}
+			}
+			performingAttack = false;
 		}
 		
     }

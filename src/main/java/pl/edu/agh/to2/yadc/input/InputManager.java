@@ -14,6 +14,10 @@ public class InputManager {
     private boolean attackPressed;
     private boolean chatUpPressed;
     private boolean chatDownPressed;
+    private boolean lookUpPressed;
+    private boolean lookDownPressed;
+    private boolean lookLeftPressed;
+    private boolean lookRightPressed;
     
     private KeyListener keyListener = new KeyListener() {
     
@@ -21,6 +25,7 @@ public class InputManager {
         
         @Override
         public void keyReleased(KeyEvent e) {
+            // WSAD
             if (e.getKeyChar() == keybinds.get("down"))
                 downPressed = false;
             if (e.getKeyChar() == keybinds.get("up")) 
@@ -29,16 +34,28 @@ public class InputManager {
                 leftPressed = false;
             if (e.getKeyChar() == keybinds.get("right")) 
                 rightPressed = false;
+            // ATTACK
             if (e.getKeyChar() == keybinds.get("attack")) 
                 attackPressed = false;
+            // CHAT
             if (e.getKeyChar() == keybinds.get("chatUp")) 
                 chatUpPressed = false;
             if (e.getKeyChar() == keybinds.get("chatDown")) 
                 chatDownPressed = false;
+            // DIRECTION
+            if (e.getKeyCode() == KeyEvent.VK_UP) 
+                lookUpPressed = false;
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) 
+                lookDownPressed = false;
+            if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                lookLeftPressed = false;
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                lookRightPressed = false;
         }
     
         @Override
         public void keyPressed(KeyEvent e) {
+            // WSAD
             if (e.getKeyChar() == keybinds.get("down")) 
                 downPressed = true;
             if (e.getKeyChar() == keybinds.get("up")) 
@@ -47,12 +64,23 @@ public class InputManager {
                 leftPressed = true;
             if (e.getKeyChar() == keybinds.get("right")) 
                 rightPressed = true;
+            // ATTACK
             if (e.getKeyChar() == keybinds.get("attack")) 
                 attackPressed = true;
+            // CHAT
             if (e.getKeyChar() == keybinds.get("chatUp")) 
                 chatUpPressed = true;
             if (e.getKeyChar() == keybinds.get("chatDown")) 
                 chatDownPressed = true;
+            // DIRECTION
+            if (e.getKeyCode() == KeyEvent.VK_UP) 
+                lookUpPressed = true;
+            if (e.getKeyCode() == KeyEvent.VK_DOWN) 
+                lookDownPressed = true;
+            if (e.getKeyCode() == KeyEvent.VK_LEFT)
+                lookLeftPressed = true;
+            if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+                lookRightPressed = true;
         }
 
         @Override
@@ -88,6 +116,22 @@ public class InputManager {
 
     public boolean chatUpPressed() {
         return chatUpPressed;
+    }
+
+    public boolean lookDownPressed() {
+        return lookDownPressed;
+    }
+
+    public boolean lookUpPressed() {
+        return lookUpPressed;
+    }
+
+    public boolean lookLeftPressed() {
+        return lookLeftPressed;
+    }
+
+    public boolean lookRightPressed() {
+        return lookRightPressed;
     }
 
     public KeyListener getKeyListener() {
