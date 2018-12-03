@@ -3,8 +3,8 @@ package pl.edu.agh.to2.yadc.entity;
 public abstract class Projectile extends Entity {
 
 	protected int velocity = 0;
-	protected int physicalDmg = 0;
-	protected int magicDmg = 0;
+	protected int physicalDmg = 30;
+	protected int magicDmg = 15;
 	protected Entity owner = null;
 
 	public Projectile(double xInit, double yInit, double collisionRadius) {

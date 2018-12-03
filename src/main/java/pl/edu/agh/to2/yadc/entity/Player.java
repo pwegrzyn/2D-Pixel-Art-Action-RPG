@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
+
+import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
 
@@ -120,6 +122,11 @@ public class Player extends Entity {
 		if(entity instanceof Projectile) {
 			if(((Projectile)entity).getOwner() == this) {
 				return;
+			}
+			if(((Projectile)entity).getOwner() instanceof Mob) {
+				statManager.setHealth(statManager.getCurrentHealth()-((Projectile)entity).physicalDmg-((Projectile)entity).magicDmg);
+				if(statManager.getCurrentHealth()<=0) 
+					App.quit();
 			}
 		}
 
