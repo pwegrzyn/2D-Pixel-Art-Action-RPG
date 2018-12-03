@@ -9,10 +9,12 @@ import java.util.Map;
 
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.physics.CollisionEngine;
 import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.Renderable;
 
-public abstract class Entity {
+public abstract class Entity implements Renderable, Advanceable {
 
 	protected BufferedImage texture;
 	protected double xPos;

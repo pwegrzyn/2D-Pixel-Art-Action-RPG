@@ -3,34 +3,25 @@ package pl.edu.agh.to2.yadc.entity;
 import java.util.HashMap;
 import java.util.Map;
 
-
-class a{
-	
-}
-
-class b extends a{
-	public int cc = 1;
-}
-
 public class StatManager {
+
 	private int health;
 	private int mana;
-
 	private int baseHealth;
 	private int baseMana;
 	private int basePhysicalDmg;
 	private int baseMagicDmg;
-	
 	private int speed;
-
 	private int strength;
 	private int stamina;
 	private int intelligence;
-	
+	private int currentLvl;
+	private int currentExp;
+	private int expToNextLevel;
 	private Map<Multipliers, Integer> multipliers;
 	
-	
 	public StatManager(Integer strToHp, Integer strToDmg, Integer stamToHp, Integer stamToMana, Integer intToDmg, Integer intToMana) {
+
 		multipliers = new HashMap<>();
 		multipliers.put(Multipliers.STR_HP, strToHp);
 		multipliers.put(Multipliers.STR_DMG, strToDmg);
@@ -38,8 +29,15 @@ public class StatManager {
 		multipliers.put(Multipliers.STAM_MANA, stamToMana);
 		multipliers.put(Multipliers.INT_DMG, intToDmg);
 		multipliers.put(Multipliers.INT_MANA, intToMana);
+
+		this.currentExp = 0;
+		this.currentLvl = 1;
+		this.expToNextLevel = 4225;
+		this.baseHealth = 100;
+		this.health = 73;
+		this.baseMana = 100;
+		this.mana = 24;
 	}
-	
 	
 	public int getMaxHealth() {
 		return baseHealth + multipliers.get(Multipliers.STR_HP) * strength + multipliers.get(Multipliers.STAM_HP) * stamina;
@@ -117,6 +115,18 @@ public class StatManager {
 	
 	public void setMagicDmg(int value) {
 		baseMagicDmg = value;
+	}
+
+	public int getCurrentLvl() {
+		return this.currentLvl;
+	}
+
+	public int getCurrentExp() {
+		return this.currentExp;
+	}
+
+	public int getExpToNextLvl() {
+		return this.expToNextLevel;
 	}
 }
 

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import pl.edu.agh.to2.yadc.physics.Vector;
 import pl.edu.agh.to2.yadc.render.Camera;
 
+
 public abstract class Mob extends Entity{
 
 	protected int velocity;

@@ -2,14 +2,13 @@ package pl.edu.agh.to2.yadc.game;
 
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
-
 import java.util.Random;
-
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.entity.MobFactory;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.TestEnemy;
+import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
 import pl.edu.agh.to2.yadc.render.ImageLoader;
@@ -30,14 +29,18 @@ public class App {
 		RenderManager renderManager = new RenderManager();
 		InputManager inputManager = new InputManager();
 		AreaManager areaManager = new AreaManager();
+		HUD hud = new HUD();
 		renderManager.setInputManager(inputManager);
+		hud.setInputManager(inputManager);
 		renderManager.initialSetup();
+		renderManager.setGameplayHUD(hud);
 		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
 
 		Player player = new Player(100, 200);
 		player.setInputManager(inputManager);
 		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
 		player.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
+		hud.bindPlayer(player);
 
 		Area area = new Area("Knowhere");
 		area.setTexture(imageLoader.fetchImage("resources/grass_area.png"));
@@ -50,20 +53,21 @@ public class App {
 		renderManager.startRendering(areaManager);
 
 		MobFactory factory = new MobFactory();
+
+		// TESTS BELOW
 		
 		Random random = new Random();
+		int counter = 0;
 		for(;;) {
 			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
-			/*TestEnemy mob = new TestEnemy(randomLoc, randomLoc, 10);
-			mob.setTexture(imageLoader.fetchImage("resources/test_enemy.png"));
-			mob.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
-			*/
-			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLoc, randomLoc, 10, imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
+			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLoc, randomLoc, 10, 
+				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
 			area.addEntity(mob);
+			counter++;
+			if(counter < 10) hud.printToChatBox("sdfsdfgdfgdfghdfgdfghdfghdfgfdghfgh" + counter);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

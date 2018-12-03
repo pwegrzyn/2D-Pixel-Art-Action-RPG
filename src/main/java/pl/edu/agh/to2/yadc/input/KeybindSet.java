@@ -15,7 +15,9 @@ public class KeybindSet {
 		keyBinds.put("down", 's');
 		keyBinds.put("left", 'a');
 		keyBinds.put("right", 'd');
-		keyBinds.put("attack", ' ');
+        keyBinds.put("attack", ' ');
+        keyBinds.put("chatUp", 'k');
+        keyBinds.put("chatDown", 'm');
     }
 
     public Character get(String code) {

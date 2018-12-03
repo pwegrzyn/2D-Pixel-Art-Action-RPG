@@ -10,7 +10,6 @@ public class TestProjectile extends Projectile{
 		this.velocity = 300;
 		this.owner = owner;
 		this.angularRotation = owner.angularRotation;
-		
 		this.spreadingActions = getSpreadingEffects();
 	}
 	

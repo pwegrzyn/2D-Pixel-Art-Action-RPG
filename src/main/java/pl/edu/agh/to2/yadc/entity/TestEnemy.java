@@ -11,7 +11,6 @@ public class TestEnemy extends RangedMob{
 		super(xInit, yInit, collisionRadius);
 		this.roamingTimer = 0;
 		this.velocity = 80;
-		
 		this.spreadingActions = getSpreadingEffects();
 	}
 

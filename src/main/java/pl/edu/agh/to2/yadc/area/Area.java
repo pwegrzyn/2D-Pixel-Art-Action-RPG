@@ -7,10 +7,12 @@ import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.EntityRegister;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.Renderable;
 
 
-public class Area {
+public class Area implements Renderable, Advanceable {
 
     private BufferedImage texture;
     private EntityRegister entityRegister;
