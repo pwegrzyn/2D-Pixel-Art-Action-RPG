@@ -2,6 +2,7 @@ package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
 
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
@@ -29,26 +30,44 @@ public class Player extends Entity {
     private boolean left = false;
     private Vector moveVector = new Vector(0, 0);
 	private BufferedImage projectileTexture;
-
 	private boolean performingAttack;
 
     @Override
     public void advanceSelf(double delta) {
+
+		reactToUserInput(delta);
+    
+        if (performingAttack) {
+        	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
+		    	TestProjectile bullet = new TestProjectile(this, 5);
+		    	this.lastAttackTime = System.currentTimeMillis();
+		    	this.attackCooldown = 100;
+				bullet.setTexture(this.projectileTexture);
+				this.area.addEntity(bullet);
+			}
+			performingAttack = false;
+		}
 		
-		if (inputManager.upPressed()) {
+	}
+	
+	private void reactToUserInput(double delta) {
+
+		boolean isInputDisabled = inputManager.isNonChatInputDisabled();
+		
+		if (inputManager.getPressedByName("up") && !isInputDisabled) {
 	    	this.yPos -= this.velocity * delta;
 	    }
-	    if (inputManager.downPressed()) {
+	    if (inputManager.getPressedByName("down") && !isInputDisabled) {
 	    	this.yPos += this.velocity * delta;
 	    }
-	    if (inputManager.leftPressed()) {
+	    if (inputManager.getPressedByName("left") && !isInputDisabled) {
 	    	this.xPos -= this.velocity * delta;
 	    } 
-	    if (inputManager.rightPressed()) {
+	    if (inputManager.getPressedByName("right") && !isInputDisabled) {
     	    this.xPos += this.velocity * delta;  
 	    }
 		
-		if (inputManager.lookUpPressed()) {
+		if (inputManager.getPressedByName("lookUp") && !isInputDisabled) {
 	    	if (!up) {
 		        this.angularRotation = moveVector.addAndUpdate(0,  -1, this.angularRotation);
 				up = true;
@@ -62,7 +81,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookDownPressed()) {
+	    if (inputManager.getPressedByName("lookDown") && !isInputDisabled) {
 	    	if (!down) {
 		    	down = true;
 				this.angularRotation = moveVector.addAndUpdate(0,  1, this.angularRotation);
@@ -76,7 +95,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookLeftPressed()) {
+	    if (inputManager.getPressedByName("lookLeft") && !isInputDisabled) {
 	    	if (!left) {
 		        left = true;
 				this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
@@ -90,7 +109,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookRightPressed()) { 
+	    if (inputManager.getPressedByName("lookRight") && !isInputDisabled) { 
     	    if (!right) {
 		        right = true;		    
 				this.angularRotation = moveVector.addAndUpdate(1,  0, this.angularRotation);
@@ -102,20 +121,9 @@ public class Player extends Entity {
 	    		right = false;
 	    		this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
 	    	}
-	    }
-    
-        if (performingAttack) {
-        	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	TestProjectile bullet = new TestProjectile(this, 5);
-		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 100;
-				bullet.setTexture(this.projectileTexture);
-				this.area.addEntity(bullet);
-			}
-			performingAttack = false;
 		}
 		
-    }
+	}
 
 	@Override
 	public void performCollisionAction(Entity entity) {

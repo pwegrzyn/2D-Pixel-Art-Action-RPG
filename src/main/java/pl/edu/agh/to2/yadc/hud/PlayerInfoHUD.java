@@ -28,6 +28,8 @@ public class PlayerInfoHUD implements Renderable, Advanceable {
 
     @Override
 	public void renderSelf(Graphics graphics, Camera camera) {
+        graphics.setColor(Color.black);
+        graphics.fillRect(4, 283, 169, 23);
         // HP
         graphics.setColor(Color.GRAY);
         graphics.fillRect(5, 295, 167, 10);
@@ -39,13 +41,14 @@ public class PlayerInfoHUD implements Renderable, Advanceable {
         graphics.setColor(Color.BLUE);
         graphics.fillRect(5, 284, ManaBarValue, 10);
         // EXP
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(Color.MAGENTA);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
         graphics.drawString(this.currentExpString, 5, 278);
         // LVL
         font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         graphics.setFont(font);
+        graphics.setColor(Color.YELLOW);
         graphics.drawString(this.currentLvlString, 5, 266);
     }
     

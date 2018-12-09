@@ -56,15 +56,17 @@ public class App {
 
 		// TESTS BELOW
 		
+		hud.printToChatBox("Welcome to the game!");
+		hud.printToChatBox("Press ENTER to type something.");
+		hud.printToChatBox("Press M to scroll chat down.");
+		hud.printToChatBox("Press K to scorll chat up.");
+
 		Random random = new Random();
-		int counter = 0;
 		for(;;) {
 			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
 			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLoc, randomLoc, 10, 
 				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
 			area.addEntity(mob);
-			counter++;
-			if(counter < 10) hud.printToChatBox("sdfsdfgdfgdfghdfgdfghdfghdfgfdghfgh" + counter);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
