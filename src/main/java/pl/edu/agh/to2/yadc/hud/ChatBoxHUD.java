@@ -162,7 +162,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         inputChangeTimer += delta;
         sameKeyTimer += delta;
         if(inputChangeTimer > inputChangeCooldown) {
-            for(int i = 0x30; i <= 0x5A; i++) {
+            for(int i = 32; i <= 90; i++) {
                 if(inputManager.getPressedByCode(0x08)) {
                     String buffer = inputBuilder.toString();
                     if(!buffer.equals("")) {
