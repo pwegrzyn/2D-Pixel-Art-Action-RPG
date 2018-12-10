@@ -15,10 +15,6 @@ public class EntityRegister {
         toAddEntites = new HashSet<>();
         toDeleteEntities = new HashSet<>();
     }
-
-    public Set<Entity> getActiveSet() {
-        return this.activeEntities;
-    }
     
     public void register(Entity newEntity) {
         toAddEntites.add(newEntity);

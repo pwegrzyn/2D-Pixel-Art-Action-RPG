@@ -25,9 +25,9 @@ public class Camera {
 		this.yPos = yPos;
 	}
 	
-	public void moveTo(int deltaX, int deltaY) {
-		this.xPos = deltaX;
-		this.yPos = deltaY;
+	public void moveTo(int newX, int newY) {
+		this.xPos = newX;
+		this.yPos = newY;
 	}
 
 	// Potentially useless? :feels:

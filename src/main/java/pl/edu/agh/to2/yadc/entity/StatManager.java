@@ -57,7 +57,7 @@ public class StatManager {
 	}
 	
 	
-	public int getSpeec() {
+	public int getSpeed() {
 		return speed;
 	}
 	
@@ -128,6 +128,35 @@ public class StatManager {
 	public int getExpToNextLvl() {
 		return this.expToNextLevel;
 	}
+	
+	
+	public int getStrength() {
+		return this.strength;
+	}
+	
+	public void setStrength(int strength) {
+		this.strength  = strength;
+	}
+	
+	
+	public int getStamina() {
+		return this.stamina;
+	}
+	
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
+	}
+	
+	
+	public int getIntelligence() {
+		return this.intelligence;
+	}
+	
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+	
+
 }
 
 enum Multipliers
