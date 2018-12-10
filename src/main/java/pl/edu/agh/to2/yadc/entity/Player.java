@@ -144,7 +144,7 @@ public class Player extends Entity {
 				if(entity.spreadingActions.get(0)!=effect) entity.spreadingActions.remove(effect);
 			}
 		}
-		else super.performCollisionAction(entity);
+		super.performCollisionAction(entity);
 		// Kek
 
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 

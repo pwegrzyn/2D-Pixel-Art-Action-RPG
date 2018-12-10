@@ -23,16 +23,20 @@ public class ProjectileFactory {
 			player.getStatManager().setHealth(player.getStatManager().getCurrentHealth()-newProjectile.physicalDmg-newProjectile.magicDmg);
 			if(player.getStatManager().getCurrentHealth()<=0) 
 				App.quit();
+			newProjectile.area.removeEntity(newProjectile);
 		}));
 		actionList.add(new Action(Mob.class, entity -> {
 			Mob mob = (Mob)entity;
 			mob.aggresive = true;
-			if(newProjectile.getOwner() != mob) mob.getStatManager().setHealth(mob.getStatManager().getCurrentHealth()-newProjectile.physicalDmg-newProjectile.magicDmg);
-			if(mob.getStatManager().getCurrentHealth()<=0) {
-				if (newProjectile.getOwner() instanceof Player) {
-					((Player)newProjectile.getOwner()).addExp(mob.exp);
+			if(newProjectile.getOwner() != mob) {
+				mob.getStatManager().setHealth(mob.getStatManager().getCurrentHealth()-newProjectile.physicalDmg-newProjectile.magicDmg);
+				if(mob.getStatManager().getCurrentHealth()<=0) {
+					if (newProjectile.getOwner() instanceof Player) {
+						((Player)newProjectile.getOwner()).addExp(mob.exp);
+					}
+					mob.area.removeEntity(mob);
 				}
-				mob.area.removeEntity(mob);
+				newProjectile.area.removeEntity(newProjectile);
 			}
 		}));
 		
