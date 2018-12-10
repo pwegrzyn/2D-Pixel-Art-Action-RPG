@@ -10,24 +10,48 @@ import pl.edu.agh.to2.yadc.entity.Entity;
 
 public class CollisionEngine {
 
-    public static List<Entity> getCollisions(Entity testedEntity, Area area){
+	private static CollisionDetectionStrategy strategy;
+
+	public static void setStrategy(String str) {
+		if(str.equals("circle")) {
+			strategy = new CircleCollisionStrategy();
+		} else if(str.equals("square")) {
+			strategy = new SquareCollisionStrategy();
+		}
+	}
+	
+	public static List<Entity> getCollisions(Entity testedEntity, Area area){
     	Set<Entity> activeEntities = area.getEntityRegister().getActiveEntities();
     	List<Entity> collidedEntities = new LinkedList<>();
     	for (Entity ent : activeEntities) {
     		if (ent != testedEntity) {
-				if (doCollide(testedEntity, ent))
+				if (strategy.doCollide(testedEntity, ent))
 					collidedEntities.add(ent);
     		}
     	}
     	return collidedEntities;
 	}
-	
 
-	public static Boolean doCollide(Entity entA, Entity entB) {
+	private static class CircleCollisionStrategy implements CollisionDetectionStrategy {
 		
-		return Math.sqrt(Math.pow(Math.abs(entB.getXPos() - entA.getXPos()), 2) + Math.pow(Math.abs(entB.getYPos() 
-		- entA.getYPos()), 2)) < entB.getCollisionRadius() + entA.getCollisionRadius();
+		@Override
+		public boolean doCollide(Entity entA, Entity entB) {
+		
+			return Math.sqrt(Math.pow(Math.abs(entB.getXPos() - entA.getXPos()), 2) + Math.pow(Math.abs(entB.getYPos() 
+			- entA.getYPos()), 2)) < entB.getCollisionRadius() + entA.getCollisionRadius();
+	
+		}
+	}
 
+	private static class SquareCollisionStrategy implements CollisionDetectionStrategy {
+		
+		@Override
+		public boolean doCollide(Entity entA, Entity entB) {
+		
+			// TODO
+			return false;
+	
+		}
 	}
 
 }

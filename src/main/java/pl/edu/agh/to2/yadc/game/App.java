@@ -12,6 +12,7 @@ import pl.edu.agh.to2.yadc.entity.RangedMob;
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
+import pl.edu.agh.to2.yadc.physics.CollisionEngine;
 import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.RenderManager;
 
@@ -38,6 +39,8 @@ public class App {
 		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
 
 		GlobalConfig.get().setHUD(hud);
+
+		CollisionEngine.setStrategy("circle");
 
 		Player player = new Player(100, 200);
 		player.setInputManager(inputManager);
