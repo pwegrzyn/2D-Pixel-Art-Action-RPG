@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 public class Effect {
 
-	private int effectLength;
+	private int effectLength = 0;
 	private Consumer<Entity> initialConsumer;
 	private Consumer<Entity> finalConsumer;
 	private long effectEndTime;

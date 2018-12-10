@@ -5,9 +5,10 @@ import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import java.util.Random;
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
+import pl.edu.agh.to2.yadc.entity.MeleeMob;
 import pl.edu.agh.to2.yadc.entity.MobFactory;
 import pl.edu.agh.to2.yadc.entity.Player;
-import pl.edu.agh.to2.yadc.entity.TestEnemy;
+import pl.edu.agh.to2.yadc.entity.RangedMob;
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
@@ -65,9 +66,14 @@ public class App {
 		for(;;) {
 			int randomLocX = random.nextInt(500 + 1 - 100) + 100;
 			int randomLocY = random.nextInt(500 + 1 - 100) + 100;
-			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLocX, randomLocY, 10, 
-				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/minibullet.png"));
+			RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10, 
+				imageLoader.fetchImage("resources/ranged_enemy.png"), imageLoader.fetchImage("resources/arrow.png"));
 			area.addEntity(mob);
+			randomLocX = random.nextInt(500 + 1 - 100) + 100;
+			randomLocY = random.nextInt(500 + 1 - 100) + 100;
+			MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10, 
+					imageLoader.fetchImage("resources/melee_enemy.png"));
+				area.addEntity(mob2);
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {

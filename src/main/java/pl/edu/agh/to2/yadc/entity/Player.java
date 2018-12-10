@@ -1,8 +1,9 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.util.List;
 
-import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
@@ -22,6 +23,9 @@ public class Player extends Entity {
         super(xInit, yInit, 10);
 		this.velocity = 120;
 		this.statManager = new StatManager(0, 0, 0, 0, 0, 0);
+		this.statManager.setRange(20);
+		this.statManager.setBaseHealth(1000);
+		this.statManager.setHealth(1000);
     }
 
     private boolean up = false;
@@ -30,6 +34,7 @@ public class Player extends Entity {
     private boolean left = false;
     private Vector moveVector = new Vector(0, 0);
 	private BufferedImage projectileTexture;
+
 	private boolean performingAttack;
 
     @Override
@@ -39,7 +44,7 @@ public class Player extends Entity {
     
         if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	TestProjectile bullet = new TestProjectile(this, 4);
+		    	Projectile bullet = ProjectileFactory.createNormalArrow(this, 4, projectileTexture);
 		    	this.lastAttackTime = System.currentTimeMillis();
 		    	this.attackCooldown = 100;
 				bullet.setTexture(this.projectileTexture);
@@ -47,7 +52,6 @@ public class Player extends Entity {
 			}
 			performingAttack = false;
 		}
-		
 	}
 	
 	private void reactToUserInput(double delta) {
@@ -125,19 +129,22 @@ public class Player extends Entity {
 		
 	}
 
+	
 	@Override
 	public void performCollisionAction(Entity entity) {
 		if(entity instanceof Projectile) {
 			if(((Projectile)entity).getOwner() == this) {
 				return;
 			}
-			if(((Projectile)entity).getOwner() instanceof Mob) {
-				statManager.setHealth(statManager.getCurrentHealth()-((Projectile)entity).physicalDmg-((Projectile)entity).magicDmg);
-				if(statManager.getCurrentHealth()<=0) 
-					App.quit();
+		}
+		else if(entity instanceof MeleeMob) {
+			List<Action> copy = new LinkedList<Action>(entity.spreadingActions);
+			for (Action effect : copy) {
+				effect.activate(this);
+				if(entity.spreadingActions.get(0)!=effect) entity.spreadingActions.remove(effect);
 			}
 		}
-
+		else super.performCollisionAction(entity);
 		// Kek
 
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
@@ -148,6 +155,7 @@ public class Player extends Entity {
 			- entity.getXPos())/currentDistance * (this.collisionRadius + entity.collisionRadius);
 		
 	}
+
 
 	public void setInputManager(InputManager input) {
 		this.inputManager = input;
@@ -160,7 +168,6 @@ public class Player extends Entity {
 	public StatManager getStatManager() {
 		return this.statManager;
 	}
-	
 	
 	public void addExp(int exp) {
 		int currentExp = this.statManager.getCurrentExp();
