@@ -17,7 +17,6 @@ public class TestProjectile extends Projectile{
 		List<Action> actionList = new LinkedList<>();
 		actionList.add(new Action(Mob.class, entity -> {
 			Mob mob = (Mob)entity;
-	//		mob.area.removeEntity(mob);
 			mob.activeEffects.add(new Effect(5000, 
 					ent -> {
 						Mob mob1 = (Mob)ent;
@@ -28,6 +27,15 @@ public class TestProjectile extends Projectile{
 						mob1.velocity = 150;
 					}
 			));
+		}));
+		
+		actionList.add(new Action(Projectile.class, entity -> {
+			Projectile projectile = (Projectile)entity;
+			if (projectile.owner instanceof Player) {
+//				this.owner = projectile.owner;
+//				this.angularRotation += Math.PI;
+				this.area.removeEntity(this);
+			}
 		}));
 		
 		return actionList;

@@ -160,5 +160,19 @@ public class Player extends Entity {
 	public StatManager getStatManager() {
 		return this.statManager;
 	}
+	
+	
+	public void addExp(int exp) {
+		int currentExp = this.statManager.getCurrentExp();
+		int expToNextLvl = this.statManager.getExpToNextLvl();
+		if (currentExp + exp >= expToNextLvl) {
+			this.statManager.setLvl(this.statManager.getLvl() + 1);
+			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
+			this.statManager.setExp(currentExp + exp - expToNextLvl);
+		}
+		else {
+			this.statManager.setExp(this.statManager.getExp() + exp);
+		}
+	}
 
 }

@@ -11,6 +11,7 @@ public class TestEnemy extends RangedMob{
 		super(xInit, yInit, collisionRadius);
 		this.roamingTimer = 0;
 		this.velocity = 80;
+		this.exp = 500;
 		this.spreadingActions = getSpreadingEffects();
 	}
 
@@ -19,9 +20,8 @@ public class TestEnemy extends RangedMob{
 		List<Action> actionList = new LinkedList<>();
 		actionList.add(new Action(Projectile.class, entity -> {
 			Projectile projectile = (Projectile)entity;
-			if(projectile.owner != this) {
-				projectile.angularRotation += Math.PI;
-				projectile.velocity /= 2;
+			if(projectile.owner != this && projectile.owner instanceof Player) {
+				projectile.area.removeEntity(projectile);
 			}
 		}));
 		

@@ -63,8 +63,9 @@ public class App {
 
 		Random random = new Random();
 		for(;;) {
-			int randomLoc = random.nextInt(500 + 1 - 100) + 100;
-			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLoc, randomLoc, 10, 
+			int randomLocX = random.nextInt(500 + 1 - 100) + 100;
+			int randomLocY = random.nextInt(500 + 1 - 100) + 100;
+			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLocX, randomLocY, 10, 
 				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
 			area.addEntity(mob);
 			try {

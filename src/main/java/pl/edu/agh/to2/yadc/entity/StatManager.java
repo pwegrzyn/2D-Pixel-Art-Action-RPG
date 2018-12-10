@@ -156,6 +156,25 @@ public class StatManager {
 		this.intelligence = intelligence;
 	}
 	
+	public void setExp(int exp) {
+		this.currentExp = exp;
+	}
+	
+	public int getExp() {
+		return this.currentExp;
+	}
+	
+	public void setExpToNextLvl(int exp) {
+		this.expToNextLevel = exp;
+	}
+	
+	public void setLvl(int lvl) {
+		this.currentLvl = lvl;
+	}
+	
+	public int getLvl() {
+		return this.currentLvl;
+	}
 
 }
 

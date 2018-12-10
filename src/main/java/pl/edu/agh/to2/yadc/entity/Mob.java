@@ -7,6 +7,7 @@ public abstract class Mob extends Entity{
 	protected boolean aggresive;
 	protected int range;
 	protected StatManager statManager;
+	protected int exp;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
@@ -44,19 +45,25 @@ public abstract class Mob extends Entity{
 	
 	@Override
 	public void performCollisionAction(Entity entity) {
-		
 		if(entity instanceof TestProjectile) {
-			if(((Projectile) entity).getOwner() != this) {
+			if(((Projectile) entity).getOwner() != this && (((Projectile) entity).getOwner() instanceof Player)) {
 				aggresive = true;
 				System.out.println("current HP = " + statManager.getCurrentHealth());
 				statManager.setHealth(statManager.getCurrentHealth()-((Projectile)entity).physicalDmg-((Projectile)entity).magicDmg);
-				if(statManager.getCurrentHealth()<=0)
+				if(statManager.getCurrentHealth()<=0) {
+					if (((Projectile) entity).getOwner() instanceof Player) {
+						((Player)((Projectile) entity).getOwner()).addExp(this.exp);
+					}
 					this.area.removeEntity(this);
+				}
 			}
 		}
 		if(entity instanceof Player) {
 			this.angularRotation = 3.14;
 			aggresive = true;
+		}
+		else {
+			super.performCollisionAction(entity);
 		}
 	}
 }
