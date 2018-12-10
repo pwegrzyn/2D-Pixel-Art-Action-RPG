@@ -23,7 +23,7 @@ public class CollisionEngine {
 	}
 	
 
-	private static Boolean doCollide(Entity entA, Entity entB) {
+	public static Boolean doCollide(Entity entA, Entity entB) {
 		
 		return Math.sqrt(Math.pow(Math.abs(entB.getXPos() - entA.getXPos()), 2) + Math.pow(Math.abs(entB.getYPos() 
 		- entA.getYPos()), 2)) < entB.getCollisionRadius() + entA.getCollisionRadius();

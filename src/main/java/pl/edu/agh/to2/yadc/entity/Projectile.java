@@ -6,8 +6,8 @@ import java.util.List;
 public class Projectile extends Entity {
 
 	protected int velocity = 0;
-	protected int physicalDmg = 30;
-	protected int magicDmg = 15;
+	protected int physicalDmg = 20;
+	protected int magicDmg = 10;
 	protected Entity owner = null;
 	protected int coveredDistance;
 	
