@@ -39,7 +39,7 @@ public class Player extends Entity {
     
         if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	TestProjectile bullet = new TestProjectile(this, 5);
+		    	TestProjectile bullet = new TestProjectile(this, 4);
 		    	this.lastAttackTime = System.currentTimeMillis();
 		    	this.attackCooldown = 100;
 				bullet.setTexture(this.projectileTexture);

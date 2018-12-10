@@ -39,7 +39,7 @@ public class App {
 		Player player = new Player(100, 200);
 		player.setInputManager(inputManager);
 		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
-		player.setProjectileTexture(imageLoader.fetchImage("resources/bullet.png"));
+		player.setProjectileTexture(imageLoader.fetchImage("resources/minibullet.png"));
 		hud.bindPlayer(player);
 
 		Area area = new Area("Knowhere");
@@ -66,7 +66,7 @@ public class App {
 			int randomLocX = random.nextInt(500 + 1 - 100) + 100;
 			int randomLocY = random.nextInt(500 + 1 - 100) + 100;
 			TestEnemy mob = (TestEnemy) factory.createTestMob(randomLocX, randomLocY, 10, 
-				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/bullet.png"));
+				imageLoader.fetchImage("resources/test_enemy.png"), imageLoader.fetchImage("resources/minibullet.png"));
 			area.addEntity(mob);
 			try {
 				Thread.sleep(2000);

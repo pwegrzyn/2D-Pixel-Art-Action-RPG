@@ -35,7 +35,6 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     private double cursorBlinkCooldown = 0.7;
     private boolean cursorBlinkOn = false;
 
-    // Dont even try to understand how this class works xD
     public ChatBoxHUD() {
 
         this.allBuffer = new ArrayList<>();
