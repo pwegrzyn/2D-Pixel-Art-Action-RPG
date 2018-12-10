@@ -10,12 +10,12 @@ public abstract class Mob extends Entity{
 
 	protected int velocity;
 	protected boolean aggresive;
-	protected int range;
 	protected StatManager statManager;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
 		this.statManager = new StatManager(0,0,0,0,0,0);
+		this.statManager.setRange(20);
 	}
 	
 	@Override
@@ -47,21 +47,34 @@ public abstract class Mob extends Entity{
 	
 	abstract public void makeAttack();
 	
+	private void getMeleeAttackEffect(Player player) {
+		
+	}
+	
+	private void getRangedAttackEffect(Projectile projectile) {
+		aggresive = true;
+		System.out.println("current HP = " + statManager.getCurrentHealth());
+		statManager.setHealth(statManager.getCurrentHealth()-projectile.physicalDmg-projectile.magicDmg);
+		if(statManager.getCurrentHealth()<=0)
+			this.area.removeEntity(this);
+	}
+	
 	@Override
 	public void performCollisionAction(Entity entity) {
 		
-		if(entity instanceof TestProjectile) {
+		if(entity instanceof Projectile) {
 			if(((Projectile) entity).getOwner() != this) {
-				aggresive = true;
-				System.out.println("current HP = " + statManager.getCurrentHealth());
-				statManager.setHealth(statManager.getCurrentHealth()-((Projectile)entity).physicalDmg-((Projectile)entity).magicDmg);
-				if(statManager.getCurrentHealth()<=0)
-					this.area.removeEntity(this);
+				getRangedAttackEffect((Projectile)entity);
+				super.performCollisionAction(entity);
 			}
 		}
 		if(entity instanceof Player) {
-			this.angularRotation = 3.14;
+			//this.angularRotation = 3.14;
 			aggresive = true;
 		}
+	}
+
+	public StatManager getStatManager() {
+		return statManager;
 	}
 }

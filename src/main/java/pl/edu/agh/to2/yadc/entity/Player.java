@@ -21,6 +21,7 @@ public class Player extends Entity {
         super(xInit, yInit, 10);
 		this.velocity = 120;
 		this.statManager = new StatManager(0, 0, 0, 0, 0, 0);
+		this.statManager.setRange(30);
     }
 
     private boolean up = false;
@@ -106,10 +107,9 @@ public class Player extends Entity {
     
         if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	TestProjectile bullet = new TestProjectile(this, 5);
+		    	Projectile bullet = ProjectileFactory.createNormalArrow(this, 5, this.projectileTexture);
 		    	this.lastAttackTime = System.currentTimeMillis();
 		    	this.attackCooldown = 100;
-				bullet.setTexture(this.projectileTexture);
 				this.area.addEntity(bullet);
 			}
 			performingAttack = false;

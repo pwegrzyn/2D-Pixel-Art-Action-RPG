@@ -19,10 +19,9 @@ public class RangedMob extends Mob {
 	public void makeAttack() {
 		if(aggresive) {
 			if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-			   	TestProjectile bullet = new TestProjectile(this, 5);
+			   	Projectile bullet = ProjectileFactory.createNormalArrow(this, 5, this.projectileTexture);
 			   	this.lastAttackTime = System.currentTimeMillis();
 			   	this.attackCooldown = 500;
-				bullet.setTexture(this.projectileTexture);
 				this.area.addEntity(bullet);
 			}
 		}

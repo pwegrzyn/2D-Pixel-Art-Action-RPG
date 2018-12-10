@@ -18,6 +18,7 @@ public class StatManager {
 	private int currentLvl;
 	private int currentExp;
 	private int expToNextLevel;
+	private int range;
 	private Map<Multipliers, Integer> multipliers;
 	
 	public StatManager(Integer strToHp, Integer strToDmg, Integer stamToHp, Integer stamToMana, Integer intToDmg, Integer intToMana) {
@@ -127,6 +128,14 @@ public class StatManager {
 
 	public int getExpToNextLvl() {
 		return this.expToNextLevel;
+	}
+
+	public int getRange() {
+		return range;
+	}
+
+	public void setRange(int range) {
+		this.range = range;
 	}
 }
 
