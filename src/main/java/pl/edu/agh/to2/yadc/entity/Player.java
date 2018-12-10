@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
+import java.util.List;
 
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
@@ -21,7 +23,9 @@ public class Player extends Entity {
         super(xInit, yInit, 10);
 		this.velocity = 120;
 		this.statManager = new StatManager(0, 0, 0, 0, 0, 0);
-		this.statManager.setRange(30);
+		this.statManager.setRange(20);
+		this.statManager.setBaseHealth(1000);
+		this.statManager.setHealth(1000);
     }
 
     private boolean up = false;
@@ -35,21 +39,39 @@ public class Player extends Entity {
 
     @Override
     public void advanceSelf(double delta) {
+
+		reactToUserInput(delta);
+    
+        if (performingAttack) {
+        	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
+		    	Projectile bullet = ProjectileFactory.createNormalArrow(this, 5, projectileTexture);
+		    	this.lastAttackTime = System.currentTimeMillis();
+		    	this.attackCooldown = 100;
+				bullet.setTexture(this.projectileTexture);
+				this.area.addEntity(bullet);
+			}
+			performingAttack = false;
+		}
+	}
+	
+	private void reactToUserInput(double delta) {
+
+		boolean isInputDisabled = inputManager.isNonChatInputDisabled();
 		
-		if (inputManager.upPressed()) {
+		if (inputManager.getPressedByName("up") && !isInputDisabled) {
 	    	this.yPos -= this.velocity * delta;
 	    }
-	    if (inputManager.downPressed()) {
+	    if (inputManager.getPressedByName("down") && !isInputDisabled) {
 	    	this.yPos += this.velocity * delta;
 	    }
-	    if (inputManager.leftPressed()) {
+	    if (inputManager.getPressedByName("left") && !isInputDisabled) {
 	    	this.xPos -= this.velocity * delta;
 	    } 
-	    if (inputManager.rightPressed()) {
+	    if (inputManager.getPressedByName("right") && !isInputDisabled) {
     	    this.xPos += this.velocity * delta;  
 	    }
 		
-		if (inputManager.lookUpPressed()) {
+		if (inputManager.getPressedByName("lookUp") && !isInputDisabled) {
 	    	if (!up) {
 		        this.angularRotation = moveVector.addAndUpdate(0,  -1, this.angularRotation);
 				up = true;
@@ -63,7 +85,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookDownPressed()) {
+	    if (inputManager.getPressedByName("lookDown") && !isInputDisabled) {
 	    	if (!down) {
 		    	down = true;
 				this.angularRotation = moveVector.addAndUpdate(0,  1, this.angularRotation);
@@ -77,7 +99,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookLeftPressed()) {
+	    if (inputManager.getPressedByName("lookLeft") && !isInputDisabled) {
 	    	if (!left) {
 		        left = true;
 				this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
@@ -91,7 +113,7 @@ public class Player extends Entity {
 	    	}
 	    }
 	
-	    if (inputManager.lookRightPressed()) { 
+	    if (inputManager.getPressedByName("lookRight") && !isInputDisabled) { 
     	    if (!right) {
 		        right = true;		    
 				this.angularRotation = moveVector.addAndUpdate(1,  0, this.angularRotation);
@@ -103,33 +125,26 @@ public class Player extends Entity {
 	    		right = false;
 	    		this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
 	    	}
-	    }
-    
-        if (performingAttack) {
-        	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	Projectile bullet = ProjectileFactory.createNormalArrow(this, 5, this.projectileTexture);
-		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 100;
-				this.area.addEntity(bullet);
-			}
-			performingAttack = false;
 		}
 		
-    }
+	}
 
+	
 	@Override
 	public void performCollisionAction(Entity entity) {
 		if(entity instanceof Projectile) {
 			if(((Projectile)entity).getOwner() == this) {
 				return;
 			}
-			if(((Projectile)entity).getOwner() instanceof Mob) {
-				statManager.setHealth(statManager.getCurrentHealth()-((Projectile)entity).physicalDmg-((Projectile)entity).magicDmg);
-				if(statManager.getCurrentHealth()<=0) 
-					App.quit();
+		}
+		else if(entity instanceof MeleeMob) {
+			List<Action> copy = new LinkedList<Action>(entity.spreadingActions);
+			for (Action effect : copy) {
+				effect.activate(this);
+				if(entity.spreadingActions.get(0)!=effect) entity.spreadingActions.remove(effect);
 			}
 		}
-
+		else super.performCollisionAction(entity);
 		// Kek
 
 		double currentDistance = Math.sqrt(Math.pow(Math.abs(entity.getXPos() - this.getXPos()), 2) 
@@ -141,6 +156,7 @@ public class Player extends Entity {
 		
 	}
 
+
 	public void setInputManager(InputManager input) {
 		this.inputManager = input;
 	}
@@ -151,6 +167,19 @@ public class Player extends Entity {
 
 	public StatManager getStatManager() {
 		return this.statManager;
+	}
+	
+	public void addExp(int exp) {
+		int currentExp = this.statManager.getCurrentExp();
+		int expToNextLvl = this.statManager.getExpToNextLvl();
+		if (currentExp + exp >= expToNextLvl) {
+			this.statManager.setLvl(this.statManager.getLvl() + 1);
+			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
+			this.statManager.setExp(currentExp + exp - expToNextLvl);
+		}
+		else {
+			this.statManager.setExp(this.statManager.getExp() + exp);
+		}
 	}
 
 }

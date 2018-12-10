@@ -1,6 +1,8 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
+import java.util.List;
 
 import pl.edu.agh.to2.yadc.physics.Vector;
 import pl.edu.agh.to2.yadc.render.Camera;
@@ -11,11 +13,13 @@ public abstract class Mob extends Entity{
 	protected int velocity;
 	protected boolean aggresive;
 	protected StatManager statManager;
+	protected int exp;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
 		this.statManager = new StatManager(0,0,0,0,0,0);
-		this.statManager.setRange(20);
+		this.statManager.setRange(25);
+		this.spreadingActions = getSpreadingEffects();
 	}
 	
 	@Override
@@ -47,34 +51,30 @@ public abstract class Mob extends Entity{
 	
 	abstract public void makeAttack();
 	
-	private void getMeleeAttackEffect(Player player) {
-		
-	}
-	
-	private void getRangedAttackEffect(Projectile projectile) {
-		aggresive = true;
-		System.out.println("current HP = " + statManager.getCurrentHealth());
-		statManager.setHealth(statManager.getCurrentHealth()-projectile.physicalDmg-projectile.magicDmg);
-		if(statManager.getCurrentHealth()<=0)
-			this.area.removeEntity(this);
-	}
-	
 	@Override
 	public void performCollisionAction(Entity entity) {
-		
-		if(entity instanceof Projectile) {
-			if(((Projectile) entity).getOwner() != this) {
-				getRangedAttackEffect((Projectile)entity);
-				super.performCollisionAction(entity);
-			}
-		}
 		if(entity instanceof Player) {
-			//this.angularRotation = 3.14;
 			aggresive = true;
 		}
+		super.performCollisionAction(entity);
+	}
+	
+	private List<Action> getSpreadingEffects(){
+		List<Action> actionList = new LinkedList<>();
+		actionList.add(new Action(Projectile.class, entity -> {
+			Projectile projectile = (Projectile)entity;
+			if(projectile.owner != this && projectile.owner instanceof Player) {
+				projectile.area.removeEntity(projectile);
+			}
+		}));
+		return actionList;
 	}
 
 	public StatManager getStatManager() {
 		return statManager;
+	}
+	
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 }

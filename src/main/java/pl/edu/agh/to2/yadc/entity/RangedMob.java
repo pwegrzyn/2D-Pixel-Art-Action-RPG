@@ -7,7 +7,7 @@ public class RangedMob extends Mob {
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
     private BufferedImage projectileTexture;
-    private int range = 100;  //hardcoded for test
+    //private int range = 100;  //hardcoded for test
     
 	public RangedMob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
@@ -26,6 +26,8 @@ public class RangedMob extends Mob {
 			}
 		}
 	}
+	
+	
 
 	public void setProjectileTexture(BufferedImage fetchImage) {
 		this.projectileTexture = fetchImage;

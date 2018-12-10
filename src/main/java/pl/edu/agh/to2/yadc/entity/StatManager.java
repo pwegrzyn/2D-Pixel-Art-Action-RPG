@@ -137,6 +137,54 @@ public class StatManager {
 	public void setRange(int range) {
 		this.range = range;
 	}
+	
+	public int getStrength() {
+		return this.strength;
+	}
+	
+	public void setStrength(int strength) {
+		this.strength  = strength;
+	}
+	
+	
+	public int getStamina() {
+		return this.stamina;
+	}
+	
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
+	}
+	
+	
+	public int getIntelligence() {
+		return this.intelligence;
+	}
+	
+	public void setIntelligence(int intelligence) {
+		this.intelligence = intelligence;
+	}
+	
+	public void setExp(int exp) {
+		this.currentExp = exp;
+	}
+	
+	public int getExp() {
+		return this.currentExp;
+	}
+	
+	public void setExpToNextLvl(int exp) {
+		this.expToNextLevel = exp;
+	}
+	
+	public void setLvl(int lvl) {
+		this.currentLvl = lvl;
+	}
+	
+	public int getLvl() {
+		return this.currentLvl;
+	}
+	
+	
 }
 
 enum Multipliers

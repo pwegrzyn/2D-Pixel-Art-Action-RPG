@@ -11,12 +11,12 @@ public class Projectile extends Entity {
 	protected Entity owner = null;
 	protected int coveredDistance;
 	
-	public Projectile(Entity owner, double collisionRadius, List<Action> spreadingEffects) {
+	public Projectile(Entity owner, double collisionRadius) {
 		super(owner.getXPos(), owner.getYPos(), collisionRadius);
 		this.velocity = 300;
 		this.owner = owner;
 		this.angularRotation = owner.angularRotation;
-		this.spreadingActions = spreadingEffects;
+		this.spreadingActions = new LinkedList<Action>();
 		this.coveredDistance = 0;
 	}
 
@@ -31,11 +31,22 @@ public class Projectile extends Entity {
 		this.coveredDistance += 100*delta;
 		if(owner instanceof Player && this.coveredDistance >= ((Player)owner).getStatManager().getRange())
 			area.removeEntity(this);
-		//System.out.println(delta + "  " + this.coveredDistance + "  " + ((Player)owner).getStatManager().getRange());
 		if(owner instanceof Mob && this.coveredDistance >= ((Mob)owner).getStatManager().getRange())
 			area.removeEntity(this);
 	}
-
+	
+	public void setPhysicalDmg(int dmg) {
+		this.physicalDmg = dmg;
+	}
+	
+	public void setMagicDmg(int dmg) {
+		this.magicDmg = dmg;
+	}
+	
+	public void addEffects(List<Action> effects) {
+		this.spreadingActions.addAll(effects);
+	}
+	
 	// @Override
 	// public void performCollisionAction(Entity entity) {
 	// 	if(entity instanceof Player) {

@@ -62,7 +62,10 @@ public abstract class Entity implements Renderable, Advanceable {
 		}
 		List<Entity> collidedEntities = CollisionEngine.getCollisions(this, this.area);
 		for (Entity ent : collidedEntities) {
-			if (!collisionCache.containsKey(ent)) {
+			if(ent instanceof MeleeMob) {
+				this.performCollisionAction(ent);
+			}
+			else if (!collisionCache.containsKey(ent)) {
 				this.performCollisionAction(ent);
 			}
 			collisionCache.put(ent,  1);
@@ -101,6 +104,10 @@ public abstract class Entity implements Renderable, Advanceable {
 
 	public void setArea(Area area) {
 		this.area = area;
+	}
+	
+	public Map<Entity, Integer> getCollisionCache() {
+		return collisionCache;
 	}
 
 }
