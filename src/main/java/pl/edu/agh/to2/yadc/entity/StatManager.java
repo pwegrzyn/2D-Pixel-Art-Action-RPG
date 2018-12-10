@@ -33,7 +33,7 @@ public class StatManager {
 
 		this.currentExp = 0;
 		this.currentLvl = 1;
-		this.expToNextLevel = 4225;
+		this.expToNextLevel = 1000;
 		this.baseHealth = 100;
 		this.health = 73;
 		this.baseMana = 100;

@@ -37,6 +37,8 @@ public class App {
 		renderManager.setGameplayHUD(hud);
 		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
 
+		GlobalConfig.get().setHUD(hud);
+
 		Player player = new Player(100, 200);
 		player.setInputManager(inputManager);
 		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
@@ -75,7 +77,7 @@ public class App {
 					imageLoader.fetchImage("resources/melee_enemy.png"));
 				area.addEntity(mob2);
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(10000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

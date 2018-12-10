@@ -2,6 +2,7 @@ package pl.edu.agh.to2.yadc.hud;
 
 import java.awt.Graphics;
 
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
@@ -23,6 +24,7 @@ public class HUD implements Renderable, Advanceable {
     
     @Override
 	public void renderSelf(Graphics graphics, Camera camera) {
+        if(!GlobalConfig.get().getUIVisibility()) return;
         radar.renderSelf(graphics, camera);
         playerInfo.renderSelf(graphics, camera);
         chatbox.renderSelf(graphics, camera);

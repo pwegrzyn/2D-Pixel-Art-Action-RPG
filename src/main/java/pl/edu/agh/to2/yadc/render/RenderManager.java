@@ -44,7 +44,7 @@ public class RenderManager {
 
 	public void initialSetup() {
 		
-		this.config = GlobalConfig.getGlobalConfig();
+		this.config = GlobalConfig.get();
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenDimension = toolkit.getScreenSize();
@@ -148,7 +148,7 @@ public class RenderManager {
 		this.gameplayHUD.advanceSelf(delta);
 		this.gameplayHUD.renderSelf(graphics, mainCamera);
 
-		showMetrics(graphics);
+		if(GlobalConfig.get().getDebug()) showMetrics(graphics);
 		
 		// END RENDER
 		

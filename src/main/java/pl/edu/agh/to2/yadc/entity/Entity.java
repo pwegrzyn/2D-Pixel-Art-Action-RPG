@@ -24,11 +24,9 @@ public abstract class Entity implements Renderable, Advanceable {
 	protected double angularRotation;
 	protected Area area;
 	
-	
 	public List<Effect> activeEffects;
 	public List<Action> spreadingActions;
 	private Map<Entity, Integer> collisionCache;
-	
 
 	public Entity(double xInit, double yInit, double collisionRadius) {
 		this.xPos = xInit;
@@ -47,8 +45,8 @@ public abstract class Entity implements Renderable, Advanceable {
 	public final void renderSelf(Graphics graphics, Camera currentCamera) {
 		checkCollisions();
 		updateEffects();
-		int width = GlobalConfig.getGlobalConfig().getTargetWidth();
-		int height = GlobalConfig.getGlobalConfig().getTargetHeight();
+		int width = GlobalConfig.get().getTargetWidth();
+		int height = GlobalConfig.get().getTargetHeight();
 		int xApparent = (int) xPos - currentCamera.getXPos() + width / 2;
 		int yApparent = (int) yPos - currentCamera.getYPos() + height / 2;
 		graphics.drawImage(this.texture, xApparent - texture.getWidth() / 2, yApparent - texture.getHeight() / 2,

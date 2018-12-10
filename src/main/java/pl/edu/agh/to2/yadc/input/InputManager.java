@@ -33,7 +33,7 @@ public class InputManager {
             }
 
         };
-        this.keybinds = GlobalConfig.getGlobalConfig().getKeyBinds();
+        this.keybinds = GlobalConfig.get().getKeyBinds();
         this.isNonChatInputDisabled = false;
     }
 

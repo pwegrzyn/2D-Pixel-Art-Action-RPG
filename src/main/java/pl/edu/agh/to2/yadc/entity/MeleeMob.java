@@ -48,7 +48,7 @@ public class MeleeMob extends Mob {
 			Player player = (Player) entity;
 			player.getStatManager().setHealth(player.getStatManager().getCurrentHealth()-getPhysicalDmg()-getMagicDmg());
 			if(player.getStatManager().getCurrentHealth() <= 0) {
-				
+				// RIP ?
 			}
 		});
 		actionList.add(act);

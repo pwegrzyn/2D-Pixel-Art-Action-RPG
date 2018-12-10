@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
@@ -172,8 +173,11 @@ public class Player extends Entity {
 	public void addExp(int exp) {
 		int currentExp = this.statManager.getCurrentExp();
 		int expToNextLvl = this.statManager.getExpToNextLvl();
+		GlobalConfig.get().printToChatBox("Received " + exp + " xp.");
 		if (currentExp + exp >= expToNextLvl) {
 			this.statManager.setLvl(this.statManager.getLvl() + 1);
+			GlobalConfig.get().printToChatBox("Congratulation! You have gained a new level.");
+			GlobalConfig.get().printToChatBox("You are now level " + this.statManager.getLvl() + ".");
 			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
 			this.statManager.setExp(currentExp + exp - expToNextLvl);
 		}

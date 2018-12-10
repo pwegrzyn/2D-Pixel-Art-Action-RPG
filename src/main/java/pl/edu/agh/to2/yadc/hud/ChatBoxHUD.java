@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;
@@ -138,7 +140,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         if(chatInteractTimer > chatInteractCooldown) {
             if(inputManager.getPressedByName("chatInteract")) {
                 if(isUserTyping) {
-                    printToChatBox(inputBuilder.toString());
+                    parseCommand(inputBuilder.toString());
                     inputBuilder = new StringBuilder("");
                     isUserTyping = false;
                     inputManager.setNonChatInputDisabled(false);
@@ -192,6 +194,51 @@ public class ChatBoxHUD implements Advanceable, Renderable {
 
     public boolean isChatActive() {
         return this.isUserTyping;
+    }
+
+    private void parseCommand(String command) {
+        String[] commands = command.split("\\s+");
+        switch(commands[0]) {
+            case "SHOW":
+                switch(commands[1]) {
+                    case "DEBUG":
+                        printToChatBox("Debug info ON");
+                        GlobalConfig.get().setDebug(true);
+                    break;
+                    case "UI":
+                        printToChatBox("User Interface ON");
+                        GlobalConfig.get().setUIVisibility(true);
+                    break;
+                    default:
+                        printToChatBox("Invalid Command!");
+                    break;
+                }
+            break;
+            case "HIDE":
+                switch(commands[1]) {
+                    case "DEBUG":
+                        printToChatBox("Debug info OFF");
+                        GlobalConfig.get().setDebug(false);
+                    break;
+                    case "UI":
+                        printToChatBox("User Interface OFF");
+                        GlobalConfig.get().setUIVisibility(false);
+                    break;
+                    default:
+                        printToChatBox("Invalid Command!");
+                    break;
+                }
+            break;
+            case "QUIT":
+                App.quit();
+            break;
+            case "HELP":
+                printToChatBox("Git gud");
+            break;
+            default: 
+                printToChatBox("Invalid Command!");
+            break;
+        }
     }
 
 }

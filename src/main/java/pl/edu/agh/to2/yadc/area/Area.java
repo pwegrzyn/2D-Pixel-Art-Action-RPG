@@ -50,8 +50,8 @@ public class Area implements Renderable, Advanceable {
 
     public void renderSelf(Graphics graphics, Camera camera) {
 
-        int renderXPos = GlobalConfig.getGlobalConfig().getTargetWidth()/2 -camera.getXPos();
-        int renderYPos = GlobalConfig.getGlobalConfig().getTargetHeight()/2 -camera.getYPos();
+        int renderXPos = GlobalConfig.get().getTargetWidth()/2 -camera.getXPos();
+        int renderYPos = GlobalConfig.get().getTargetHeight()/2 -camera.getYPos();
         graphics.drawImage(this.texture,  renderXPos, renderYPos, texture.getWidth(), texture.getHeight(), null);
         
         entityRegister.foreach(e -> e.renderSelf(graphics, camera));
