@@ -19,6 +19,10 @@ public class CollisionEngine {
 			strategy = new SquareCollisionStrategy();
 		}
 	}
+
+	public static CollisionDetectionStrategy getStrategy() {
+		return strategy;
+	}
 	
 	public static List<Entity> getCollisions(Entity testedEntity, Area area){
     	Set<Entity> activeEntities = area.getEntityRegister().getActiveEntities();
