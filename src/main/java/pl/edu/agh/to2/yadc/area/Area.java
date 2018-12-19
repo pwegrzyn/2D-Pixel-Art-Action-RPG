@@ -7,9 +7,16 @@ import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.EntityRegister;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.Renderable;
 
+<<<<<<< HEAD
 public class Area {
+=======
+
+public class Area implements Renderable, Advanceable {
+>>>>>>> 645b3fa9ac59b2389dafa2af219d4328f634defc
 
     private BufferedImage texture;
     private EntityRegister entityRegister;
@@ -42,8 +49,8 @@ public class Area {
 
     public void renderSelf(Graphics graphics, Camera camera) {
 
-        int renderXPos = GlobalConfig.getGlobalConfig().getTargetWidth()/2 -camera.getXPos();
-        int renderYPos = GlobalConfig.getGlobalConfig().getTargetHeight()/2 -camera.getYPos();
+        int renderXPos = GlobalConfig.get().getTargetWidth()/2 -camera.getXPos();
+        int renderYPos = GlobalConfig.get().getTargetHeight()/2 -camera.getYPos();
         graphics.drawImage(this.texture,  renderXPos, renderYPos, texture.getWidth(), texture.getHeight(), null);
         
         entityRegister.foreach(e -> e.renderSelf(graphics, camera));

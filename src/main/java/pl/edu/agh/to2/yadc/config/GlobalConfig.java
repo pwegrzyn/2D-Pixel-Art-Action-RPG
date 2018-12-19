@@ -8,7 +8,7 @@ public class GlobalConfig {
         configuration = config;
     }
 
-    public static Configuration getGlobalConfig() {
+    public static Configuration get() {
         return configuration;
     }
 

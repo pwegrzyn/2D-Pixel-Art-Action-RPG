@@ -1,6 +1,9 @@
 package pl.edu.agh.to2.yadc.render;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.image.BufferedImage;
 import java.nio.file.Paths;
@@ -33,6 +36,14 @@ public class ImageLoader {
             GraphicsConfiguration graphConfig = this.canvas.getGraphicsConfiguration();
             BufferedImage formatted = graphConfig.createCompatibleImage(image.getWidth(), image.getHeight());
 
+            // Transparency Tests
+            // Graphics2D graphics2d = formatted.createGraphics();
+            // graphics2d.setComposite(AlphaComposite.Clear);
+            // graphics2d.fillRect(0, 0, image.getWidth(), image.getHeight());
+            // graphics2d.setComposite(AlphaComposite.Src);
+            // graphics2d.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+            // graphics2d.dispose();
+            
             formatted.getGraphics().drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 
             if(cachedImages.size() > MAX_IMAGE_CACHE_SIZE) {

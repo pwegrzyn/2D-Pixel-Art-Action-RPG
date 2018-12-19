@@ -3,8 +3,10 @@ package pl.edu.agh.to2.yadc.render;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Label;
 import java.awt.Menu;
@@ -22,13 +24,12 @@ import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
+import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 
 
 public class RenderManager {
 	
-
-
 	private  Frame mainFrame;
 	private  Canvas mainCanvas;
 	private  int canvasHeight;
@@ -38,13 +39,12 @@ public class RenderManager {
 	private  Camera mainCamera;
 	private  InputManager inputManager;
 	private  AreaManager areaManager;
+	private HUD gameplayHUD;
 	private  long lastTimeUpdate = System.nanoTime();
-
-	
 
 	public void initialSetup() {
 		
-		this.config = GlobalConfig.getGlobalConfig();
+		this.config = GlobalConfig.get();
 		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenDimension = toolkit.getScreenSize();
@@ -83,11 +83,10 @@ public class RenderManager {
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		
-		mainFrame.setVisible(true);		
-
+		mainFrame.setVisible(true);
 	}
 	
-	
+
 	public void startRendering(AreaManager area) {
 		
 		areaManager = area;
@@ -134,6 +133,7 @@ public class RenderManager {
 		Graphics graphics = image.getGraphics();
 
 		// START RENDER
+
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
 
@@ -146,8 +146,10 @@ public class RenderManager {
 		this.mainCamera.moveTo(XplayerPos, YplayerPos);
 		areaManager.getCurrentArea().renderSelf(graphics, mainCamera);
 
+		this.gameplayHUD.advanceSelf(delta);
+		this.gameplayHUD.renderSelf(graphics, mainCamera);
 
-		showMetrics(graphics);
+		if(GlobalConfig.get().getDebug()) showMetrics(graphics);
 		
 		// END RENDER
 		
@@ -160,6 +162,8 @@ public class RenderManager {
 	
 	
 	private void showMetrics(Graphics graphics) {
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+        graphics.setFont(font);
 		graphics.setColor(Color.white);
 		graphics.drawString("FPS: " + String.valueOf(currentFps), 2, 13);
 		long usedRam = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
@@ -181,7 +185,7 @@ public class RenderManager {
 			public void actionPerformed(ActionEvent e) {
 				Frame helpFrame = new Frame();
 				Label label = new Label(
-					"MOVEMENT: Up -> W | Down -> S | Left -> A | Right -> D"
+					"Up -> W | Down -> S | Left -> A | Right -> D | ChatDown -> M | ChatUp -> K"
 				);
 				helpFrame.add(label);
 
@@ -254,7 +258,7 @@ public class RenderManager {
 		
 	}
 
-
+	
 	private double calcDelta() {
 		long time = System.nanoTime();
 		double delta = (time - lastTimeUpdate) / ((double)1000000000);
@@ -262,19 +266,20 @@ public class RenderManager {
 		return delta;
 	}
 
-
 	public Canvas getMainCanvas() {
 		return mainCanvas;
 	}
-
 
 	public Camera getCurrentCamera() {
 		return mainCamera;
 	}
 
-
 	public void setInputManager(InputManager input) {
 		inputManager = input;
+	}
+
+	public void setGameplayHUD(HUD hud) {
+		this.gameplayHUD = hud;
 	}
 
 }
