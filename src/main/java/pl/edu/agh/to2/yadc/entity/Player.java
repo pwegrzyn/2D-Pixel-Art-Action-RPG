@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
-import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Vector;
 

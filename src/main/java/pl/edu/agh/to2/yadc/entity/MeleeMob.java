@@ -3,8 +3,6 @@ package pl.edu.agh.to2.yadc.entity;
 import java.util.LinkedList;
 import java.util.List;
 
-import pl.edu.agh.to2.yadc.game.App;
-import pl.edu.agh.to2.yadc.physics.CollisionEngine;
 
 public class MeleeMob extends Mob {
 	private int attackCooldown = 0;

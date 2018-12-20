@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.StatManager;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;

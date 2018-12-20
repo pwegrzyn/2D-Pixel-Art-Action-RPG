@@ -11,12 +11,8 @@ import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.render.Renderable;
 
-<<<<<<< HEAD
-public class Area {
-=======
 
 public class Area implements Renderable, Advanceable {
->>>>>>> 645b3fa9ac59b2389dafa2af219d4328f634defc
 
     private BufferedImage texture;
     private EntityRegister entityRegister;
