@@ -1,23 +1,34 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.game.GameSessionManager;
 import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.item.Equipment;
+import pl.edu.agh.to2.yadc.item.Item;
 import pl.edu.agh.to2.yadc.physics.Vector;
+import pl.edu.agh.to2.yadc.quest.Quest;
+import pl.edu.agh.to2.yadc.quest.QuestBoard;
+import pl.edu.agh.to2.yadc.quest.QuestLog;
+import pl.edu.agh.to2.yadc.quest.SlayQuest;
 
 
 public class Player extends Entity {
 
     private int velocity;
 	private InputManager inputManager;
-	
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
-    
-    private StatManager statManager;
+	private StatManager statManager;
+	private static QuestLog questLog;
+	private static Equipment equipment;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -26,6 +37,9 @@ public class Player extends Entity {
 		this.statManager.setRange(20);
 		this.statManager.setBaseHealth(1000);
 		this.statManager.setHealth(1000);
+		questLog = new QuestLog();
+		availableQuests = new LinkedList<>();
+		this.equipment = new Equipment();
     }
 
     private boolean up = false;
@@ -34,8 +48,9 @@ public class Player extends Entity {
     private boolean left = false;
     private Vector moveVector = new Vector(0, 0);
 	private BufferedImage projectileTexture;
-
 	private boolean performingAttack;
+	private static List<Quest> availableQuests;
+	private static QuestBoard questBoard;
 
     @Override
     public void advanceSelf(double delta) {
@@ -51,6 +66,18 @@ public class Player extends Entity {
 				this.area.addEntity(bullet);
 			}
 			performingAttack = false;
+		}
+
+		if (statManager.getCurrentHealth() <= 0) {
+			try {
+				setTexture(ImageIO.read(new File("resources/grave.png")));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
+			GlobalConfig.get().printToChatBox("Click NEW GAME in the menu bar to start a new game.");
+			GameSessionManager.stopCurrentSession();
+			GlobalConfig.get().setFrozenRender(true);
 		}
 	}
 	
@@ -144,6 +171,14 @@ public class Player extends Entity {
 				if(entity.spreadingActions.get(0)!=effect) entity.spreadingActions.remove(effect);
 			}
 		}
+		else if(entity instanceof QuestBoard) {
+			List<Quest> availableQuestsRef = ((QuestBoard) entity).getAvailableQuests();
+			questBoard = ((QuestBoard) entity);
+			availableQuests.clear();
+			for(Quest quest : availableQuestsRef) {
+				availableQuests.add(quest);
+			}
+		}
 		super.performCollisionAction(entity);
 		// Kek
 
@@ -168,6 +203,10 @@ public class Player extends Entity {
 	public StatManager getStatManager() {
 		return this.statManager;
 	}
+
+	public QuestLog getQuestLog() {
+		return this.questLog;
+	}
 	
 	public void addExp(int exp) {
 		int currentExp = this.statManager.getCurrentExp();
@@ -175,7 +214,7 @@ public class Player extends Entity {
 		GlobalConfig.get().printToChatBox("Received " + exp + " xp.");
 		if (currentExp + exp >= expToNextLvl) {
 			this.statManager.setLvl(this.statManager.getLvl() + 1);
-			GlobalConfig.get().printToChatBox("Congratulation! You have gained a new level.");
+			GlobalConfig.get().printToChatBox("Congratulations! You have gained a new level.");
 			GlobalConfig.get().printToChatBox("You are now level " + this.statManager.getLvl() + ".");
 			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
 			this.statManager.setExp(currentExp + exp - expToNextLvl);
@@ -185,4 +224,62 @@ public class Player extends Entity {
 		}
 	}
 
+	public static boolean acceptNewQuest(int index) {
+		if(availableQuests == null) return false;
+		if(availableQuests.size() <= index) return false;
+		Quest newQuest = availableQuests.get(index);
+		if(questLog.addQuest(newQuest)) {
+			newQuest.accept();
+			newQuest.setQuestLog(questLog);
+			questBoard.remove(newQuest);
+			return true;
+		}
+		return false;
+	}
+
+	public void checkQuestsProgress(Entity ent) {
+		String mobType;
+		if(ent instanceof MeleeMob) {
+			mobType = "Knight";
+		} else if(ent instanceof RangedMob) {
+			mobType = "Archer";
+		} else {
+			mobType = "";
+		}
+		List<Quest> toComplete = new LinkedList<>();
+		for(Quest quest : questLog.getActiveQuests()) {
+			if(quest instanceof SlayQuest) {
+				SlayQuest slayQuest = (SlayQuest) quest;
+				if(mobType.equals(slayQuest.getMonsterType()) || slayQuest.getMonsterType().equals("Any Mob Type")) {
+					if(slayQuest.progress()) {
+						toComplete.add(slayQuest);
+						addExp(slayQuest.getExpReward());
+						GlobalConfig.get().printToChatBox("Quest " + slayQuest.getName() + " finished.");
+					}
+				}
+			}
+		}
+		// To avoid concurrent modification
+		for(Quest quest : toComplete) {
+			questLog.getActiveQuests().remove(quest);
+		}
+	}
+
+	public Equipment getEquipment() {
+		return this.equipment;
+	}
+
+	public static void showBackpack() {
+		GlobalConfig.get().printToChatBox("Backpack:");
+		if(equipment.getBackpack().getItems().size() == 0) {
+			GlobalConfig.get().printToChatBox("<empty>");
+		}
+		for(Item item : equipment.getBackpack().getItems()) {
+			GlobalConfig.get().printToChatBox(" - " + item.getDescription() + " (id: " + item.getId() + ")");
+		}
+	}
+
+	public static void showGold() {
+		GlobalConfig.get().printToChatBox("Current Gold: " + equipment.getCurrentGold());
+	}
 }

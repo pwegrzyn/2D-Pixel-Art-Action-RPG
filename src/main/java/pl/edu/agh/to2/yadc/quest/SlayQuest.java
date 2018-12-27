@@ -6,7 +6,7 @@ public class SlayQuest extends Quest {
     private int toKill;
     private int alreadyKilled;
     
-    public SlayQuest(String monsterType, int howManyToSlay, long goldReward, int expReward) {
+    public SlayQuest(String name, String monsterType, int howManyToSlay, long goldReward, int expReward) {
         this.isCompleted = false;
         this.wasAccepted = false;
         this.toKill = howManyToSlay;
@@ -16,6 +16,9 @@ public class SlayQuest extends Quest {
         this.description = "Contract: " + monsterType +
             "\n I was told to slay " + toKill + " " + monsterType + "s." +
             "\n I will be rewarded handsomly if I manage to succeed.\n";
+        this.shortDescription = "Kill " + monsterType;
+        this.monsterType = monsterType;
+        this.name = name;
     }
 
     public boolean progress() {
@@ -33,6 +36,10 @@ public class SlayQuest extends Quest {
         return this.alreadyKilled;
     }
 
+    public int getToKill() {
+        return this.toKill;
+    }
+
     public String getMonsterType() {
         return this.monsterType;
     }
@@ -40,7 +47,7 @@ public class SlayQuest extends Quest {
     @Override
     void complete() {
         this.isCompleted = true;
-        System.out.println("Another contract fulfilled");
+        this.questLog.setCompleted(this);
     }
 
 }

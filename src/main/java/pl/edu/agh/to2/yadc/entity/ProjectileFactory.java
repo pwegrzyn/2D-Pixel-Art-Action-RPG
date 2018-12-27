@@ -1,12 +1,21 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
-import pl.edu.agh.to2.yadc.game.App;
+import javax.imageio.ImageIO;
+
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
+
 
 public class ProjectileFactory {
+
+	private static Random random = new Random();
+
 	public static Projectile createNormalArrow(Entity owner, double collisionRadius, BufferedImage texture) {
 		Projectile newProjectile = new Projectile(owner, collisionRadius);
 		newProjectile.setTexture(texture);
@@ -21,8 +30,6 @@ public class ProjectileFactory {
 		actionList.add(new Action(Player.class, entity -> {
 			Player player = (Player)entity;
 			player.getStatManager().setHealth(player.getStatManager().getCurrentHealth() - newProjectile.physicalDmg - newProjectile.magicDmg);
-			if(player.getStatManager().getCurrentHealth()<=0) 
-				App.quit();
 			newProjectile.area.removeEntity(newProjectile);
 		}));
 		actionList.add(new Action(Mob.class, entity -> {
@@ -30,9 +37,23 @@ public class ProjectileFactory {
 			mob.aggresive = true;
 			if(newProjectile.getOwner() != mob) {
 				mob.getStatManager().setHealth(mob.getStatManager().getCurrentHealth()-newProjectile.physicalDmg-newProjectile.magicDmg);
+				// If a mob dies from an player-originated projectile (this logic probably shouldnt be in the ProjectileFactory class, future refactoring: move to Mob class)
 				if(mob.getStatManager().getCurrentHealth()<=0) {
 					if (newProjectile.getOwner() instanceof Player) {
 						((Player)newProjectile.getOwner()).addExp(mob.exp);
+						((Player)newProjectile.getOwner()).checkQuestsProgress(entity);
+						// 1/5 chance of dropping loot
+						if(random.nextInt(5) == 0) {
+							Loot droppedLoot = new Loot((int) mob.getXPos() + random.nextInt(20),(int) mob.getYPos() + random.nextInt(20));
+							droppedLoot.setArea(mob.area);
+							try {
+								droppedLoot.setTexture(ImageIO.read(new File("resources/loot.png")));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							mob.area.addEntity(droppedLoot);
+							GlobalConfig.get().printToChatBox("The mob has dropped something!");
+						}
 					}
 					mob.area.removeEntity(mob);
 				}

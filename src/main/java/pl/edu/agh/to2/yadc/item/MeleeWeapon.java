@@ -12,6 +12,7 @@ public class MeleeWeapon extends Item {
         this.degradationStatus = 0;
         this.attackSpeed = attackSpeed;
         this.quality = quality;
+        this.description = "Melee Weapon";
     }
 
     public int getDamage() {

@@ -23,6 +23,7 @@ import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.game.App;
+import pl.edu.agh.to2.yadc.game.GameSessionManager;
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 
@@ -101,7 +102,9 @@ public class RenderManager {
 					
 					long currentFrameStartTime = System.nanoTime();
 					
-					renderFrame(image, configuration);
+					if(!GlobalConfig.get().getFrozenRender()) {
+						renderFrame(image, configuration);
+					}
 					
 					long currentFrameTime = System.nanoTime() - currentFrameStartTime;
 					if(currentFrameTime < config.getTargetFrameTime()) {
@@ -135,7 +138,6 @@ public class RenderManager {
 
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, config.getTargetWidth(), config.getTargetHeight());
-
 
 		double delta = calcDelta();
 
@@ -210,7 +212,8 @@ public class RenderManager {
 		newGameItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("New game pressed");
+				GameSessionManager.stopCurrentSession();
+				GameSessionManager.newGameSession();
 			}
 		});
 		gameMenu.add(newGameItem);

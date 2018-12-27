@@ -14,6 +14,7 @@ public class Armor extends Item {
         this.armorValue = armorValue;
         this.degradationStatus = 0;
         this.quality = quality;
+        this.description = "Armor Piece";
     }
 
     public ArmorPiece getArmorPiece() {

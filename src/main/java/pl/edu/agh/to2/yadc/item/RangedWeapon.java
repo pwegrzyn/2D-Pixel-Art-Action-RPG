@@ -14,6 +14,7 @@ public class RangedWeapon extends Item {
         this.attackSpeed = attackSpeed;
         this.quality = quality;
         this.range = range;
+        this.description = "Ranged Weapon";
     }
 
     public int getDamage() {

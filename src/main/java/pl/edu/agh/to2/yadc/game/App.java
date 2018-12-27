@@ -2,13 +2,7 @@ package pl.edu.agh.to2.yadc.game;
 
 import pl.edu.agh.to2.yadc.config.Configuration;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
-import java.util.Random;
-import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
-import pl.edu.agh.to2.yadc.entity.MeleeMob;
-import pl.edu.agh.to2.yadc.entity.MobFactory;
-import pl.edu.agh.to2.yadc.entity.Player;
-import pl.edu.agh.to2.yadc.entity.RangedMob;
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
@@ -42,54 +36,13 @@ public class App {
 
 		CollisionEngine.setStrategy("circle");
 
-		Player player = new Player(100, 200);
-		player.setInputManager(inputManager);
-		player.setTexture(imageLoader.fetchImage("resources/test_entity.png"));
-		player.setProjectileTexture(imageLoader.fetchImage("resources/minibullet.png"));
-		hud.bindPlayer(player);
+		GameSessionManager.init(inputManager, imageLoader, hud, areaManager, renderManager);
 
-		Area area = new Area("Knowhere");
-		area.setTexture(imageLoader.fetchImage("resources/grass_area.png"));
-		area.addEntity(player);
-		
-		player.setArea(area);
-
-		areaManager.setCurrentArea(area);
-
-		renderManager.startRendering(areaManager);
-
-		MobFactory factory = new MobFactory();
-
-		// TESTS BELOW
-		
-		hud.printToChatBox("Welcome to the game!");
-		hud.printToChatBox("Press ENTER to type something.");
-		hud.printToChatBox("Press M to scroll chat down.");
-		hud.printToChatBox("Press K to scorll chat up.");
-
-		Random random = new Random();
-		for(;;) {
-			int randomLocX = random.nextInt(500 + 1 - 100) + 100;
-			int randomLocY = random.nextInt(500 + 1 - 100) + 100;
-			RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10, 
-				imageLoader.fetchImage("resources/ranged_enemy.png"), imageLoader.fetchImage("resources/arrow.png"));
-			area.addEntity(mob);
-			randomLocX = random.nextInt(500 + 1 - 100) + 100;
-			randomLocY = random.nextInt(500 + 1 - 100) + 100;
-			MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10, 
-					imageLoader.fetchImage("resources/melee_enemy.png"));
-				area.addEntity(mob2);
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		GameSessionManager.newGameSession();
 		
 	}
 
 	public static void quit() {
-		System.out.println("Exiting...");
 		System.exit(0);
 	}
 

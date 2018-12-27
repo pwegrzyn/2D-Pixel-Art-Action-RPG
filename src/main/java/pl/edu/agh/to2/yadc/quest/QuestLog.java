@@ -5,7 +5,7 @@ import java.util.List;
 
 public class QuestLog {
 
-    private final int MAX_NUMBER_QUESTS = 25;
+    private final int MAX_NUMBER_QUESTS = 3;
     private int currentNumberOfQuests;
     private List<Quest> inProgressQuests;
     private List<Quest> completedQuests;
@@ -25,6 +25,15 @@ public class QuestLog {
             return true;
         }
         return false;
+    }
+
+    public List<Quest> getActiveQuests() {
+        return this.inProgressQuests;
+    }
+
+    public void setCompleted(Quest toComplete) {
+        this.completedQuests.add(toComplete);
+        currentNumberOfQuests--;
     }
 
 }

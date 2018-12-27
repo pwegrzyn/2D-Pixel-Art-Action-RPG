@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
@@ -59,6 +60,16 @@ public class ChatBoxHUD implements Advanceable, Renderable {
 
     @Override
     public synchronized void renderSelf(Graphics graphics, Camera camera) {
+
+        // Uncomment for transparent chatbox
+        // Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
+        // graphics.setFont(font);
+        // graphics.setColor(Color.LIGHT_GRAY);
+        // graphics.fillRect(329, 217, 1, 200);
+        // graphics.fillRect(329, 217, 200, 1);
+        // graphics.fillRect(329, 297, 169, 1);
+        // graphics.setColor(Color.GRAY);
+        
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
 
@@ -70,7 +81,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
 
         graphics.setColor(Color.LIGHT_GRAY);
         graphics.fillRect(330, 298, 167, 12);
-        
+
         graphics.setColor(Color.BLACK);
         if(isUserTyping && cursorBlinkOn) {
             graphics.drawString(this.inputBuilder.toString() + "|", 332, 308);
@@ -200,6 +211,10 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         String[] commands = command.split("\\s+");
         switch(commands[0]) {
             case "SHOW":
+                if(commands.length < 2) {
+                    printToChatBox("Incomplete Command!");
+                    break;
+                }
                 switch(commands[1]) {
                     case "DEBUG":
                         printToChatBox("Debug info ON");
@@ -209,12 +224,22 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                         printToChatBox("User Interface ON");
                         GlobalConfig.get().setUIVisibility(true);
                     break;
+                    case "BACKPACK":
+                        Player.showBackpack();
+                    break;
+                    case "GOLD":
+                        Player.showGold();
+                    break;
                     default:
                         printToChatBox("Invalid Command!");
                     break;
                 }
             break;
             case "HIDE":
+                if(commands.length < 2) {
+                    printToChatBox("Incomplete Command!");
+                    break;
+                }
                 switch(commands[1]) {
                     case "DEBUG":
                         printToChatBox("Debug info OFF");
@@ -228,6 +253,17 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                         printToChatBox("Invalid Command!");
                     break;
                 }
+            break;
+            case "ACCEPT":
+                if(commands.length < 2) {
+                    printToChatBox("Need to specify quest number!");
+                    break;
+                }
+                if(Player.acceptNewQuest(Integer.parseInt(commands[1]))) {
+                    printToChatBox("The specified quest has been accepted.");
+                    break;
+                }
+                printToChatBox("The specified quest couldn't be accepted.");
             break;
             case "QUIT":
                 App.quit();

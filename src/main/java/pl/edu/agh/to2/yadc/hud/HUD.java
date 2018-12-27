@@ -13,27 +13,26 @@ import pl.edu.agh.to2.yadc.render.Renderable;
 public class HUD implements Renderable, Advanceable {
 
     private ChatBoxHUD chatbox;
-    private RadarHUD radar;
     private PlayerInfoHUD playerInfo;
+    private QuestTrackerHUD questTracker;
 
     public HUD() {
-        this.radar = new RadarHUD();
         this.playerInfo = new PlayerInfoHUD();
         this.chatbox = new ChatBoxHUD();
+        this.questTracker = new QuestTrackerHUD();
     }
     
     @Override
 	public void renderSelf(Graphics graphics, Camera camera) {
         if(!GlobalConfig.get().getUIVisibility()) return;
-        radar.renderSelf(graphics, camera);
         playerInfo.renderSelf(graphics, camera);
         chatbox.renderSelf(graphics, camera);
+        questTracker.renderSelf(graphics, camera);
 	}
 
     @Override
     public void advanceSelf(double delta) {
         chatbox.advanceSelf(delta);
-        radar.advanceSelf(delta);
         playerInfo.advanceSelf(delta);
     }
 
@@ -51,6 +50,7 @@ public class HUD implements Renderable, Advanceable {
 
     public void bindPlayer(Player player) {
         this.playerInfo.bindStatManager(player.getStatManager());
+        this.questTracker.bindQuestLog(player.getQuestLog());
     }
 
 }

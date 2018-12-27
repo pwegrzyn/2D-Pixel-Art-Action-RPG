@@ -24,10 +24,10 @@ public class Backpack {
         return false;
     }
 
-    public boolean removeItemById(long id) {
+    public boolean removeItemById(String id) {
         Item toRemove = null;
         for(Item item : this.items) {
-            if(item.getId() == id) {
+            if(item.getId().equals(id)) {
                 toRemove = item;
             }
         }
@@ -55,6 +55,10 @@ public class Backpack {
 
     public int getFreeSpace() {
         return this.baseCapacity - this.usedSpace;
+    }
+
+    public List<Item> getItems() {
+        return this.items;
     }
 
 }

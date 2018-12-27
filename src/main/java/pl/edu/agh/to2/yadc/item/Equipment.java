@@ -32,6 +32,10 @@ public class Equipment {
         return this.backpack.addItem(item);
     }
 
+    public Backpack getBackpack() {
+        return this.backpack;
+    }
+
     // Money
     public void addGoldPieces(long moneyz) {
         this.goldPieces += moneyz;

@@ -13,7 +13,8 @@ public class Configuration {
 	private KeybindSet keyMapping;
 	private HUD hud;
 	private boolean UIvisibility = true;
-	private boolean debug = false;
+	private boolean debug = true;
+	private boolean frozenRender = false;
 	
 	public Configuration() {
 		this.targetHeight = 312;
@@ -89,6 +90,14 @@ public class Configuration {
 
 	public boolean getDebug() {
 		return this.debug;
+	}
+
+	public boolean getFrozenRender() {
+		return this.frozenRender;
+	}
+
+	public void setFrozenRender(boolean val) {
+		this.frozenRender = val;
 	}
 
 }
