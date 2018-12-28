@@ -81,14 +81,16 @@ public class GameSessionManager {
                     int randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10,
                             imageLoaderComp.fetchImage("resources/ranged_enemy.png"),
-                            imageLoaderComp.fetchImage("resources/arrow.png"));
+                            imageLoaderComp.fetchImage("resources/arrow.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
                     area.addEntity(mob);
 
                     // Randomly spawn a ranged mob
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10,
-                            imageLoaderComp.fetchImage("resources/melee_enemy.png"));
+                            imageLoaderComp.fetchImage("resources/melee_enemy.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
                     area.addEntity(mob2);
 
                     // Randomly spawn a power-up

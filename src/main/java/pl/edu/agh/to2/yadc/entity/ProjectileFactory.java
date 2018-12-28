@@ -47,11 +47,7 @@ public class ProjectileFactory {
 						if(random.nextInt(5) == 0) {
 							Loot droppedLoot = new Loot((int) mob.getXPos() + random.nextInt(20),(int) mob.getYPos() + random.nextInt(20));
 							droppedLoot.setArea(mob.area);
-							try {
-								droppedLoot.setTexture(ImageIO.read(new File("resources/loot.png")));
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
+							droppedLoot.setTexture(mob.getLootTexture());
 							mob.area.addEntity(droppedLoot);
 							GlobalConfig.get().printToChatBox("The mob has dropped something!");
 						}

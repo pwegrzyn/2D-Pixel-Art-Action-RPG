@@ -1,5 +1,6 @@
 package pl.edu.agh.to2.yadc.entity;
 
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public abstract class Mob extends Entity{
 	protected StatManager statManager;
 	protected int exp;
 	protected int score;
+	protected BufferedImage lootTexture;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
@@ -77,5 +79,13 @@ public abstract class Mob extends Entity{
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public void setLootTexture(BufferedImage texture) {
+		this.lootTexture = texture;
+	}
+
+	public BufferedImage getLootTexture() {
+		return this.lootTexture;
 	}
 }

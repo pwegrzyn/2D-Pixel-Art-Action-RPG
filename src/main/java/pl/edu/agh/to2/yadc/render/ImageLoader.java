@@ -1,11 +1,16 @@
 package pl.edu.agh.to2.yadc.render;
 
-import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,18 +36,11 @@ public class ImageLoader {
         } 
         
         try {
-
+            
             BufferedImage image = ImageIO.read(Paths.get(imagePath).toUri().toURL());
+            image = makeColorTransparent(image, Color.WHITE);
             GraphicsConfiguration graphConfig = this.canvas.getGraphicsConfiguration();
-            BufferedImage formatted = graphConfig.createCompatibleImage(image.getWidth(), image.getHeight());
-
-            // Transparency Tests
-            // Graphics2D graphics2d = formatted.createGraphics();
-            // graphics2d.setComposite(AlphaComposite.Clear);
-            // graphics2d.fillRect(0, 0, image.getWidth(), image.getHeight());
-            // graphics2d.setComposite(AlphaComposite.Src);
-            // graphics2d.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
-            // graphics2d.dispose();
+            BufferedImage formatted = graphConfig.createCompatibleImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
             
             formatted.getGraphics().drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
 
@@ -58,6 +56,27 @@ public class ImageLoader {
             e.printStackTrace();
             return null;
 		}
+    }
+
+    public static BufferedImage makeColorTransparent(BufferedImage im, final Color color) {
+        ImageFilter filter = new RGBImageFilter() {
+            public int markerRGB = color.getRGB() | 0xFF000000;
+            public final int filterRGB(int x, int y, int rgb) {
+                if ((rgb | 0xFF000000) == markerRGB) {
+                    return 0x00FFFFFF & rgb;
+                } else {
+                    return rgb;
+                }
+            }
+        };
+        ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
+        Image resultImage = Toolkit.getDefaultToolkit().createImage(ip);
+        BufferedImage bufferedImage = new BufferedImage(im.getWidth(null), im.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        g2.drawImage(resultImage, 0, 0, null);
+        g2.dispose();
+        return bufferedImage;
     }
 
 }
