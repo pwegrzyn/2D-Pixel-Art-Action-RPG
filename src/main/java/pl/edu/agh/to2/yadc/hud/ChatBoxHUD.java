@@ -210,24 +210,24 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     private void parseCommand(String command) {
         String[] commands = command.split("\\s+");
         switch(commands[0]) {
-            case "SHOW":
+            case "SH":
                 if(commands.length < 2) {
                     printToChatBox("Incomplete Command!");
                     break;
                 }
                 switch(commands[1]) {
-                    case "DEBUG":
+                    case "D":
                         printToChatBox("Debug info ON");
                         GlobalConfig.get().setDebug(true);
                     break;
-                    case "UI":
+                    case "U":
                         printToChatBox("User Interface ON");
                         GlobalConfig.get().setUIVisibility(true);
                     break;
-                    case "BACKPACK":
+                    case "B":
                         Player.showBackpack();
                     break;
-                    case "GOLD":
+                    case "G":
                         Player.showGold();
                     break;
                     default:
@@ -235,17 +235,17 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                 }
             break;
-            case "HIDE":
+            case "H":
                 if(commands.length < 2) {
                     printToChatBox("Incomplete Command!");
                     break;
                 }
                 switch(commands[1]) {
-                    case "DEBUG":
+                    case "D":
                         printToChatBox("Debug info OFF");
                         GlobalConfig.get().setDebug(false);
                     break;
-                    case "UI":
+                    case "U":
                         printToChatBox("User Interface OFF");
                         GlobalConfig.get().setUIVisibility(false);
                     break;
@@ -254,7 +254,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                 }
             break;
-            case "QUEST":
+            case "Q":
                 if(commands.length < 2) {
                     printToChatBox("Need to specify quest number!");
                     break;
