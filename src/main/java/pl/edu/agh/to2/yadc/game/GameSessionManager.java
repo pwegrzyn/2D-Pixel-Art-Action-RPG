@@ -50,7 +50,7 @@ public class GameSessionManager {
                 hudComp.bindPlayer(player);
 
                 Area area = new Area("Knowhere");
-                area.setTexture(imageLoaderComp.fetchImage("resources/grass_area.png"));
+                area.setTexture(imageLoaderComp.fetchImage("resources/grass_land.png"));
                 area.setSize(1475, 663);
                 area.addEntity(player);
 

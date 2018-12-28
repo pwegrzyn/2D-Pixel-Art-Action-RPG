@@ -61,35 +61,35 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     @Override
     public synchronized void renderSelf(Graphics graphics, Camera camera) {
 
-        // Uncomment for transparent chatbox
-        // Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
-        // graphics.setFont(font);
-        // graphics.setColor(Color.LIGHT_GRAY);
-        // graphics.fillRect(329, 217, 1, 200);
-        // graphics.fillRect(329, 217, 200, 1);
-        // graphics.fillRect(329, 297, 169, 1);
-        // graphics.setColor(Color.GRAY);
-        
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
+        graphics.setColor(Color.LIGHT_GRAY);
+        graphics.fillRect(329, 217, 1, 200);
+        graphics.fillRect(329, 217, 200, 1);
+        graphics.fillRect(329, 297, 169, 1);
+        graphics.fillRect(329, 297, 169, 1);
+        graphics.setColor(Color.GRAY);
+        
+        // Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
+        // graphics.setFont(font);
 
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(329, 217, 169, 94);
+        // graphics.setColor(Color.BLACK);
+        // graphics.fillRect(329, 217, 169, 94);
+
+        // graphics.setColor(Color.WHITE);
+        // graphics.fillRect(330, 218, 167, 80);
+
+        // graphics.setColor(Color.LIGHT_GRAY);
+        // graphics.fillRect(330, 298, 167, 12);
 
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(330, 218, 167, 80);
-
-        graphics.setColor(Color.LIGHT_GRAY);
-        graphics.fillRect(330, 298, 167, 12);
-
-        graphics.setColor(Color.BLACK);
         if(isUserTyping && cursorBlinkOn) {
             graphics.drawString(this.inputBuilder.toString() + "|", 332, 308);
         } else {
             graphics.drawString(this.inputBuilder.toString(), 332, 308);
         }
 
-        graphics.fillRect(329, 297, 169, 1);
+        //graphics.fillRect(329, 297, 169, 1);
 
         int xPos = 332;
         int yPos = 228;
