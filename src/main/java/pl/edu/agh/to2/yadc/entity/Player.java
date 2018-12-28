@@ -29,17 +29,21 @@ public class Player extends Entity {
 	private StatManager statManager;
 	private static QuestLog questLog;
 	private static Equipment equipment;
+	private int score;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
-		this.velocity = 120;
+		this.velocity = 150;
 		this.statManager = new StatManager(0, 0, 0, 0, 0, 0);
 		this.statManager.setRange(20);
 		this.statManager.setBaseHealth(1000);
 		this.statManager.setHealth(1000);
+		this.statManager.setBaseMana(500);
+		this.statManager.setMana(500);
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
-		this.equipment = new Equipment();
+		equipment = new Equipment();
+		this.score = 0;
     }
 
     private boolean up = false;
@@ -56,6 +60,20 @@ public class Player extends Entity {
     public void advanceSelf(double delta) {
 
 		reactToUserInput(delta);
+
+		// check if not walked out of the area
+		if(this.xPos >= area.getXSize()) {
+			this.xPos = area.getXSize() - 0;
+		}
+		if(this.yPos >= area.getYSize()) {
+			this.yPos = area.getYSize() - 0;
+		}
+		if(this.xPos < 0) {
+			this.xPos = 0;
+		}
+		if(this.yPos < 0) {
+			this.yPos = 0;
+		}
     
         if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
@@ -74,7 +92,7 @@ public class Player extends Entity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
+			GlobalConfig.get().printToChatBox("Oh, snap! You died with a score of: " + this.score);
 			GlobalConfig.get().printToChatBox("Click NEW GAME in the menu bar to start a new game.");
 			GameSessionManager.stopCurrentSession();
 			GlobalConfig.get().setFrozenRender(true);
@@ -224,6 +242,14 @@ public class Player extends Entity {
 		}
 	}
 
+	public void addScore(int score) {
+		this.score += score;
+	}
+
+	public int getScore() {
+		return this.score;
+	}
+
 	public static boolean acceptNewQuest(int index) {
 		if(availableQuests == null) return false;
 		if(availableQuests.size() <= index) return false;
@@ -254,6 +280,7 @@ public class Player extends Entity {
 					if(slayQuest.progress()) {
 						toComplete.add(slayQuest);
 						addExp(slayQuest.getExpReward());
+						addScore(slayQuest.getScoreReward());
 						GlobalConfig.get().printToChatBox("Quest " + slayQuest.getName() + " finished.");
 					}
 				}

@@ -11,7 +11,7 @@ public class RangedMob extends Mob {
     
 	public RangedMob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
-		this.velocity = 80;
+		this.velocity = 110;
 		this.aggresive = false;
 	}
 

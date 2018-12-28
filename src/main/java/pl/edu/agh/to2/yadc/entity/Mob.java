@@ -10,6 +10,7 @@ public abstract class Mob extends Entity{
 	protected boolean aggresive;
 	protected StatManager statManager;
 	protected int exp;
+	protected int score;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
@@ -72,5 +73,9 @@ public abstract class Mob extends Entity{
 	
 	public void setExp(int exp) {
 		this.exp = exp;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 }

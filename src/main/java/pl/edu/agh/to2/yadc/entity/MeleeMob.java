@@ -10,7 +10,7 @@ public class MeleeMob extends Mob {
     
 	public MeleeMob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
-		this.velocity = 80;
+		this.velocity = 120;
 		this.aggresive = false;
 		this.statManager.setPhysicalDmg(50);
 	}

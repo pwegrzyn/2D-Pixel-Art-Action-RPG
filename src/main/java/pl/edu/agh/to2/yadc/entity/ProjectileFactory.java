@@ -41,6 +41,7 @@ public class ProjectileFactory {
 				if(mob.getStatManager().getCurrentHealth()<=0) {
 					if (newProjectile.getOwner() instanceof Player) {
 						((Player)newProjectile.getOwner()).addExp(mob.exp);
+						((Player) newProjectile.getOwner()).addScore(mob.score);
 						((Player)newProjectile.getOwner()).checkQuestsProgress(entity);
 						// 1/5 chance of dropping loot
 						if(random.nextInt(5) == 0) {

@@ -18,6 +18,8 @@ public class Area implements Renderable, Advanceable {
     private EntityRegister entityRegister;
     private String name;
     private Player player;
+    private int xSize;
+    private int ySize;
 
     public Area(String name) {
         this.name = name;
@@ -67,5 +69,18 @@ public class Area implements Renderable, Advanceable {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public void setSize(int x, int y) {
+        this.xSize = x;
+        this.ySize = y;
+    }
+
+    public int getXSize() {
+        return this.xSize;
+    }
+
+    public int getYSize() {
+        return this.ySize;
     }
 }

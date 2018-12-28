@@ -254,7 +254,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                 }
             break;
-            case "ACCEPT":
+            case "QUEST":
                 if(commands.length < 2) {
                     printToChatBox("Need to specify quest number!");
                     break;

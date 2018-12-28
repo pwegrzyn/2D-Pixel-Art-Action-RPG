@@ -9,6 +9,7 @@ public abstract class Quest {
     protected boolean wasAccepted;
     protected long goldReward;
     protected int expReward;
+    protected int scoreReward;
     protected QuestLog questLog;
 
     public void accept() {
@@ -53,6 +54,10 @@ public abstract class Quest {
 
     public int getExpReward() {
         return expReward;
+    }
+
+    public int getScoreReward() {
+        return scoreReward;
     }
 
     public boolean isCompleted() {

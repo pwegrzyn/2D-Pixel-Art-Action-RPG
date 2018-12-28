@@ -6,7 +6,7 @@ public class SlayQuest extends Quest {
     private int toKill;
     private int alreadyKilled;
     
-    public SlayQuest(String name, String monsterType, int howManyToSlay, long goldReward, int expReward) {
+    public SlayQuest(String name, String monsterType, int howManyToSlay, long goldReward, int expReward, int scoreReward) {
         this.isCompleted = false;
         this.wasAccepted = false;
         this.toKill = howManyToSlay;
@@ -19,6 +19,7 @@ public class SlayQuest extends Quest {
         this.shortDescription = "Kill " + monsterType;
         this.monsterType = monsterType;
         this.name = name;
+        this.scoreReward = scoreReward;
     }
 
     public boolean progress() {

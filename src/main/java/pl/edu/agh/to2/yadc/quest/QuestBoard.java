@@ -42,7 +42,7 @@ public class QuestBoard extends Entity {
             int index = rnd.nextInt(SLAY_POOL_SIZE);
             int slayQuestSize = rnd.nextInt(SLAY_QUEST_MAX_SIZE + 1 - SLAY_QUEST_MIN_SIZE) + SLAY_QUEST_MIN_SIZE;
             SlayQuest slayQuest = new SlayQuest(slayTypePool.get(index).get(1), slayTypePool.get(index).get(0), 
-                slayQuestSize, slayQuestSize * 100 + 500, slayQuestSize * 20 + 200);
+                slayQuestSize, slayQuestSize * 100 + 500, slayQuestSize * 20 + 200, slayQuestSize * 2000 + 5000);
             this.availableQuests.add(slayQuest);
             currentAvailableQuests++;
         }
@@ -58,12 +58,12 @@ public class QuestBoard extends Entity {
                 GlobalConfig.get().printToChatBox("None. Check back later.");
             }
             for(Quest quest : availableQuests) {
-                GlobalConfig.get().printToChatBox(counter + ". " + quest.getName());
+                GlobalConfig.get().printToChatBox("---------------------------------");
+                GlobalConfig.get().printToChatBox(counter + ") " + quest.getName());
                 GlobalConfig.get().printToChatBox(quest.getShortDescription());
                 GlobalConfig.get().printToChatBox("Rewards: ");
                 GlobalConfig.get().printToChatBox(" - Gold: " + quest.getGoldReward());
                 GlobalConfig.get().printToChatBox(" - Exp: " + quest.getExpReward());
-                GlobalConfig.get().printToChatBox("");
                 counter++;
             }
         }

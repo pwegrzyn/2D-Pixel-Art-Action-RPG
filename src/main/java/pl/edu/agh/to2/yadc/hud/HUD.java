@@ -15,11 +15,13 @@ public class HUD implements Renderable, Advanceable {
     private ChatBoxHUD chatbox;
     private PlayerInfoHUD playerInfo;
     private QuestTrackerHUD questTracker;
+    private ScoreBanner scoreBanner;
 
     public HUD() {
         this.playerInfo = new PlayerInfoHUD();
         this.chatbox = new ChatBoxHUD();
         this.questTracker = new QuestTrackerHUD();
+        this.scoreBanner = new ScoreBanner();
     }
     
     @Override
@@ -28,12 +30,14 @@ public class HUD implements Renderable, Advanceable {
         playerInfo.renderSelf(graphics, camera);
         chatbox.renderSelf(graphics, camera);
         questTracker.renderSelf(graphics, camera);
+        scoreBanner.renderSelf(graphics, camera);
 	}
 
     @Override
     public void advanceSelf(double delta) {
         chatbox.advanceSelf(delta);
         playerInfo.advanceSelf(delta);
+        scoreBanner.advanceSelf(delta);
     }
 
     public void printToChatBox(String str) {
@@ -51,6 +55,7 @@ public class HUD implements Renderable, Advanceable {
     public void bindPlayer(Player player) {
         this.playerInfo.bindStatManager(player.getStatManager());
         this.questTracker.bindQuestLog(player.getQuestLog());
+        this.scoreBanner.bindPlayer(player);
     }
 
 }

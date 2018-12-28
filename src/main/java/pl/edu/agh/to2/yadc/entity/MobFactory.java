@@ -9,6 +9,7 @@ public class MobFactory {
 		newMob.getStatManager().setHealth(400);
 		newMob.getStatManager().setBaseHealth(400);
 		newMob.setExp(100);
+		newMob.setScore(1000);
 		return newMob;
 	}
 	
@@ -16,9 +17,10 @@ public class MobFactory {
 		RangedMob newMob = new RangedMob(xInit, yInit, collisionRadius);
 		newMob.setTexture(texture);
 		newMob.setProjectileTexture(projectileTexture);
-		newMob.getStatManager().setHealth(400);
-		newMob.getStatManager().setBaseHealth(400);
-		newMob.setExp(200);
+		newMob.getStatManager().setHealth(500);
+		newMob.getStatManager().setBaseHealth(500);
+		newMob.setExp(150);
+		newMob.setScore(1500);
 		return newMob;
 	}
 	
