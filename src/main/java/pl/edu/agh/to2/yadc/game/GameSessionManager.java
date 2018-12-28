@@ -44,7 +44,7 @@ public class GameSessionManager {
             public void run() {
                 Player player = new Player(700, 330);
                 player.setInputManager(inputManagerComp);
-                player.setTexture(imageLoaderComp.fetchImage("resources/avatar.png"));
+                player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_f_idle_anim_f0.png"));
                 player.setProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
                 player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
                 hudComp.bindPlayer(player);
@@ -81,8 +81,8 @@ public class GameSessionManager {
                     int randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     int randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10,
-                            imageLoaderComp.fetchImage("resources/ranged_enemy.png"),
-                            imageLoaderComp.fetchImage("resources/arrow.png"),
+                            imageLoaderComp.fetchImage("resources/swampy_idle_anim_f0.png"),
+                            imageLoaderComp.fetchImage("resources/skull.png"),
                             imageLoaderComp.fetchImage("resources/loot.png"));
                     area.addEntity(mob);
 
@@ -90,9 +90,20 @@ public class GameSessionManager {
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10,
-                            imageLoaderComp.fetchImage("resources/melee_enemy.png"),
+                            imageLoaderComp.fetchImage("resources/zombie_idle_anim_f0.png"),
                             imageLoaderComp.fetchImage("resources/loot.png"));
                     area.addEntity(mob2);
+
+                    // Randomly spawn a boss monster
+                    if(random.nextInt(8) == 0) {
+                        randomLocX = random.nextInt(1400 + 1 - 100) + 100;
+                        randomLocY = random.nextInt(600 + 1 - 100) + 100;
+                        MeleeMob boss = (MeleeMob) factory.createMeleeBoss(randomLocX, randomLocY, 15,
+                                imageLoaderComp.fetchImage("resources/big_zombie_idle_anim_f0.png"),
+                                imageLoaderComp.fetchImage("resources/loot.png"));
+                        GlobalConfig.get().printToChatBox("A boss monster has spawned!");
+                        area.addEntity(boss);
+                    }
 
                     // Randomly spawn a power-up with 1/2 chance per iteration
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;

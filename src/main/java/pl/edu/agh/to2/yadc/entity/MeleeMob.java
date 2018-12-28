@@ -57,6 +57,13 @@ public class MeleeMob extends Mob {
 	public int getMagicDmg() {
 		return this.getStatManager().getMagicDmg();
 	}
+
+	public void setPhysicalDmg(int val) {
+		this.statManager.setPhysicalDmg(val);
+	}
 	
-	
+	public void setMagicDmg(int val) {
+		this.statManager.setMagicDmg(val);
+	}
+
 }

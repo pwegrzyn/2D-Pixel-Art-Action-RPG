@@ -88,4 +88,12 @@ public abstract class Mob extends Entity{
 	public BufferedImage getLootTexture() {
 		return this.lootTexture;
 	}
+
+	public void setAggresive(boolean val) {
+		this.aggresive = val;
+	}
+
+	public boolean getAggresive() {
+		return this.aggresive;
+	}
 }
