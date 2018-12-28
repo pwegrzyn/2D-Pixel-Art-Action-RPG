@@ -57,6 +57,10 @@ public class Backpack {
         return this.baseCapacity - this.usedSpace;
     }
 
+    public int getUsedSpace() {
+        return this.usedSpace;
+    }
+
     public List<Item> getItems() {
         return this.items;
     }

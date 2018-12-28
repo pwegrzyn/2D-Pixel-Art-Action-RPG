@@ -30,6 +30,7 @@ public class Player extends Entity {
 	private static QuestLog questLog;
 	private static Equipment equipment;
 	private int score;
+	private BufferedImage graveTexture;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -63,10 +64,10 @@ public class Player extends Entity {
 
 		// check if not walked out of the area
 		if(this.xPos >= area.getXSize()) {
-			this.xPos = area.getXSize() - 0;
+			this.xPos = area.getXSize();
 		}
 		if(this.yPos >= area.getYSize()) {
-			this.yPos = area.getYSize() - 0;
+			this.yPos = area.getYSize();
 		}
 		if(this.xPos < 0) {
 			this.xPos = 0;
@@ -86,14 +87,11 @@ public class Player extends Entity {
 			performingAttack = false;
 		}
 
+		// Player avatar death
 		if (statManager.getCurrentHealth() <= 0) {
-			try {
-				setTexture(ImageIO.read(new File("resources/grave.png")));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			GlobalConfig.get().printToChatBox("Oh, snap! You died with a score of: " + this.score);
-			GlobalConfig.get().printToChatBox("Click NEW GAME in the menu bar to start a new game.");
+			setTexture(this.graveTexture);
+			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
+			GlobalConfig.get().printToChatBox("Click NEWGAME to start a new game");
 			GameSessionManager.stopCurrentSession();
 			GlobalConfig.get().setFrozenRender(true);
 		}
@@ -304,9 +302,18 @@ public class Player extends Entity {
 		for(Item item : equipment.getBackpack().getItems()) {
 			GlobalConfig.get().printToChatBox(" - " + item.getDescription() + " (id: " + item.getId() + ")");
 		}
+		GlobalConfig.get().printToChatBox("Capacity: " + equipment.getBackpack().getUsedSpace() + " / " + equipment.getBackpack().getBaseCapacity());
 	}
 
 	public static void showGold() {
 		GlobalConfig.get().printToChatBox("Current Gold: " + equipment.getCurrentGold());
+	}
+
+	public BufferedImage getGraveTexture() {
+		return this.graveTexture;
+	}
+
+	public void setGraveTexture(BufferedImage texture) {
+		this.graveTexture = texture;
 	}
 }

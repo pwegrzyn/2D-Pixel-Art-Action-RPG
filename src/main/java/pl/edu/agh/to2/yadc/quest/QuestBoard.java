@@ -56,9 +56,9 @@ public class QuestBoard extends Entity {
             int counter = 0;
             if(availableQuests.size() == 0) {
                 GlobalConfig.get().printToChatBox("None. Check back later.");
+                return;
             }
             for(Quest quest : availableQuests) {
-                GlobalConfig.get().printToChatBox("---------------------------------");
                 GlobalConfig.get().printToChatBox(counter + ") " + quest.getName());
                 GlobalConfig.get().printToChatBox(quest.getShortDescription());
                 GlobalConfig.get().printToChatBox("Rewards: ");
@@ -66,6 +66,7 @@ public class QuestBoard extends Entity {
                 GlobalConfig.get().printToChatBox(" - Exp: " + quest.getExpReward());
                 counter++;
             }
+            GlobalConfig.get().printToChatBox("Type QUEST <number> to accept");
         }
 		
     }

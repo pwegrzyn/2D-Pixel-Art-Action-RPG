@@ -46,6 +46,7 @@ public class GameSessionManager {
                 player.setInputManager(inputManagerComp);
                 player.setTexture(imageLoaderComp.fetchImage("resources/avatar.png"));
                 player.setProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
+                player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
                 hudComp.bindPlayer(player);
 
                 Area area = new Area("Knowhere");
@@ -93,22 +94,23 @@ public class GameSessionManager {
                             imageLoaderComp.fetchImage("resources/loot.png"));
                     area.addEntity(mob2);
 
-                    // Randomly spawn a power-up
+                    // Randomly spawn a power-up with 1/2 chance per iteration
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     PowerUp powerUp = null;
-                    switch(random.nextInt(2)) {
+                    switch(random.nextInt(4)) {
                         case 0:
                             powerUp = new HealthPowerUp(randomLocX, randomLocY, 100);
                             powerUp.setTexture(imageLoaderComp.fetchImage("resources/heart.png"));
+                            area.addEntity(powerUp);
                         break;
                         case 1:
                             powerUp = new ScorePowerUp(randomLocX, randomLocY, 5000);
                             powerUp.setTexture(imageLoaderComp.fetchImage("resources/star.png"));
+                            area.addEntity(powerUp);
                         break;
                         default: break;
                     }
-                    area.addEntity(powerUp);
                     
                     try {
                         Thread.sleep(5000);
