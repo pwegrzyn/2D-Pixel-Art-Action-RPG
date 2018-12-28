@@ -77,24 +77,26 @@ public class GameSessionManager {
 
                 for (;;) {
 
-                    // Randomly spawn a melee mob
+                    // Randomly spawn a melee mob (possibly aggresive)
                     int randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     int randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10,
                             imageLoaderComp.fetchImage("resources/swampy_idle_anim_f0.png"),
                             imageLoaderComp.fetchImage("resources/skull.png"),
                             imageLoaderComp.fetchImage("resources/loot.png"));
+                    if(random.nextInt(5) == 0) mob.setAggresive(true);
                     area.addEntity(mob);
 
-                    // Randomly spawn a ranged mob
+                    // Randomly spawn a ranged mob (possibly aggresive)
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10,
                             imageLoaderComp.fetchImage("resources/zombie_idle_anim_f0.png"),
                             imageLoaderComp.fetchImage("resources/loot.png"));
+                    if(random.nextInt(5) == 0) mob.setAggresive(true);
                     area.addEntity(mob2);
 
-                    // Randomly spawn a boss monster
+                    // Randomly spawn a boss monster (with a given spawn rate)
                     if(random.nextInt(8) == 0) {
                         randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                         randomLocY = random.nextInt(600 + 1 - 100) + 100;

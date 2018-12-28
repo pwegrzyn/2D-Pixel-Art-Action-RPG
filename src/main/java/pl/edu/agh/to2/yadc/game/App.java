@@ -18,7 +18,7 @@ public class App {
 		Configuration cfg = new Configuration();
 		cfg.setTargetHeight(312);
 		cfg.setTargetWidth(500);
-		cfg.setTargetFps(100);
+		cfg.setTargetFps(9001);
 		cfg.setKeyBinds(new KeybindSet());
 		GlobalConfig.setGlobalConfig(cfg);
 
