@@ -264,9 +264,9 @@ public class Player extends Entity {
 	public void checkQuestsProgress(Entity ent) {
 		String mobType;
 		if(ent instanceof MeleeMob) {
-			mobType = "Knight";
+			mobType = "Marauder";
 		} else if(ent instanceof RangedMob) {
-			mobType = "Archer";
+			mobType = "Ranger";
 		} else {
 			mobType = "";
 		}

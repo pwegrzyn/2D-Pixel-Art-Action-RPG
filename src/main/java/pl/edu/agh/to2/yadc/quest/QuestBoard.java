@@ -27,8 +27,8 @@ public class QuestBoard extends Entity {
         this.availableQuests = new LinkedList<>();
         this.currentAvailableQuests = 0;
         this.slayTypePool = new LinkedList<>();
-        this.slayTypePool.add(Arrays.asList("Archer", "Archer Slayer"));
-        this.slayTypePool.add(Arrays.asList("Knight", "Knight Slayer"));
+        this.slayTypePool.add(Arrays.asList("Ranger", "Ranger Slayer"));
+        this.slayTypePool.add(Arrays.asList("Marauder", "Marauder Slayer"));
         this.slayTypePool.add(Arrays.asList("Any Mob Type", "Universal Slayer"));
     }
     

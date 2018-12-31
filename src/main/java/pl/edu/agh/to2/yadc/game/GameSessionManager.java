@@ -114,7 +114,7 @@ public class GameSessionManager {
                     switch(random.nextInt(4)) {
                         case 0:
                             powerUp = new HealthPowerUp(randomLocX, randomLocY, 100);
-                            powerUp.setTexture(imageLoaderComp.fetchImage("resources/heart.png"));
+                            powerUp.setTexture(imageLoaderComp.fetchImage("resources/ui_heart_full.png"));
                             area.addEntity(powerUp);
                         break;
                         case 1:

@@ -21,10 +21,10 @@ public class ScoreBanner implements Renderable, Advanceable {
 
     @Override
     public void renderSelf(Graphics graphics, Camera camera) {
-        graphics.setColor(Color.RED);
-        Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 11);
+        graphics.setColor(Color.YELLOW);
+        Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
         graphics.setFont(font);
-        graphics.drawString(this.currentScoreString, 220, 300);
+        graphics.drawString(this.currentScoreString, 210, 300);
     }
 
     public void bindPlayer(Player player) {

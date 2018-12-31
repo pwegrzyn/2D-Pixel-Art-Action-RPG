@@ -17,29 +17,30 @@ public class QuestTrackerHUD implements Renderable {
     @Override
     public void renderSelf(Graphics graphics, Camera camera) {
 
-        graphics.setColor(Color.LIGHT_GRAY);
-        graphics.fillRect(380, 20, 85, 13);
-
-        graphics.setColor(Color.BLACK);
+        graphics.setColor(Color.YELLOW);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         graphics.setFont(font);
 
-        graphics.drawString("Quest Tracker:", 382, 31);
+        graphics.drawString("Quest Tracker:", 390, 21);
 
         graphics.setColor(Color.WHITE);
         font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
 
-        int xPosInit = 388;
-        int yPosInit = 45;
+        int xPosInit = 397;
+        int yPosInit = 35;
         int counter = 0;
+
+        if(questLog.getActiveQuests().size() == 0) {
+            graphics.drawString("Check the quest board!", xPosInit - 5, yPosInit);
+        }
         
         for(Quest quest : questLog.getActiveQuests()) {
-            graphics.drawString(quest.getName() , xPosInit, yPosInit + counter * 50);
-            graphics.drawString(quest.getShortDescription(), xPosInit + 2, yPosInit + 10 + counter * 50);
+            graphics.drawString(quest.getName() , xPosInit, yPosInit + counter * 40);
+            graphics.drawString(quest.getShortDescription(), xPosInit + 2, yPosInit + 10 + counter * 40);
             if(quest instanceof SlayQuest) {
                 SlayQuest slayQuest = (SlayQuest) quest;
-                graphics.drawString("Progress: " + slayQuest.getProgress() + " / " + slayQuest.getToKill(), xPosInit + 2, yPosInit + 20 + counter * 50);
+                graphics.drawString("Progress: " + slayQuest.getProgress() + " / " + slayQuest.getToKill(), xPosInit + 2, yPosInit + 20 + counter * 40);
             }
             counter++;
         }

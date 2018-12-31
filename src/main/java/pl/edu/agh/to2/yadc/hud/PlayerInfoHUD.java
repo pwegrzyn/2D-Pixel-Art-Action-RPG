@@ -20,7 +20,10 @@ public class PlayerInfoHUD implements Renderable, Advanceable {
     
     @Override
     public void advanceSelf(double delta) {
-        currentExpString = "EXP: " + playerStats.getCurrentExp() + "/" + playerStats.getExpToNextLvl();
+        int currentExp = playerStats.getCurrentExp();
+        int expToNextLevel = playerStats.getExpToNextLvl();
+        int percentExpToNextLevel = (int)((((double)currentExp) / expToNextLevel) * 100);
+        currentExpString = "EXP: " + currentExp + " / " + expToNextLevel + " (" + percentExpToNextLevel + " %)";
         currentLvlString = "LVL: " + playerStats.getCurrentLvl();
         HPBarValue = (int) ((((double)playerStats.getCurrentHealth()) / playerStats.getMaxHealth()) * 167);
         ManaBarValue = (int) ((((double)playerStats.getCurrentMana()) / playerStats.getMaxMana()) * 167);
@@ -41,7 +44,7 @@ public class PlayerInfoHUD implements Renderable, Advanceable {
         graphics.setColor(Color.BLUE);
         graphics.fillRect(5, 284, ManaBarValue, 10);
         // EXP
-        graphics.setColor(Color.MAGENTA);
+        graphics.setColor(Color.YELLOW);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
         graphics.drawString(this.currentExpString, 5, 278);

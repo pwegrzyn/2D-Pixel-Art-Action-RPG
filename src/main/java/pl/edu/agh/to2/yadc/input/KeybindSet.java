@@ -24,6 +24,7 @@ public class KeybindSet {
         keyBinds.put("lookLeft", KeyEvent.VK_LEFT);
         keyBinds.put("lookRight", KeyEvent.VK_RIGHT);
         keyBinds.put("chatInteract", KeyEvent.VK_ENTER);
+        keyBinds.put("cancel", KeyEvent.VK_ESCAPE);
     }
 
     public int get(String code) {

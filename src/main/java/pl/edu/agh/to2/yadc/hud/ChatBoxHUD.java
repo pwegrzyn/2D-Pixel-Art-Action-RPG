@@ -69,18 +69,6 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         graphics.fillRect(329, 297, 169, 1);
         graphics.fillRect(329, 297, 169, 1);
         graphics.setColor(Color.GRAY);
-        
-        // Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
-        // graphics.setFont(font);
-
-        // graphics.setColor(Color.BLACK);
-        // graphics.fillRect(329, 217, 169, 94);
-
-        // graphics.setColor(Color.WHITE);
-        // graphics.fillRect(330, 218, 167, 80);
-
-        // graphics.setColor(Color.LIGHT_GRAY);
-        // graphics.fillRect(330, 298, 167, 12);
 
         graphics.setColor(Color.WHITE);
         if(isUserTyping && cursorBlinkOn) {
@@ -88,8 +76,6 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         } else {
             graphics.drawString(this.inputBuilder.toString(), 332, 308);
         }
-
-        //graphics.fillRect(329, 297, 169, 1);
 
         int xPos = 332;
         int yPos = 228;
@@ -149,7 +135,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     private void updateInputArea(double delta) {
         chatInteractTimer += delta;
         if(chatInteractTimer > chatInteractCooldown) {
-            if(inputManager.getPressedByName("chatInteract")) {
+            if(inputManager.getPressedByName("chatInteract") || inputManager.getPressedByName("cancel")) {
                 if(isUserTyping) {
                     parseCommand(inputBuilder.toString());
                     inputBuilder = new StringBuilder("");
