@@ -11,8 +11,7 @@ gradle run
 ```
 
 
-The game is currently configured to run properly only on Linux OS.
-To play it on Windows one should edit the file paths located is App.java file. 
+The game is currently configured to run properly only on Linux OS and Windows.
 
 
 
