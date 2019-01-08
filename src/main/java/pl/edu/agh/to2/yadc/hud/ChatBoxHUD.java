@@ -245,9 +245,13 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     printToChatBox("Need to specify quest number!");
                     break;
                 }
-                if(Player.acceptNewQuest(Integer.parseInt(commands[1]))) {
-                    printToChatBox("The specified quest has been accepted.");
-                    break;
+                try {
+                    if(Player.acceptNewQuest(Integer.parseInt(commands[1]))) {
+                        printToChatBox("The specified quest has been accepted.");
+                        break;
+                    }
+                } catch (NumberFormatException ex) {
+                    printToChatBox("That's not a number man");
                 }
                 printToChatBox("The specified quest couldn't be accepted.");
             break;
@@ -258,7 +262,6 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                 printToChatBox("Git gud");
             break;
             default: 
-                printToChatBox("Invalid Command!");
             break;
         }
     }

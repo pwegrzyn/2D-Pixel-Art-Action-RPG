@@ -101,10 +101,8 @@ public class RenderManager {
 				while(true) {
 					
 					long currentFrameStartTime = System.nanoTime();
-					
-					if(!GlobalConfig.get().getFrozenRender()) {
-						renderFrame(image, configuration);
-					}
+
+					renderFrame(image, configuration);
 					
 					long currentFrameTime = System.nanoTime() - currentFrameStartTime;
 					if(currentFrameTime < config.getTargetFrameTime()) {
@@ -141,7 +139,9 @@ public class RenderManager {
 
 		double delta = calcDelta();
 
-		areaManager.getCurrentArea().advanceSelf(delta);
+		if(!GlobalConfig.get().getFrozenRender()) {
+			areaManager.getCurrentArea().advanceSelf(delta);
+		}
 		int XplayerPos = (int) areaManager.getCurrentArea().getPlayer().getXPos();
 		int YplayerPos = (int) areaManager.getCurrentArea().getPlayer().getYPos();
 		this.mainCamera.moveTo(XplayerPos, YplayerPos);
