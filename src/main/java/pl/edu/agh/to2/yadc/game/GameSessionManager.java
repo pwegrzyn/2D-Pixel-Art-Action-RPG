@@ -48,6 +48,15 @@ public class GameSessionManager {
                 player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_f_idle_anim_f0.png"));
                 player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
                 hudComp.bindPlayer(player);
+                hudComp.getSkillBar().setSkill_1ActiveTexture(imageLoaderComp.fetchImage("resources/slow_active.png"));
+                hudComp.getSkillBar().setSkill_1InactiveTexture(imageLoaderComp.fetchImage("resources/slow_inactive.png"));
+                hudComp.getSkillBar().setSkill_2ActiveTexture(imageLoaderComp.fetchImage("resources/stun_active.png"));
+                hudComp.getSkillBar().setSkill_2InactiveTexture(imageLoaderComp.fetchImage("resources/stun_inactive.png"));
+                hudComp.getSkillBar().setSkill_3ActiveTexture(imageLoaderComp.fetchImage("resources/multishot_active_new.png"));
+                hudComp.getSkillBar().setSkill_3InactiveTexture(imageLoaderComp.fetchImage("resources/multishot_inactive.png"));
+                hudComp.getSkillBar().setConsumable_1Texture(imageLoaderComp.fetchImage("resources/health_potion.png"));
+                hudComp.getSkillBar().setConsumable_2Texture(imageLoaderComp.fetchImage("resources/mana_potion.png"));
+                hudComp.getSkillBar().setEmptyTexture(imageLoaderComp.fetchImage("resources/empty.png"));
                 
                 ProjectileFactory.setNormalProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
                 ProjectileFactory.setSlowingProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));

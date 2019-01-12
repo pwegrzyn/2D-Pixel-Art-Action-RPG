@@ -1,12 +1,8 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.GameSessionManager;
@@ -58,6 +54,8 @@ public class Player extends Entity {
 	private boolean performingAttack;
 	private static List<Quest> availableQuests;
 	private static QuestBoard questBoard;
+	private int consumable_1_amount = 0;
+	private int consumable_2_amount = 0;
 
     @Override
     public void advanceSelf(double delta) {
@@ -334,6 +332,18 @@ public class Player extends Entity {
 
 	public void setGraveTexture(BufferedImage texture) {
 		this.graveTexture = texture;
+	}
+
+	public ProjectileTypes getActiveProjecite() {
+		return this.activeProjectile;
+	}
+
+	public int getConsumable_1() {
+		return this.consumable_1_amount;
+	}
+
+	public int getConsumable_2() {
+		return this.consumable_2_amount;
 	}
 	
 }

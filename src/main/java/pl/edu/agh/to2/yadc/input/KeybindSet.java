@@ -28,6 +28,8 @@ public class KeybindSet {
         keyBinds.put("slowingProjectile", KeyEvent.VK_1);
         keyBinds.put("stunningProjectile", KeyEvent.VK_2);
         keyBinds.put("tripleProjectile", KeyEvent.VK_3);
+        keyBinds.put("useConsumable_1", KeyEvent.VK_4);
+        keyBinds.put("useConsumable_2", KeyEvent.VK_5);
     }
 
     public int get(String code) {
