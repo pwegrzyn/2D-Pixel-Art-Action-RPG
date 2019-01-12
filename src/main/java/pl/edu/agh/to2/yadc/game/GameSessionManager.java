@@ -119,7 +119,7 @@ public class GameSessionManager {
                         RangedMob boss = (RangedMob) factory.createRangedBoss(randomLocX, randomLocY, 15,
                                 imageLoaderComp.fetchImage("resources/big_demon_idle_anim_f0.png"),
                                 imageLoaderComp.fetchImage("resources/loot.png"));
-                        GlobalConfig.get().printToChatBox("A ranged boss monster has spawned!");
+                        GlobalConfig.get().printToChatBox("A ranged boss monster has spawned");
                         area.addEntity(boss);
                     }
 
