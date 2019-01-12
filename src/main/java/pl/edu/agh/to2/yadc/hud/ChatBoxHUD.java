@@ -140,15 +140,15 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     parseCommand(inputBuilder.toString());
                     inputBuilder = new StringBuilder("");
                     isUserTyping = false;
-                    inputManager.setNonChatInputDisabled(false);
                     GlobalConfig.get().setFrozenRender(false);
                     GlobalConfig.get().setFrozenGameSessionThread(false);
+                    inputManager.setNonChatInputDisabled(false);
                     chatInteractTimer = 0;
                 } else {
                     isUserTyping = true;
                     inputManager.setNonChatInputDisabled(true);
-                    GlobalConfig.get().setFrozenRender(true);
                     GlobalConfig.get().setFrozenGameSessionThread(true);
+                    GlobalConfig.get().setFrozenRender(true);
                     chatInteractTimer = 0;
                 }
             }
@@ -200,24 +200,24 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     private void parseCommand(String command) {
         String[] commands = command.split("\\s+");
         switch(commands[0]) {
-            case "SH":
+            case "SHOW":
                 if(commands.length < 2) {
                     printToChatBox("Incomplete Command!");
                     break;
                 }
                 switch(commands[1]) {
-                    case "D":
+                    case "DEBUG":
                         printToChatBox("Debug info ON");
                         GlobalConfig.get().setDebug(true);
                     break;
-                    case "U":
+                    case "UI":
                         printToChatBox("User Interface ON");
                         GlobalConfig.get().setUIVisibility(true);
                     break;
-                    case "B":
+                    case "BACKPACK":
                         Player.showBackpack();
                     break;
-                    case "G":
+                    case "GOLD":
                         Player.showGold();
                     break;
                     default:
@@ -225,17 +225,17 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                 }
             break;
-            case "H":
+            case "HIDE":
                 if(commands.length < 2) {
                     printToChatBox("Incomplete Command!");
                     break;
                 }
                 switch(commands[1]) {
-                    case "D":
+                    case "DEBUG":
                         printToChatBox("Debug info OFF");
                         GlobalConfig.get().setDebug(false);
                     break;
-                    case "U":
+                    case "UI":
                         printToChatBox("User Interface OFF");
                         GlobalConfig.get().setUIVisibility(false);
                     break;
@@ -244,7 +244,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                 }
             break;
-            case "Q":
+            case "QUEST":
                 if(commands.length < 2) {
                     printToChatBox("Need to specify quest number!");
                     break;
