@@ -26,11 +26,14 @@ public class Player extends Entity {
 	private InputManager inputManager;
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
+    private int manaRegenCooldown = 100;
+    private long lastManaRegenTime = 0;
 	private StatManager statManager;
 	private static QuestLog questLog;
 	private static Equipment equipment;
 	private int score;
 	private BufferedImage graveTexture;
+	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -52,7 +55,6 @@ public class Player extends Entity {
     private boolean right = false;
     private boolean left = false;
     private Vector moveVector = new Vector(0, 0);
-	private BufferedImage projectileTexture;
 	private boolean performingAttack;
 	private static List<Quest> availableQuests;
 	private static QuestBoard questBoard;
@@ -76,13 +78,25 @@ public class Player extends Entity {
 			this.yPos = 0;
 		}
     
+		if(this.getStatManager().getCurrentMana() < this.getStatManager().getMaxMana()) {
+			if (this.lastManaRegenTime == 0 || this.lastManaRegenTime + this.manaRegenCooldown < System.currentTimeMillis()) {
+				this.getStatManager().setMana(this.getStatManager().getCurrentMana()+1);
+				this.lastManaRegenTime = System.currentTimeMillis();
+			}
+		}
+		
         if (performingAttack) {
         	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-		    	Projectile bullet = ProjectileFactory.createNormalArrow(this, 4, projectileTexture);
+        		Projectile bullet = ProjectileFactory.createProjectile(activeProjectile, this, 4);
 		    	this.lastAttackTime = System.currentTimeMillis();
 		    	this.attackCooldown = 100;
-				bullet.setTexture(this.projectileTexture);
-				this.area.addEntity(bullet);
+				if(activeProjectile!=ProjectileTypes.TRIPLE || !(bullet instanceof MultipleProjectile)) this.area.addEntity(bullet);
+				else {
+					for(Projectile p: ((MultipleProjectile)bullet).getProjectiles()) {
+						this.area.addEntity(p);
+					}
+				}
+				activeProjectile = ProjectileTypes.NORMAL;
 			}
 			performingAttack = false;
 		}
@@ -170,6 +184,15 @@ public class Player extends Entity {
 	    	}
 		}
 		
+	    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
+	    	this.activeProjectile = ProjectileTypes.SLOWING;
+	    }
+	    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
+	    	this.activeProjectile = ProjectileTypes.STUNNING;
+	    }
+	    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
+	    	this.activeProjectile = ProjectileTypes.TRIPLE;
+	    }
 	}
 
 	
@@ -210,10 +233,6 @@ public class Player extends Entity {
 
 	public void setInputManager(InputManager input) {
 		this.inputManager = input;
-	}
-
-	public void setProjectileTexture(BufferedImage fetchImage) {
-		this.projectileTexture = fetchImage;
 	}
 
 	public StatManager getStatManager() {
@@ -316,4 +335,5 @@ public class Player extends Entity {
 	public void setGraveTexture(BufferedImage texture) {
 		this.graveTexture = texture;
 	}
+	
 }

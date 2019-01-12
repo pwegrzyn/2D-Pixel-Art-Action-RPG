@@ -28,10 +28,21 @@ public class MobFactory {
 		return newMob;
 	}
 	
+	public Mob createRangedBoss(double xInit, double yInit, double collisionRadius, BufferedImage texture, BufferedImage lootTexture) {
+		RangedMob newMob = new RangedMob(xInit, yInit, collisionRadius);
+		newMob.setActiveProjectile(ProjectileTypes.MULTIPLE);
+		newMob.setTexture(texture);
+		newMob.getStatManager().setHealth(3500);
+		newMob.getStatManager().setBaseHealth(3500);
+		newMob.setExp(5000);
+		newMob.setScore(20000);
+		newMob.setLootTexture(lootTexture);
+		return newMob;
+	}
+	
 	public Mob createRangedMob(double xInit, double yInit, double collisionRadius, BufferedImage texture, BufferedImage projectileTexture, BufferedImage lootTexture) {
 		RangedMob newMob = new RangedMob(xInit, yInit, collisionRadius);
 		newMob.setTexture(texture);
-		newMob.setProjectileTexture(projectileTexture);
 		newMob.getStatManager().setHealth(500);
 		newMob.getStatManager().setBaseHealth(500);
 		newMob.setExp(150);

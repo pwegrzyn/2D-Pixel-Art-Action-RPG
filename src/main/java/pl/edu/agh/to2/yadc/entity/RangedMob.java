@@ -6,28 +6,34 @@ public class RangedMob extends Mob {
 	
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
-    private BufferedImage projectileTexture;
-    //private int range = 100;  //hardcoded for test
+    protected ProjectileTypes activeProjectile = ProjectileTypes.ENEMY;
     
 	public RangedMob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
 		this.velocity = 110;
 		this.aggresive = false;
+		this.velocity0 = velocity;
 	}
 
 	@Override
 	public void makeAttack() {
 		if(aggresive) {
 			if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-			   	Projectile bullet = ProjectileFactory.createNormalArrow(this, 5, this.projectileTexture);
+			   	Projectile bullet = ProjectileFactory.createProjectile(activeProjectile, this, 5);
 			   	this.lastAttackTime = System.currentTimeMillis();
 			   	this.attackCooldown = 500;
-				this.area.addEntity(bullet);
+				if(this.activeProjectile == ProjectileTypes.ENEMY) this.area.addEntity(bullet);
+				else {
+					for(Projectile p: ((MultipleProjectile)bullet).getProjectiles()) {
+						this.area.addEntity(p);
+					}
+				}
 			}
 		}
 	}
 	
-	public void setProjectileTexture(BufferedImage fetchImage) {
-		this.projectileTexture = fetchImage;
+	public void setActiveProjectile(ProjectileTypes type) {
+		this.activeProjectile = type;
 	}
+	
 }

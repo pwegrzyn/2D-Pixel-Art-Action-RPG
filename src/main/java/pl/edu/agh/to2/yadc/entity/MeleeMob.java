@@ -13,6 +13,7 @@ public class MeleeMob extends Mob {
 		this.velocity = 120;
 		this.aggresive = false;
 		this.statManager.setPhysicalDmg(50);
+		this.velocity0 = velocity;
 	}
 
 	/*@Override

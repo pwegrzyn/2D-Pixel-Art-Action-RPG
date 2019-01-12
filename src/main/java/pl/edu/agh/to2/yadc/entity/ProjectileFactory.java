@@ -10,13 +10,41 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
-
-
 public class ProjectileFactory {
 
 	private static Random random = new Random();
+	private static BufferedImage normalProjectileTexture;
+	private static BufferedImage slowingProjectileTexture;
+	private static BufferedImage stunningProjectileTexture;
+	private static BufferedImage mobProjectileTexture;
+	
+	public static void setNormalProjectileTexture(BufferedImage fetchImage) {
+		normalProjectileTexture = fetchImage;
+	}
+	
+	public static void setSlowingProjectileTexture(BufferedImage fetchImage) {
+		slowingProjectileTexture = fetchImage;
+	}
+	
+	public static void setStunningProjectileTexture(BufferedImage fetchImage) {
+		stunningProjectileTexture = fetchImage;
+	}
+	
+	public static void setMobProjectileTexture(BufferedImage fetchImage) {
+		mobProjectileTexture = fetchImage;
+	}
+	
+	public static Projectile createProjectile(ProjectileTypes type, Entity owner, double collisionRadius) {
+		if(type == ProjectileTypes.NORMAL) return createNormalProjectile(owner, collisionRadius, normalProjectileTexture);
+		else if(type == ProjectileTypes.SLOWING) return createSlowingProjectile(owner, collisionRadius, slowingProjectileTexture);
+		else if(type == ProjectileTypes.ENEMY) return createNormalProjectile(owner, collisionRadius, mobProjectileTexture);
+		else if(type == ProjectileTypes.STUNNING) return createStunningProjectile(owner, collisionRadius, stunningProjectileTexture);
+		else if(type == ProjectileTypes.TRIPLE) return createTripleProjectile(owner, collisionRadius);
+		else if(type == ProjectileTypes.MULTIPLE) return createMultipleProjectile(owner, collisionRadius);
+		else return null;
+	}
 
-	public static Projectile createNormalArrow(Entity owner, double collisionRadius, BufferedImage texture) {
+	public static Projectile createNormalProjectile(Entity owner, double collisionRadius, BufferedImage texture) {
 		Projectile newProjectile = new Projectile(owner, collisionRadius);
 		newProjectile.setTexture(texture);
 		newProjectile.setPhysicalDmg(100);
@@ -25,7 +53,7 @@ public class ProjectileFactory {
 		List<Action> actionList = new LinkedList<>();
 		actionList.add(new Action(Projectile.class, entity -> {
 			Projectile projectile = (Projectile)entity;
-				owner.area.removeEntity(entity);
+				if(newProjectile.owner != projectile.owner) owner.area.removeEntity(entity);
 		}));
 		actionList.add(new Action(Player.class, entity -> {
 			Player player = (Player)entity;
@@ -62,35 +90,75 @@ public class ProjectileFactory {
 		return newProjectile;
 	}
 	
-	//not working yet
-	public static Projectile createSlowingArrow(Entity owner, double collisionRadius, BufferedImage texture) {
-		List<Action> actionList = new LinkedList<>();
-		actionList.add(new Action(Mob.class, entity -> {
-			Mob mob = (Mob)entity;
-			mob.activeEffects.add(new Effect(5000, 
-					ent -> {
-						Mob mob1 = (Mob)ent;
-						mob1.velocity = 10;
-					},
-					ent -> {
-						Mob mob1 = (Mob)ent;
-						mob1.velocity = 150;
-					}
-			));
-		}));
-		actionList.add(new Action(Projectile.class, entity -> {
-			Projectile projectile = (Projectile)entity;
-			if (projectile.owner instanceof Mob) {
-				owner.area.removeEntity(entity);
-			}
-			if (projectile.owner instanceof Player) {
-				owner.area.removeEntity(entity);
-			}
-		}));
-		Projectile newProjectile = new Projectile(owner, collisionRadius);
-		newProjectile.setTexture(texture);
-		newProjectile.setPhysicalDmg(50);
+	public static Projectile createSlowingProjectile(Entity owner, double collisionRadius, BufferedImage texture) {
+		Projectile newProjectile = createNormalProjectile(owner, collisionRadius, texture);
+		newProjectile.setMagicDmg(50);
+		
+		Player player = (Player)owner;
+		if(player.getStatManager().getCurrentMana()>=100) {
+			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-100);
+			List<Action> actionList = new LinkedList<>();
+			actionList.add(new Action(Mob.class, entity -> {
+				Mob mob = (Mob)entity;
+				mob.activeEffects.add(new Effect(2000, 
+						ent -> {
+							Mob mob1 = (Mob)ent;
+							if(mob1.velocity0/3 < mob1.velocity) mob1.velocity = mob1.velocity0/3;
+							mob.slowed = true;
+						},
+						ent -> {
+							Mob mob1 = (Mob)ent;
+							mob1.velocity = mob1.velocity0;
+							mob.slowed = false;
+						}
+				));
+			}));
+			newProjectile.addEffects(actionList);
+		}
+		return newProjectile;
+	}
+	
+	private static Projectile createStunningProjectile(Entity owner, double collisionRadius, BufferedImage texture) {
+		Projectile newProjectile = createNormalProjectile(owner, collisionRadius, texture);
 		newProjectile.setMagicDmg(100);
+		
+		Player player = (Player)owner;
+		if(player.getStatManager().getCurrentMana()>=300) {
+			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-300);
+			List<Action> actionList = new LinkedList<>();
+			actionList.add(new Action(Mob.class, entity -> {
+				Mob mob = (Mob)entity;
+				mob.activeEffects.add(new Effect(2000, 
+						ent -> {
+							Mob mob1 = (Mob)ent;
+							mob1.velocity = 0;
+						},
+						ent -> {
+							Mob mob1 = (Mob)ent;
+							mob1.velocity = mob1.velocity0;
+						}
+				));
+			}));
+			newProjectile.addEffects(actionList);
+		}
+		return newProjectile;
+	}
+	
+	private static Projectile createTripleProjectile(Entity owner, double collisionRadius) {
+		Player player = (Player)owner;
+		Projectile newProjectile;
+		if(player.getStatManager().getCurrentMana()>=200) {
+			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-200);
+			newProjectile = (Projectile) new MultipleProjectile(owner, collisionRadius, 3);
+		}
+		else {
+			newProjectile = createProjectile(ProjectileTypes.NORMAL, owner, collisionRadius);
+		}
+		return newProjectile;
+	}
+	
+	private static Projectile createMultipleProjectile(Entity owner, double collisionRadius) {
+		MultipleProjectile newProjectile = new MultipleProjectile(owner, collisionRadius, 8);
 		return newProjectile;
 	}
 }

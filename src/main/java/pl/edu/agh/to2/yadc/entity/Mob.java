@@ -6,13 +6,15 @@ import java.util.List;
 
 
 public abstract class Mob extends Entity{
-
+	
 	protected int velocity;
+	protected int velocity0;
 	protected boolean aggresive;
 	protected StatManager statManager;
 	protected int exp;
 	protected int score;
 	protected BufferedImage lootTexture;
+	protected boolean slowed = false;
 	
 	public Mob(double xInit, double yInit, double collisionRadius) {
 		super(xInit, yInit, collisionRadius);
