@@ -142,11 +142,13 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     isUserTyping = false;
                     inputManager.setNonChatInputDisabled(false);
                     GlobalConfig.get().setFrozenRender(false);
+                    GlobalConfig.get().setFrozenGameSessionThread(false);
                     chatInteractTimer = 0;
                 } else {
                     isUserTyping = true;
                     inputManager.setNonChatInputDisabled(true);
                     GlobalConfig.get().setFrozenRender(true);
+                    GlobalConfig.get().setFrozenGameSessionThread(true);
                     chatInteractTimer = 0;
                 }
             }

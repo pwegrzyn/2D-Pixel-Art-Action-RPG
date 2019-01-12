@@ -82,6 +82,10 @@ public class GameSessionManager {
 
                 for (;;) {
 
+                    if(GlobalConfig.get().getFrozenGameSessionThread()) {
+                        continue;
+                    }
+                    
                     // Randomly spawn a melee mob (possibly aggresive)
                     int randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     int randomLocY = random.nextInt(600 + 1 - 100) + 100;
