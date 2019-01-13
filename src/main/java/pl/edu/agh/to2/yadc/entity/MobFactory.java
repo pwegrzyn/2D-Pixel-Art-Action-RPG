@@ -17,14 +17,14 @@ public class MobFactory {
 	public Mob createMeleeBoss(double xInit, double yInit, double collisionRadius, BufferedImage texture, BufferedImage lootTexture) {
 		MeleeMob newMob = new MeleeMob(xInit, yInit, collisionRadius);
 		newMob.setTexture(texture);
-		newMob.getStatManager().setHealth(3500);
-		newMob.getStatManager().setBaseHealth(3500);
+		newMob.getStatManager().setHealth(2500);
+		newMob.getStatManager().setBaseHealth(2500);
 		newMob.setExp(5000);
 		newMob.setScore(20000);
 		newMob.setLootTexture(lootTexture);
 		newMob.setPhysicalDmg(150);
 		newMob.setMagicDmg(50);
-		newMob.setAggresive(true);
+		newMob.setAggresive(false);
 		return newMob;
 	}
 	
@@ -32,11 +32,12 @@ public class MobFactory {
 		RangedMob newMob = new RangedMob(xInit, yInit, collisionRadius);
 		newMob.setActiveProjectile(ProjectileTypes.MULTIPLE);
 		newMob.setTexture(texture);
-		newMob.getStatManager().setHealth(3500);
-		newMob.getStatManager().setBaseHealth(3500);
+		newMob.getStatManager().setHealth(2500);
+		newMob.getStatManager().setBaseHealth(2500);
 		newMob.setExp(5000);
 		newMob.setScore(20000);
 		newMob.setLootTexture(lootTexture);
+		newMob.setAggresive(false);
 		return newMob;
 	}
 	

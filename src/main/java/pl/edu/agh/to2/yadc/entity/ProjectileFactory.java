@@ -124,8 +124,8 @@ public class ProjectileFactory {
 		newProjectile.setMagicDmg(100);
 		
 		Player player = (Player)owner;
-		if(player.getStatManager().getCurrentMana()>=300) {
-			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-300);
+		if(player.getStatManager().getCurrentMana()>=30) {
+			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-30);
 			List<Action> actionList = new LinkedList<>();
 			actionList.add(new Action(Mob.class, entity -> {
 				Mob mob = (Mob)entity;
@@ -149,8 +149,8 @@ public class ProjectileFactory {
 	private static Projectile createTripleProjectile(Entity owner, double collisionRadius) {
 		Player player = (Player)owner;
 		Projectile newProjectile;
-		if(player.getStatManager().getCurrentMana()>=200) {
-			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-200);
+		if(player.getStatManager().getCurrentMana()>=40) {
+			player.getStatManager().setMana(player.getStatManager().getCurrentMana()-40);
 			newProjectile = (Projectile) new MultipleProjectile(ProjectileTypes.NORMAL, owner, collisionRadius, 3);
 		}
 		else {

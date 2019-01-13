@@ -30,8 +30,8 @@ public class Player extends Entity {
 	private int score;
 	private BufferedImage graveTexture;
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
-	private long lastProjectileSwitch = 0;
-	private int ProjectileSwitchCooldown = 75;
+	private double ProjectileSwitchCooldown = 0.5;
+	private double projectileSwitchTimer = 0;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -61,7 +61,7 @@ public class Player extends Entity {
 
     @Override
     public void advanceSelf(double delta) {
-
+		
 		reactToUserInput(delta);
 
 		// check if not walked out of the area
@@ -182,21 +182,24 @@ public class Player extends Entity {
 	    		this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
 	    	}
 		}
-		
-	    if(lastProjectileSwitch + ProjectileSwitchCooldown < System.currentTimeMillis()) {
+
+		projectileSwitchTimer += delta;
+	    if(projectileSwitchTimer > ProjectileSwitchCooldown) {
 		    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
 		    	if(activeProjectile != ProjectileTypes.SLOWING) this.activeProjectile = ProjectileTypes.SLOWING;
-		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
 		    }
 		    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
 		    	if(activeProjectile != ProjectileTypes.STUNNING) this.activeProjectile = ProjectileTypes.STUNNING;
-		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
 		    }
 		    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
 		    	if(activeProjectile != ProjectileTypes.TRIPLE) this.activeProjectile = ProjectileTypes.TRIPLE;
-		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
 		    }
-		    lastProjectileSwitch = System.currentTimeMillis();
 	    }
 	}
 
