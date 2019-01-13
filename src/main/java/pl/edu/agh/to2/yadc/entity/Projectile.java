@@ -54,6 +54,10 @@ public class Projectile extends Entity {
 		return this.physicalDmg;
 	}
 	
+	public int getMagicDmg() {
+		return this.magicDmg;
+	}
+	
 	// @Override
 	// public void performCollisionAction(Entity entity) {
 	// 	if(entity instanceof Player) {

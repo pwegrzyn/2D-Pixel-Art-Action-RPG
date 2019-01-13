@@ -49,6 +49,8 @@ public class Player extends Entity {
 		this.statManager.setHealth(1000);
 		this.statManager.setBaseMana(500);
 		this.statManager.setMana(500);
+		this.statManager.setPhysicalDmg(100);
+		this.statManager.setMagicDmg(20);
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
 		this.score = 0;

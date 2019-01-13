@@ -13,6 +13,8 @@ public class RangedMob extends Mob {
 		this.velocity = 110;
 		this.aggresive = false;
 		this.velocity0 = velocity;
+		this.statManager.setPhysicalDmg(100);
+		this.statManager.setMagicDmg(20);
 	}
 
 	@Override

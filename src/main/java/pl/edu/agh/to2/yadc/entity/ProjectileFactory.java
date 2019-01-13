@@ -47,10 +47,15 @@ public class ProjectileFactory {
 		Projectile newProjectile = new Projectile(type, owner, collisionRadius);
 		if(type == ProjectileTypes.NORMAL) {
 			Player player = (Player) owner;
+			newProjectile.physicalDmg = player.getStatManager().getPhysicalDmg();
+			newProjectile.magicDmg = player.getStatManager().getMagicDmg();
+		}
+		if(type == ProjectileTypes.ENEMY) {
+			Mob mob = (Mob) owner;
+			newProjectile.physicalDmg = mob.getStatManager().getPhysicalDmg();
+			newProjectile.magicDmg = mob.getStatManager().getMagicDmg();
 		}
 		newProjectile.setTexture(texture);
-		newProjectile.setPhysicalDmg(100);
-		newProjectile.setMagicDmg(0);
 		
 		List<Action> actionList = new LinkedList<>();
 		actionList.add(new Action(Projectile.class, entity -> {
@@ -95,7 +100,7 @@ public class ProjectileFactory {
 	
 	public static Projectile createSlowingProjectile(Entity owner, double collisionRadius, BufferedImage texture) {
 		Projectile newProjectile = createNormalProjectile(ProjectileTypes.SLOWING, owner, collisionRadius, texture);
-		newProjectile.setMagicDmg(50);
+		newProjectile.setMagicDmg(newProjectile.getMagicDmg()+50);
 		
 		Player player = (Player)owner;
 		if(player.getStatManager().getCurrentMana()>=10) {
@@ -124,7 +129,7 @@ public class ProjectileFactory {
 	
 	private static Projectile createStunningProjectile(Entity owner, double collisionRadius, BufferedImage texture) {
 		Projectile newProjectile = createNormalProjectile(ProjectileTypes.STUNNING, owner, collisionRadius, texture);
-		newProjectile.setMagicDmg(100);
+		newProjectile.setMagicDmg(newProjectile.getMagicDmg()+100);
 		
 		Player player = (Player)owner;
 		if(player.getStatManager().getCurrentMana()>=30) {
