@@ -16,6 +16,7 @@ public class Configuration {
 	private boolean debug = true;
 	private boolean frozenRender = false;
 	private boolean frozenGameSessionThread = false;
+	private boolean perfTestOn = false;
 	
 	public Configuration() {
 		this.targetHeight = 312;
@@ -107,6 +108,14 @@ public class Configuration {
 
 	public void setFrozenGameSessionThread(boolean val) {
 		this.frozenGameSessionThread = val;
+	}
+
+	public boolean getPerfTestOn() {
+		return this.perfTestOn;
+	}
+
+	public void setPerfTestOn(boolean val) {
+		this.perfTestOn = val;
 	}
 
 }
