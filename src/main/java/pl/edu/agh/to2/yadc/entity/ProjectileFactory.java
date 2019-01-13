@@ -45,6 +45,9 @@ public class ProjectileFactory {
 
 	public static Projectile createNormalProjectile(ProjectileTypes type, Entity owner, double collisionRadius, BufferedImage texture) {
 		Projectile newProjectile = new Projectile(type, owner, collisionRadius);
+		if(type == ProjectileTypes.NORMAL) {
+			Player player = (Player) owner;
+		}
 		newProjectile.setTexture(texture);
 		newProjectile.setPhysicalDmg(100);
 		newProjectile.setMagicDmg(0);
@@ -68,7 +71,7 @@ public class ProjectileFactory {
 				// If a mob dies from an player-originated projectile (this logic probably shouldnt be in the ProjectileFactory class, future refactoring: move to Mob class)
 				if(mob.getStatManager().getCurrentHealth()<=0) {
 					if (newProjectile.getOwner() instanceof Player) {
-						((Player)newProjectile.getOwner()).addExp(mob.exp);
+						((Player)newProjectile.getOwner()).getStatManager().addExp(mob.exp);
 						((Player) newProjectile.getOwner()).addScore(mob.score);
 						((Player)newProjectile.getOwner()).checkQuestsProgress(entity);
 						// 1/5 chance of dropping loot

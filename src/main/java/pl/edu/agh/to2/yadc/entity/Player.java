@@ -287,22 +287,6 @@ public class Player extends Entity {
 	public QuestLog getQuestLog() {
 		return this.questLog;
 	}
-	
-	public void addExp(int exp) {
-		int currentExp = this.statManager.getCurrentExp();
-		int expToNextLvl = this.statManager.getExpToNextLvl();
-		GlobalConfig.get().printToChatBox("Received " + exp + " xp.");
-		if (currentExp + exp >= expToNextLvl) {
-			this.statManager.setLvl(this.statManager.getLvl() + 1);
-			GlobalConfig.get().printToChatBox("Congratulations! You have gained a new level.");
-			GlobalConfig.get().printToChatBox("You are now level " + this.statManager.getLvl() + ".");
-			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
-			this.statManager.setExp(currentExp + exp - expToNextLvl);
-		}
-		else {
-			this.statManager.setExp(this.statManager.getExp() + exp);
-		}
-	}
 
 	public void addScore(int score) {
 		this.score += score;
@@ -341,7 +325,7 @@ public class Player extends Entity {
 				if(mobType.equals(slayQuest.getMonsterType()) || slayQuest.getMonsterType().equals("Any Mob Type")) {
 					if(slayQuest.progress()) {
 						toComplete.add(slayQuest);
-						addExp(slayQuest.getExpReward());
+						this.statManager.addExp(slayQuest.getExpReward());
 						addScore(slayQuest.getScoreReward());
 						GlobalConfig.get().printToChatBox("Quest " + slayQuest.getName() + " finished.");
 					}

@@ -3,6 +3,7 @@ package pl.edu.agh.to2.yadc.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.item.Equipment;
 
 public class StatManager {
@@ -122,6 +123,26 @@ public class StatManager {
 		return statMap;
 	}
 	
+	public void addExp(int exp) {
+		GlobalConfig.get().printToChatBox("Received " + exp + " xp.");
+		if (currentExp + exp >= this.expToNextLevel) {
+			this.currentLvl++;
+			GlobalConfig.get().printToChatBox("Congratulations! You have gained a new level.");
+			GlobalConfig.get().printToChatBox("You are now level " + this.currentLvl + ".");
+			currentExp += exp - this.expToNextLevel;
+			this.expToNextLevel *= 2;
+			this.strength ++;
+			this.stamina ++;
+			this.intelligence ++;
+			this.baseHealth += 100;
+			this.baseMana += 100;
+			this.health = this.baseHealth;
+			this.mana = this.baseMana;
+		}
+		else {
+			this.currentExp += exp;
+		}
+	}
 	
 	public void setBaseHealth(int value) {
 		baseHealth = value;
