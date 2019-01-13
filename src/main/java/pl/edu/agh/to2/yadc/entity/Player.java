@@ -30,6 +30,8 @@ public class Player extends Entity {
 	private int score;
 	private BufferedImage graveTexture;
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
+	private long lastProjectileSwitch = 0;
+	private int ProjectileSwitchCooldown = 75;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -94,7 +96,6 @@ public class Player extends Entity {
 						this.area.addEntity(p);
 					}
 				}
-				activeProjectile = ProjectileTypes.NORMAL;
 			}
 			performingAttack = false;
 		}
@@ -182,14 +183,20 @@ public class Player extends Entity {
 	    	}
 		}
 		
-	    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.SLOWING;
-	    }
-	    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.STUNNING;
-	    }
-	    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.TRIPLE;
+	    if(lastProjectileSwitch + ProjectileSwitchCooldown < System.currentTimeMillis()) {
+		    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.SLOWING) this.activeProjectile = ProjectileTypes.SLOWING;
+		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+		    }
+		    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.STUNNING) this.activeProjectile = ProjectileTypes.STUNNING;
+		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+		    }
+		    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.TRIPLE) this.activeProjectile = ProjectileTypes.TRIPLE;
+		    	else this.activeProjectile = ProjectileTypes.NORMAL;
+		    }
+		    lastProjectileSwitch = System.currentTimeMillis();
 	    }
 	}
 
@@ -334,8 +341,12 @@ public class Player extends Entity {
 		this.graveTexture = texture;
 	}
 
-	public ProjectileTypes getActiveProjecite() {
+	public ProjectileTypes getActiveProjecile() {
 		return this.activeProjectile;
+	}
+	
+	public void setActiveProjecile(ProjectileTypes type) {
+		this.activeProjectile = type;
 	}
 
 	public int getConsumable_1() {

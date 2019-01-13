@@ -10,14 +10,16 @@ public class Projectile extends Entity {
 	protected int magicDmg = 10;
 	protected Entity owner = null;
 	protected int coveredDistance;
+	protected ProjectileTypes type;
 	
-	public Projectile(Entity owner, double collisionRadius) {
+	public Projectile(ProjectileTypes type, Entity owner, double collisionRadius) {
 		super(owner.getXPos(), owner.getYPos(), collisionRadius);
 		this.velocity = 300;
 		this.owner = owner;
 		this.angularRotation = owner.angularRotation;
 		this.spreadingActions = new LinkedList<Action>();
 		this.coveredDistance = 0;
+		this.type = type;
 	}
 
 	public Entity getOwner() {

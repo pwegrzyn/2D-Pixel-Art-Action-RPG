@@ -33,21 +33,21 @@ public class SkillBarHUD implements Renderable {
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 9);
         graphics.setFont(font);
 
-        if (player.getActiveProjecite() == ProjectileTypes.SLOWING) {
+        if (player.getActiveProjecile() == ProjectileTypes.SLOWING) {
             graphics.drawImage(this.skill_1Active, 196, 284, null);
         } else {
             graphics.drawImage(this.skill_1Inactive, 196, 284, null);
         }
         graphics.drawString("1", 205, 280);
 
-        if (player.getActiveProjecite() == ProjectileTypes.STUNNING) {
+        if (player.getActiveProjecile() == ProjectileTypes.STUNNING) {
             graphics.drawImage(this.skill_2Active, 196 + 22, 284, null);
         } else {
             graphics.drawImage(this.skill_2Inactive, 196 + 22, 284, null);
         }
         graphics.drawString("2", 205 + 22, 280);
 
-        if (player.getActiveProjecite() == ProjectileTypes.TRIPLE) {
+        if (player.getActiveProjecile() == ProjectileTypes.TRIPLE) {
             graphics.drawImage(this.skill_3Active, 196 + 22 + 22, 284, null);
         } else {
             graphics.drawImage(this.skill_3Inactive, 196 + 22 + 22, 284, null);
