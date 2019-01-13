@@ -2,6 +2,7 @@ package pl.edu.agh.to2.yadc.area;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.Semaphore;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Entity;
@@ -20,18 +21,26 @@ public class Area implements Renderable, Advanceable {
     private Player player;
     private int xSize;
     private int ySize;
+    private Semaphore concurrentAddSem;
 
     public Area(String name) {
         this.name = name;
         this.entityRegister = new EntityRegister();
+        this.concurrentAddSem = new Semaphore(1);
     }
 
     public void addEntity(Entity newEntity) {
+        try {
+            this.concurrentAddSem.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.entityRegister.register(newEntity);
         newEntity.setArea(this);
         if(newEntity instanceof Player) {
             this.player = (Player) newEntity;
         }
+        this.concurrentAddSem.release();
     }
 
     public void removeEntity(Entity toDelete) {
@@ -39,10 +48,14 @@ public class Area implements Renderable, Advanceable {
     }
 
     public void advanceSelf(double delta) {
-
         entityRegister.foreach(e -> e.advanceSelf(delta));
+        try {
+            this.concurrentAddSem.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         entityRegister.synchronize();
-
+        this.concurrentAddSem.release();
     }
 
     public void renderSelf(Graphics graphics, Camera camera) {

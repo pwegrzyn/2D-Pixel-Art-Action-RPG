@@ -31,6 +31,7 @@ public class Player extends Entity {
 	private static QuestLog questLog;
 	private static Equipment equipment;
 	private int score;
+	private boolean godmode;
 	private BufferedImage graveTexture;
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
 	private double ProjectileSwitchCooldown = 0.5;
@@ -56,6 +57,8 @@ public class Player extends Entity {
 			equipment.addToBackpack(new HealthPotion());
 			equipment.addToBackpack(new ManaPotion());
 		}
+		
+		this.godmode = false;
     }
 
     private boolean up = false;
@@ -111,7 +114,7 @@ public class Player extends Entity {
 		}
 
 		// Player avatar death
-		if (statManager.getCurrentHealth() <= 0) {
+		if (statManager.getCurrentHealth() <= 0 && !godmode) {
 			setTexture(this.graveTexture);
 			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
 			GlobalConfig.get().printToChatBox("Click NEWGAME to start a new game");
@@ -379,6 +382,10 @@ public class Player extends Entity {
 
 	public int getConsumable_2() {
 		return this.consumable_2_amount;
+	}
+
+	public void godmode(boolean val) {
+		this.godmode = val;
 	}
 	
 }

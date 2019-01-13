@@ -23,3 +23,16 @@ dependencies {
     testCompile 'junit:junit:4.11'
 }
 
+// Performance test task
+task perf_test(type: JavaExec) {
+  classpath sourceSets.main.runtimeClasspath
+  main = "pl.edu.agh.to2.yadc.game.App"
+  args "perf_test"
+}
+
+// Normal app start task
+task play(type: JavaExec) {
+  classpath sourceSets.main.runtimeClasspath
+  main = "pl.edu.agh.to2.yadc.game.App"
+  args "play"
+}

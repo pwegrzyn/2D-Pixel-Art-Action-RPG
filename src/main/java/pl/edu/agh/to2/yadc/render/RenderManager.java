@@ -41,6 +41,15 @@ public class RenderManager {
 	private  AreaManager areaManager;
 	private HUD gameplayHUD;
 	private  long lastTimeUpdate = System.nanoTime();
+	
+	// Performance Metrics
+	private int peakFps = Integer.MIN_VALUE;
+	private int lowestFps = Integer.MAX_VALUE;
+	private double averageFps;
+	private long frameCounter = 0;
+	private long frameSum = 0;
+	private double metricDisplayTimer = 0;
+	private double metricDisplayCooldown = 2.0;
 
 	public void initialSetup() {
 		
@@ -115,7 +124,7 @@ public class RenderManager {
 					}
 					
 					long cappedFrameTime = System.nanoTime() - currentFrameStartTime;
-					currentFps = 1000000000 / cappedFrameTime;	
+					currentFps = 1000000000 / cappedFrameTime;
 				}
 			}
 		};
@@ -151,6 +160,27 @@ public class RenderManager {
 		this.gameplayHUD.renderSelf(graphics, mainCamera);
 
 		if(GlobalConfig.get().getDebug()) showMetrics(graphics);
+
+		// Performance Metrics
+		if (GlobalConfig.get().getPerfTestOn()) {
+			frameCounter++;
+			frameSum += currentFps;
+			averageFps = ((double) frameSum) / (frameCounter - 1);
+			if (currentFps > peakFps) {
+				peakFps = (int) currentFps;
+			}
+			if (currentFps < lowestFps) {
+				lowestFps = (int) currentFps;
+			}
+			metricDisplayTimer += delta;
+			if(metricDisplayTimer > metricDisplayCooldown && GlobalConfig.get().getPerfTestOn()) {
+				System.out.println("Average FPS: " + averageFps);
+				System.out.println("Highest FPS: " + peakFps);
+				System.out.println("Lowest FPS: " + lowestFps);
+				System.out.println("---------------------------------");
+				metricDisplayTimer = 0;
+			}
+		}
 		
 		// END RENDER
 		
