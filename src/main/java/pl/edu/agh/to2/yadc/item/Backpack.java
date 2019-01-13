@@ -3,6 +3,8 @@ package pl.edu.agh.to2.yadc.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.edu.agh.to2.yadc.entity.Player;
+
 public class Backpack {
 
     private int baseCapacity;
@@ -37,6 +39,50 @@ public class Backpack {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public boolean removeItem(Item item) {
+        if (item != null) {
+            this.items.remove(item);
+            this.usedSpace -= item.getWeight();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int useHealthPotion(Player player) {
+        int res = 0;
+        Consumable found = null;
+        for(Item item : this.items) {
+            if(item instanceof HealthPotion) {
+                if(found == null) found = (Consumable)item;
+                res++;
+            }
+        }
+        if(res == 0) return -1;
+        else {
+            found.consume(player);
+            return res - 1;
+        }
+    }
+
+    public int useManaPotion(Player player) {
+        int res = 0;
+        Consumable found = null;
+        for (Item item : this.items) {
+            if (item instanceof ManaPotion) {
+                if (found == null)
+                    found = (Consumable) item;
+                res++;
+            }
+        }
+        if (res == 0)
+            return -1;
+        else {
+            found.consume(player);
+            return res - 1;
         }
     }
 

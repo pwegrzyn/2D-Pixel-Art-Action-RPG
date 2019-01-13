@@ -7,8 +7,11 @@ import java.util.List;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.GameSessionManager;
 import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.item.Consumable;
 import pl.edu.agh.to2.yadc.item.Equipment;
+import pl.edu.agh.to2.yadc.item.HealthPotion;
 import pl.edu.agh.to2.yadc.item.Item;
+import pl.edu.agh.to2.yadc.item.ManaPotion;
 import pl.edu.agh.to2.yadc.physics.Vector;
 import pl.edu.agh.to2.yadc.quest.Quest;
 import pl.edu.agh.to2.yadc.quest.QuestBoard;
@@ -32,6 +35,8 @@ public class Player extends Entity {
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
 	private double ProjectileSwitchCooldown = 0.5;
 	private double projectileSwitchTimer = 0;
+	private double consumableUseCooldown = 0.5;
+	private double consumableUseTimer = 0;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -46,6 +51,11 @@ public class Player extends Entity {
 		availableQuests = new LinkedList<>();
 		equipment = new Equipment();
 		this.score = 0;
+
+		for(int i = 0; i < 3; i++) {
+			equipment.addToBackpack(new HealthPotion());
+			equipment.addToBackpack(new ManaPotion());
+		}
     }
 
     private boolean up = false;
@@ -56,8 +66,8 @@ public class Player extends Entity {
 	private boolean performingAttack;
 	private static List<Quest> availableQuests;
 	private static QuestBoard questBoard;
-	private int consumable_1_amount = 0;
-	private int consumable_2_amount = 0;
+	private int consumable_1_amount = 3;
+	private int consumable_2_amount = 3;
 
     @Override
     public void advanceSelf(double delta) {
@@ -181,6 +191,33 @@ public class Player extends Entity {
 	    		right = false;
 	    		this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
 	    	}
+		}
+
+		consumableUseTimer += delta;
+		if(consumableUseTimer > consumableUseCooldown) {
+			int res;
+			if (inputManager.getPressedByName("useConsumable_1") && !isInputDisabled) {
+				
+				if((res = equipment.getBackpack().useHealthPotion(this)) != -1) {
+					GlobalConfig.get().printToChatBox(res + " health potions left");
+					consumable_1_amount = res;
+				} else {
+					GlobalConfig.get().printToChatBox("You dont have any pots left");
+					consumable_1_amount = 0;
+				}
+				consumableUseTimer = 0;
+			}
+			if (inputManager.getPressedByName("useConsumable_2") && !isInputDisabled) {
+	
+				if ((res = equipment.getBackpack().useManaPotion(this)) != -1) {
+					GlobalConfig.get().printToChatBox(res + " mana potions left");
+					consumable_2_amount = res;
+				} else {
+					GlobalConfig.get().printToChatBox("You dont have any pots left");
+					consumable_2_amount = 0;
+				}
+				consumableUseTimer = 0;
+			}
 		}
 
 		projectileSwitchTimer += delta;
