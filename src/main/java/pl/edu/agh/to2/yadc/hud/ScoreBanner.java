@@ -24,7 +24,7 @@ public class ScoreBanner implements Renderable, Advanceable {
         graphics.setColor(Color.YELLOW);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
         graphics.setFont(font);
-        graphics.drawString(this.currentScoreString, 210, 300);
+        graphics.drawString(this.currentScoreString, 210, 20);
     }
 
     public void bindPlayer(Player player) {

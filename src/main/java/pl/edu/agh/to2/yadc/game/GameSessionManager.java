@@ -48,10 +48,19 @@ public class GameSessionManager {
                 player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_f_idle_anim_f0.png"));
                 player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
                 hudComp.bindPlayer(player);
+                hudComp.getSkillBar().setSkill_1ActiveTexture(imageLoaderComp.fetchImage("resources/slow_active.png"));
+                hudComp.getSkillBar().setSkill_1InactiveTexture(imageLoaderComp.fetchImage("resources/slow_inactive.png"));
+                hudComp.getSkillBar().setSkill_2ActiveTexture(imageLoaderComp.fetchImage("resources/stun_active.png"));
+                hudComp.getSkillBar().setSkill_2InactiveTexture(imageLoaderComp.fetchImage("resources/stun_inactive.png"));
+                hudComp.getSkillBar().setSkill_3ActiveTexture(imageLoaderComp.fetchImage("resources/multishot_inactive_new.png"));
+                hudComp.getSkillBar().setSkill_3InactiveTexture(imageLoaderComp.fetchImage("resources/multishot_inactive.png"));
+                hudComp.getSkillBar().setConsumable_1Texture(imageLoaderComp.fetchImage("resources/health_potion.png"));
+                hudComp.getSkillBar().setConsumable_2Texture(imageLoaderComp.fetchImage("resources/mana_potion.png"));
+                hudComp.getSkillBar().setEmptyTexture(imageLoaderComp.fetchImage("resources/empty.png"));
                 
                 ProjectileFactory.setNormalProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
-                ProjectileFactory.setSlowingProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
-                ProjectileFactory.setStunningProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
+                ProjectileFactory.setSlowingProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet_slow.png"));
+                ProjectileFactory.setStunningProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet_stun.png"));
                 ProjectileFactory.setMobProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
 
                 Area area = new Area("Knowhere");
@@ -82,6 +91,15 @@ public class GameSessionManager {
 
                 for (;;) {
 
+                    if(GlobalConfig.get().getFrozenGameSessionThread()) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        continue;
+                    }
+                    
                     // Randomly spawn a melee mob (possibly aggresive)
                     int randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     int randomLocY = random.nextInt(600 + 1 - 100) + 100;
@@ -119,7 +137,7 @@ public class GameSessionManager {
                         RangedMob boss = (RangedMob) factory.createRangedBoss(randomLocX, randomLocY, 15,
                                 imageLoaderComp.fetchImage("resources/big_demon_idle_anim_f0.png"),
                                 imageLoaderComp.fetchImage("resources/loot.png"));
-                        GlobalConfig.get().printToChatBox("A ranged boss monster has spawned!");
+                        GlobalConfig.get().printToChatBox("A ranged boss monster has spawned");
                         area.addEntity(boss);
                     }
 

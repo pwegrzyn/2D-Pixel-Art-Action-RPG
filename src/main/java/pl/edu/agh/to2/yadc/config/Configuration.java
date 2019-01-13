@@ -15,6 +15,7 @@ public class Configuration {
 	private boolean UIvisibility = true;
 	private boolean debug = true;
 	private boolean frozenRender = false;
+	private boolean frozenGameSessionThread = false;
 	
 	public Configuration() {
 		this.targetHeight = 312;
@@ -98,6 +99,14 @@ public class Configuration {
 
 	public void setFrozenRender(boolean val) {
 		this.frozenRender = val;
+	}
+
+	public boolean getFrozenGameSessionThread() {
+		return this.frozenGameSessionThread;
+	}
+
+	public void setFrozenGameSessionThread(boolean val) {
+		this.frozenGameSessionThread = val;
 	}
 
 }

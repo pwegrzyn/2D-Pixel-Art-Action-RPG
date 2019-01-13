@@ -1,18 +1,17 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.GameSessionManager;
 import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.item.Consumable;
 import pl.edu.agh.to2.yadc.item.Equipment;
+import pl.edu.agh.to2.yadc.item.HealthPotion;
 import pl.edu.agh.to2.yadc.item.Item;
+import pl.edu.agh.to2.yadc.item.ManaPotion;
 import pl.edu.agh.to2.yadc.physics.Vector;
 import pl.edu.agh.to2.yadc.quest.Quest;
 import pl.edu.agh.to2.yadc.quest.QuestBoard;
@@ -34,6 +33,10 @@ public class Player extends Entity {
 	private int score;
 	private BufferedImage graveTexture;
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
+	private double ProjectileSwitchCooldown = 0.5;
+	private double projectileSwitchTimer = 0;
+	private double consumableUseCooldown = 0.5;
+	private double consumableUseTimer = 0;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -48,6 +51,11 @@ public class Player extends Entity {
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
 		this.score = 0;
+
+		for(int i = 0; i < 3; i++) {
+			equipment.addToBackpack(new HealthPotion());
+			equipment.addToBackpack(new ManaPotion());
+		}
     }
 
     private boolean up = false;
@@ -58,10 +66,12 @@ public class Player extends Entity {
 	private boolean performingAttack;
 	private static List<Quest> availableQuests;
 	private static QuestBoard questBoard;
+	private int consumable_1_amount = 3;
+	private int consumable_2_amount = 3;
 
     @Override
     public void advanceSelf(double delta) {
-
+		
 		reactToUserInput(delta);
 
 		// check if not walked out of the area
@@ -96,7 +106,6 @@ public class Player extends Entity {
 						this.area.addEntity(p);
 					}
 				}
-				activeProjectile = ProjectileTypes.NORMAL;
 			}
 			performingAttack = false;
 		}
@@ -183,15 +192,51 @@ public class Player extends Entity {
 	    		this.angularRotation = moveVector.addAndUpdate(-1,  0, this.angularRotation);
 	    	}
 		}
-		
-	    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.SLOWING;
-	    }
-	    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.STUNNING;
-	    }
-	    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
-	    	this.activeProjectile = ProjectileTypes.TRIPLE;
+
+		consumableUseTimer += delta;
+		if(consumableUseTimer > consumableUseCooldown) {
+			int res;
+			if (inputManager.getPressedByName("useConsumable_1") && !isInputDisabled) {
+				
+				if((res = equipment.getBackpack().useHealthPotion(this)) != -1) {
+					GlobalConfig.get().printToChatBox(res + " health potions left");
+					consumable_1_amount = res;
+				} else {
+					GlobalConfig.get().printToChatBox("You dont have any pots left");
+					consumable_1_amount = 0;
+				}
+				consumableUseTimer = 0;
+			}
+			if (inputManager.getPressedByName("useConsumable_2") && !isInputDisabled) {
+	
+				if ((res = equipment.getBackpack().useManaPotion(this)) != -1) {
+					GlobalConfig.get().printToChatBox(res + " mana potions left");
+					consumable_2_amount = res;
+				} else {
+					GlobalConfig.get().printToChatBox("You dont have any pots left");
+					consumable_2_amount = 0;
+				}
+				consumableUseTimer = 0;
+			}
+		}
+
+		projectileSwitchTimer += delta;
+	    if(projectileSwitchTimer > ProjectileSwitchCooldown) {
+		    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.SLOWING) this.activeProjectile = ProjectileTypes.SLOWING;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
+		    }
+		    else if (inputManager.getPressedByName("stunningProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.STUNNING) this.activeProjectile = ProjectileTypes.STUNNING;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
+		    }
+		    else if (inputManager.getPressedByName("tripleProjectile") && !isInputDisabled) {
+		    	if(activeProjectile != ProjectileTypes.TRIPLE) this.activeProjectile = ProjectileTypes.TRIPLE;
+				else this.activeProjectile = ProjectileTypes.NORMAL;
+				projectileSwitchTimer = 0;
+		    }
 	    }
 	}
 
@@ -334,6 +379,22 @@ public class Player extends Entity {
 
 	public void setGraveTexture(BufferedImage texture) {
 		this.graveTexture = texture;
+	}
+
+	public ProjectileTypes getActiveProjecile() {
+		return this.activeProjectile;
+	}
+	
+	public void setActiveProjecile(ProjectileTypes type) {
+		this.activeProjectile = type;
+	}
+
+	public int getConsumable_1() {
+		return this.consumable_1_amount;
+	}
+
+	public int getConsumable_2() {
+		return this.consumable_2_amount;
 	}
 	
 }
