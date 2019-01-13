@@ -354,8 +354,8 @@ public class Player extends Entity {
 		}
 	}
 
-	public Equipment getEquipment() {
-		return this.equipment;
+	public static Equipment getEquipment() {
+		return equipment;
 	}
 
 	public static void showBackpack() {

@@ -110,5 +110,15 @@ public class Backpack {
     public List<Item> getItems() {
         return this.items;
     }
+    
+    public Item getItemById(String id) {
+    	Item item = null;
+    	for (Item it : this.items) {
+    		if (it.getId().equals(id)) {
+    			item = it;
+    		}
+    	}
+    	return item;
+    }
 
 }

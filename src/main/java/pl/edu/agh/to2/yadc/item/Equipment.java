@@ -3,6 +3,9 @@ package pl.edu.agh.to2.yadc.item;
 import java.util.HashMap;
 import java.util.Map;
 
+//import com.google.common.base.CaseFormat;
+
+import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.Stats;
 
 public class Equipment {
@@ -36,10 +39,8 @@ public class Equipment {
     	Map<Stats, Integer> buffedStats = new HashMap<>();
     	buffedStats.put(Stats.BASE_HP, 0);
     	buffedStats.put(Stats.BASE_MANA, 0);
-    	buffedStats.put(Stats.HP, 0);
     	buffedStats.put(Stats.INT, 0);
     	buffedStats.put(Stats.MAG_DMG, 0);
-    	buffedStats.put(Stats.MANA, 0);
     	buffedStats.put(Stats.PHY_DMG, 0);
     	buffedStats.put(Stats.SPEED, 0);
     	buffedStats.put(Stats.STAM, 0);
@@ -60,10 +61,8 @@ public class Equipment {
     	Map<Stats, Integer> result = new HashMap<>();
     	result.put(Stats.BASE_HP, baseMap.get(Stats.BASE_HP) + newMap.get(Stats.BASE_HP));
     	result.put(Stats.BASE_MANA, baseMap.get(Stats.BASE_MANA) + newMap.get(Stats.BASE_MANA));
-    	result.put(Stats.HP, baseMap.get(Stats.HP) + newMap.get(Stats.HP));
     	result.put(Stats.INT, baseMap.get(Stats.INT) + newMap.get(Stats.INT));
     	result.put(Stats.MAG_DMG, baseMap.get(Stats.MAG_DMG) + newMap.get(Stats.MAG_DMG));
-    	result.put(Stats.MANA, baseMap.get(Stats.MANA) + newMap.get(Stats.MANA));
     	result.put(Stats.PHY_DMG, baseMap.get(Stats.PHY_DMG) + newMap.get(Stats.PHY_DMG));
     	result.put(Stats.SPEED, baseMap.get(Stats.SPEED) + newMap.get(Stats.SPEED));
     	result.put(Stats.STAM, baseMap.get(Stats.STAM) + newMap.get(Stats.STAM));
@@ -250,6 +249,72 @@ public class Equipment {
 
     public Armor getEquippedShoes() {
         return this.equippedShoes;
+    }
+    
+    public boolean equipItem(String id) {
+    	for (Item i : backpack.getItems()) {
+    		System.out.println(i.id);
+    	}
+    	Item item = backpack.getItemById(id.toLowerCase());
+    	if (item != null) {
+    		Equipment eq = Player.getEquipment();
+    		if (item instanceof Armor) {
+    			Armor armor = (Armor)item;
+    			Armor armorBuf = null;
+    			switch (armor.getArmorPiece()) {
+    				case CHEST:
+    					armorBuf = eq.getEquippedChest();
+    					eq.equipChest(armor);
+    					if (armorBuf != null) backpack.removeItemById(id.toLowerCase());
+    					backpack.addItem(armorBuf);
+    					break;
+    				case HELM:
+    					armorBuf = eq.getEquippedHelm();
+    					eq.equipHelm(armor);
+    					backpack.removeItemById(id.toLowerCase());
+    					if (armorBuf != null) backpack.addItem(armorBuf);
+    					break;
+    				case LEGS:
+    					armorBuf = eq.getEquippedLegs();
+    					eq.equipLegs(armor);
+    					backpack.removeItemById(id.toLowerCase());
+    					if (armorBuf != null) backpack.addItem(armorBuf);
+    					break;
+    				case GLOVES:
+    					armorBuf = eq.getEquippedGloves();
+    					eq.equipGloves(armor);
+    					backpack.removeItemById(id.toLowerCase());
+    					if (armorBuf != null) backpack.addItem(armorBuf);
+    					break;
+    				case SHOES:
+    					armorBuf = eq.getEquippedShoes();
+    					eq.equipShoes(armor);
+    					backpack.removeItemById(id.toLowerCase());
+    					if (armorBuf != null) backpack.addItem(armorBuf);
+    					break;
+    			}
+    			return true;
+    				
+    		}
+    		else if (item instanceof RangedWeapon) {
+    			RangedWeapon rangedWeapon = (RangedWeapon)item;
+    			rangedWeapon = Player.getEquipment().getEquippedRangedWeapon();
+    			backpack.removeItemById(id.toLowerCase());
+    			if (rangedWeapon != null) backpack.addItem(rangedWeapon);
+    			return true;
+    		}
+//    		else if (item instanceof MeleeWeapon) {
+//    			
+//    		}
+    		else {
+    			System.out.println("adfdsfsd");
+    			return false;
+    		}
+    	}
+    	else {
+    		System.out.println("bbbbasdasd");
+    		return false;
+    	}
     }
 
 }

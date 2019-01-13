@@ -265,6 +265,19 @@ public class ChatBoxHUD implements Advanceable, Renderable {
             case "HELP":
                 printToChatBox("Git gud");
             break;
+            case "EQUIP":
+            	if(commands.length < 2) {
+                    printToChatBox("Incomplete Command!");
+                    break;
+                }
+            	if (Player.getEquipment().equipItem(commands[1])) {
+            		printToChatBox("Item equipped");
+            	}
+            	else {
+            		printToChatBox("Item can't be equipped");
+            	}
+            
+            
             default: 
             break;
         }
