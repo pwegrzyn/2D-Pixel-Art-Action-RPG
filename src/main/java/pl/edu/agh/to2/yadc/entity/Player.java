@@ -38,7 +38,8 @@ public class Player extends Entity {
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
 		this.velocity = 150;
-		this.statManager = new StatManager(0, 0, 0, 0, 0, 0);
+		equipment = new Equipment();
+		this.statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
 		this.statManager.setRange(20);
 		this.statManager.setBaseHealth(1000);
 		this.statManager.setHealth(1000);
@@ -46,7 +47,6 @@ public class Player extends Entity {
 		this.statManager.setMana(500);
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
-		equipment = new Equipment();
 		this.score = 0;
     }
 

@@ -1,5 +1,10 @@
 package pl.edu.agh.to2.yadc.item;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import pl.edu.agh.to2.yadc.entity.Stats;
+
 public class Equipment {
 
     private Backpack backpack;
@@ -25,6 +30,46 @@ public class Equipment {
         if(equippedGloves != null) armorSum += equippedGloves.getArmorValue();
         if(equippedShoes != null) armorSum += equippedShoes.getArmorValue();
         return armorSum;
+    }
+    
+    public Map<Stats, Integer> calculateTotalBuffedStats(){
+    	Map<Stats, Integer> buffedStats = new HashMap<>();
+    	buffedStats.put(Stats.BASE_HP, 0);
+    	buffedStats.put(Stats.BASE_MANA, 0);
+    	buffedStats.put(Stats.HP, 0);
+    	buffedStats.put(Stats.INT, 0);
+    	buffedStats.put(Stats.MAG_DMG, 0);
+    	buffedStats.put(Stats.MANA, 0);
+    	buffedStats.put(Stats.PHY_DMG, 0);
+    	buffedStats.put(Stats.SPEED, 0);
+    	buffedStats.put(Stats.STAM, 0);
+    	buffedStats.put(Stats.STR, 0);
+    	
+    	if(equippedHelm != null) buffedStats = combineStatMaps(buffedStats, equippedHelm.getBuffedStats());
+    	if(equippedChest != null) buffedStats = combineStatMaps(buffedStats, equippedChest.getBuffedStats());
+    	if(equippedGloves != null) buffedStats = combineStatMaps(buffedStats, equippedGloves.getBuffedStats());
+    	if(equippedLegs != null) buffedStats = combineStatMaps(buffedStats, equippedLegs.getBuffedStats());
+    	if(equippedShoes != null) buffedStats = combineStatMaps(buffedStats, equippedShoes.getBuffedStats());
+    	if(equippedMeleeWeapon != null) buffedStats = combineStatMaps(buffedStats, equippedMeleeWeapon.getBuffedStats());
+    	if(equippedRangedWeapon != null) buffedStats = combineStatMaps(buffedStats, equippedRangedWeapon.getBuffedStats());
+    	
+    	return buffedStats;
+    }
+    
+    private Map<Stats, Integer> combineStatMaps(Map<Stats, Integer> baseMap, Map<Stats, Integer> newMap){
+    	Map<Stats, Integer> result = new HashMap<>();
+    	result.put(Stats.BASE_HP, baseMap.get(Stats.BASE_HP) + newMap.get(Stats.BASE_HP));
+    	result.put(Stats.BASE_MANA, baseMap.get(Stats.BASE_MANA) + newMap.get(Stats.BASE_MANA));
+    	result.put(Stats.HP, baseMap.get(Stats.HP) + newMap.get(Stats.HP));
+    	result.put(Stats.INT, baseMap.get(Stats.INT) + newMap.get(Stats.INT));
+    	result.put(Stats.MAG_DMG, baseMap.get(Stats.MAG_DMG) + newMap.get(Stats.MAG_DMG));
+    	result.put(Stats.MANA, baseMap.get(Stats.MANA) + newMap.get(Stats.MANA));
+    	result.put(Stats.PHY_DMG, baseMap.get(Stats.PHY_DMG) + newMap.get(Stats.PHY_DMG));
+    	result.put(Stats.SPEED, baseMap.get(Stats.SPEED) + newMap.get(Stats.SPEED));
+    	result.put(Stats.STAM, baseMap.get(Stats.STAM) + newMap.get(Stats.STAM));
+    	result.put(Stats.STR, baseMap.get(Stats.STR) + newMap.get(Stats.STR));
+    	
+    	return result;
     }
 
     // Backpack

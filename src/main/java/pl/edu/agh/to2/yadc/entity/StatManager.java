@@ -3,6 +3,8 @@ package pl.edu.agh.to2.yadc.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import pl.edu.agh.to2.yadc.item.Equipment;
+
 public class StatManager {
 
 	private int health;
@@ -20,6 +22,28 @@ public class StatManager {
 	private int expToNextLevel;
 	private int range;
 	private Map<Multipliers, Integer> multipliers;
+	private Equipment equipment;
+	
+	public StatManager(Equipment equipment, Integer strToHp, Integer strToDmg, Integer stamToHp, Integer stamToMana, Integer intToDmg, Integer intToMana) {
+
+		multipliers = new HashMap<>();
+		multipliers.put(Multipliers.STR_HP, strToHp);
+		multipliers.put(Multipliers.STR_DMG, strToDmg);
+		multipliers.put(Multipliers.STAM_HP, stamToHp);
+		multipliers.put(Multipliers.STAM_MANA, stamToMana);
+		multipliers.put(Multipliers.INT_DMG, intToDmg);
+		multipliers.put(Multipliers.INT_MANA, intToMana);
+
+		this.currentExp = 0;
+		this.currentLvl = 1;
+		this.expToNextLevel = 1000;
+		this.baseHealth = 100;
+		this.health = 73;
+		this.baseMana = 100;
+		this.mana = 24;
+		
+		this.equipment = equipment;
+	}
 	
 	public StatManager(Integer strToHp, Integer strToDmg, Integer stamToHp, Integer stamToMana, Integer intToDmg, Integer intToMana) {
 
@@ -38,10 +62,15 @@ public class StatManager {
 		this.health = 73;
 		this.baseMana = 100;
 		this.mana = 24;
+		
+		this.equipment = new Equipment();
 	}
 	
+	
 	public int getMaxHealth() {
-		return baseHealth + multipliers.get(Multipliers.STR_HP) * strength + multipliers.get(Multipliers.STAM_HP) * stamina;
+		return (baseHealth + equipment.calculateTotalBuffedStats().get(Stats.BASE_HP)) + 
+				multipliers.get(Multipliers.STR_HP) * (strength + equipment.calculateTotalBuffedStats().get(Stats.STR)) + 
+				multipliers.get(Multipliers.STAM_HP) * (stamina + equipment.calculateTotalBuffedStats().get(Stats.STAM));
 	}
 	
 	public int getCurrentHealth() {
@@ -50,7 +79,9 @@ public class StatManager {
 	
 	
 	public int getMaxMana() {
-		return baseMana + multipliers.get(Multipliers.INT_MANA) * intelligence + multipliers.get(Multipliers.STAM_MANA) * stamina;
+		return (baseMana + equipment.calculateTotalBuffedStats().get(Stats.BASE_MANA)) + 
+				multipliers.get(Multipliers.INT_MANA) * (intelligence + equipment.calculateTotalBuffedStats().get(Stats.INT)) + 
+				multipliers.get(Multipliers.STAM_MANA) * (stamina + equipment.calculateTotalBuffedStats().get(Stats.STAM));
 	}
 	
 	public int getCurrentMana() {
@@ -59,17 +90,19 @@ public class StatManager {
 	
 	
 	public int getSpeec() {
-		return speed;
+		return speed + equipment.calculateTotalBuffedStats().get(Stats.SPEED);
 	}
 	
 	
 	public int getPhysicalDmg() {
-		return basePhysicalDmg + multipliers.get(Multipliers.STR_DMG) * strength;
+		return (basePhysicalDmg + equipment.calculateTotalBuffedStats().get(Stats.PHY_DMG)) +
+				multipliers.get(Multipliers.STR_DMG) * (strength + equipment.calculateTotalBuffedStats().get(Stats.STR));
 	}
 	
 	
 	public int getMagicDmg() {
-		return baseMagicDmg + multipliers.get(Multipliers.INT_DMG) * intelligence;
+		return (baseMagicDmg + equipment.calculateTotalBuffedStats().get(Stats.MAG_DMG)) + 
+				multipliers.get(Multipliers.INT_DMG) * (intelligence + equipment.calculateTotalBuffedStats().get(Stats.INT));
 	}
 	
 	
