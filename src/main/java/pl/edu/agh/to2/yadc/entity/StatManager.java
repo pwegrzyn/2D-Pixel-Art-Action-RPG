@@ -71,9 +71,9 @@ public class StatManager {
 	
 	
 	public int getMaxHealth() {
-		return (baseHealth + equipment.calculateTotalBuffedStats().get(Stats.BASE_HP)) + 
-				multipliers.get(Multipliers.STR_HP) * (strength + equipment.calculateTotalBuffedStats().get(Stats.STR)) + 
-				multipliers.get(Multipliers.STAM_HP) * (stamina + equipment.calculateTotalBuffedStats().get(Stats.STAM));
+		return getBaseHealth() + 
+				multipliers.get(Multipliers.STR_HP) * getStrength() + 
+				multipliers.get(Multipliers.STAM_HP) * getStamina();
 	}
 	
 	public int getCurrentHealth() {
@@ -82,9 +82,9 @@ public class StatManager {
 	
 	
 	public int getMaxMana() {
-		return (baseMana + equipment.calculateTotalBuffedStats().get(Stats.BASE_MANA)) + 
-				multipliers.get(Multipliers.INT_MANA) * (intelligence + equipment.calculateTotalBuffedStats().get(Stats.INT)) + 
-				multipliers.get(Multipliers.STAM_MANA) * (stamina + equipment.calculateTotalBuffedStats().get(Stats.STAM));
+		return getBaseMana() + 
+				multipliers.get(Multipliers.INT_MANA) * getIntelligence() + 
+				multipliers.get(Multipliers.STAM_MANA) * getStamina();
 	}
 	
 	public int getCurrentMana() {
@@ -99,13 +99,13 @@ public class StatManager {
 	
 	public int getPhysicalDmg() {
 		return (basePhysicalDmg + equipment.calculateTotalBuffedStats().get(Stats.PHY_DMG)) +
-				multipliers.get(Multipliers.STR_DMG) * (strength + equipment.calculateTotalBuffedStats().get(Stats.STR));
+				multipliers.get(Multipliers.STR_DMG) * getStrength();
 	}
 	
 	
 	public int getMagicDmg() {
 		return (baseMagicDmg + equipment.calculateTotalBuffedStats().get(Stats.MAG_DMG)) + 
-				multipliers.get(Multipliers.INT_DMG) * (intelligence + equipment.calculateTotalBuffedStats().get(Stats.INT));
+				multipliers.get(Multipliers.INT_DMG) * getIntelligence();
 	}
 	
 	
@@ -195,7 +195,7 @@ public class StatManager {
 	}
 	
 	public int getStrength() {
-		return this.strength;
+		return this.strength + equipment.calculateTotalBuffedStats().get(Stats.STR);
 	}
 	
 	public void setStrength(int strength) {
@@ -204,7 +204,7 @@ public class StatManager {
 	
 	
 	public int getStamina() {
-		return this.stamina;
+		return this.stamina + equipment.calculateTotalBuffedStats().get(Stats.STAM);
 	}
 	
 	public void setStamina(int stamina) {
@@ -213,7 +213,7 @@ public class StatManager {
 	
 	
 	public int getIntelligence() {
-		return this.intelligence;
+		return this.intelligence + equipment.calculateTotalBuffedStats().get(Stats.INT);
 	}
 	
 	public void setIntelligence(int intelligence) {
@@ -241,11 +241,11 @@ public class StatManager {
 	}
 	
 	public int getBaseHealth() {
-		return this.baseHealth;
+		return this.baseHealth + equipment.calculateTotalBuffedStats().get(Stats.BASE_HP);
 	}
 	
 	public int getBaseMana() {
-		return this.baseMana;
+		return this.baseMana + equipment.calculateTotalBuffedStats().get(Stats.BASE_MANA);
 	}
 	
 	

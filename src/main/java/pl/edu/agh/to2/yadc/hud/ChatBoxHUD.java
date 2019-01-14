@@ -336,34 +336,36 @@ public class ChatBoxHUD implements Advanceable, Renderable {
 	            	break;
             	}
             	else if (commands.length == 2) {
-                    Item item = Player.getEquipment().getBackpack().getItemById(commands[1].toLowerCase());
-                    if(item == null) {
-                        return;
-                    }
-            		printToChatBox("Item (id: " + commands[1] + ") stats:");
-            		if (item instanceof Armor) {
-            			Armor armor = (Armor)item;
-            			printToChatBox("Class: Armor");
-            			printToChatBox("Piece: " + armor.getArmorPiece());
-            			printToChatBox("Type: " + armor.getArmorType());
+            		Item item = Player.getEquipment().getBackpack().getItemById(commands[1].toLowerCase());
+            		if (item != null) {
+	            		printToChatBox("Item (id: " + commands[1] + ") stats:");
+	            		if (item instanceof Armor) {
+	            			Armor armor = (Armor)item;
+	            			printToChatBox("Class: Armor");
+	            			printToChatBox("Piece: " + armor.getArmorPiece());
+	            			printToChatBox("Type: " + armor.getArmorType());
+	            		}
+	            		if (item instanceof RangedWeapon) {
+	            			printToChatBox("Class: Weapon");
+	            			printToChatBox("Type: Ranged");
+	            		}
+	            		if (item instanceof MeleeWeapon) {
+	            			printToChatBox("Class: Weapon");
+	            			printToChatBox("Type: Melee");
+	            		}
+	            		Map<Stats, Integer> buffedStats = item.getBuffedStats();
+	            		printToChatBox("STR: " + buffedStats.get(Stats.STR));
+		            	printToChatBox("INT: " + buffedStats.get(Stats.INT));
+		            	printToChatBox("SPEED: " + buffedStats.get(Stats.SPEED));
+		            	printToChatBox("MAG_DMG: " + buffedStats.get(Stats.MAG_DMG));
+		            	printToChatBox("PHY_DMG: " + buffedStats.get(Stats.PHY_DMG));
+		            	printToChatBox("BASE_HP: " + buffedStats.get(Stats.BASE_HP));
+		            	printToChatBox("BASE_MANA: " + buffedStats.get(Stats.BASE_MANA));
+		            	break;
             		}
-            		if (item instanceof RangedWeapon) {
-            			printToChatBox("Class: Weapon");
-            			printToChatBox("Type: Ranged");
+            		else {
+            			printToChatBox("Item not found");
             		}
-            		if (item instanceof MeleeWeapon) {
-            			printToChatBox("Class: Weapon");
-            			printToChatBox("Type: Melee");
-            		}
-            		Map<Stats, Integer> buffedStats = item.getBuffedStats();
-            		printToChatBox("STR: " + buffedStats.get(Stats.STR));
-	            	printToChatBox("INT: " + buffedStats.get(Stats.INT));
-	            	printToChatBox("SPEED: " + buffedStats.get(Stats.SPEED));
-	            	printToChatBox("MAG_DMG: " + buffedStats.get(Stats.MAG_DMG));
-	            	printToChatBox("PHY_DMG: " + buffedStats.get(Stats.PHY_DMG));
-	            	printToChatBox("BASE_HP: " + buffedStats.get(Stats.BASE_HP));
-	            	printToChatBox("BASE_MANA: " + buffedStats.get(Stats.BASE_MANA));
-	            	break;
             	}
             
             
