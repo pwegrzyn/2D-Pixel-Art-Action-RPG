@@ -89,7 +89,7 @@ public class StatManager {
 	}
 	
 	
-	public int getSpeec() {
+	public int getSpeed() {
 		return speed + equipment.calculateTotalBuffedStats().get(Stats.SPEED);
 	}
 	
@@ -215,6 +215,14 @@ public class StatManager {
 	
 	public int getLvl() {
 		return this.currentLvl;
+	}
+	
+	public int getBaseHealth() {
+		return this.baseHealth;
+	}
+	
+	public int getBaseMana() {
+		return this.baseMana;
 	}
 	
 	

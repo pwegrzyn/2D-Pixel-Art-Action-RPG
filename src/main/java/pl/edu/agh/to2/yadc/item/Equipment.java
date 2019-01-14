@@ -265,8 +265,8 @@ public class Equipment {
     				case CHEST:
     					armorBuf = eq.getEquippedChest();
     					eq.equipChest(armor);
-    					if (armorBuf != null) backpack.removeItemById(id.toLowerCase());
-    					backpack.addItem(armorBuf);
+    					backpack.removeItemById(id.toLowerCase());
+    					if (armorBuf != null) backpack.addItem(armorBuf);
     					break;
     				case HELM:
     					armorBuf = eq.getEquippedHelm();

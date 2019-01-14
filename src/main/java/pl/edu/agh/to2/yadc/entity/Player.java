@@ -27,7 +27,7 @@ public class Player extends Entity {
     private long lastAttackTime = 0;
     private int manaRegenCooldown = 100;
     private long lastManaRegenTime = 0;
-	private StatManager statManager;
+	private static StatManager statManager;
 	private static QuestLog questLog;
 	private static Equipment equipment;
 	private int score;
@@ -42,12 +42,12 @@ public class Player extends Entity {
         super(xInit, yInit, 10);
 		this.velocity = 150;
 		equipment = new Equipment();
-		this.statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
-		this.statManager.setRange(20);
-		this.statManager.setBaseHealth(1000);
-		this.statManager.setHealth(1000);
-		this.statManager.setBaseMana(500);
-		this.statManager.setMana(500);
+		statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
+		statManager.setRange(20);
+		statManager.setBaseHealth(1000);
+		statManager.setHealth(1000);
+		statManager.setBaseMana(500);
+		statManager.setMana(500);
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
 		this.score = 0;
@@ -280,8 +280,8 @@ public class Player extends Entity {
 		this.inputManager = input;
 	}
 
-	public StatManager getStatManager() {
-		return this.statManager;
+	public static StatManager getStatManager() {
+		return statManager;
 	}
 
 	public QuestLog getQuestLog() {

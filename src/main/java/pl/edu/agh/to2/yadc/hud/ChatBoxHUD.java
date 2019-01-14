@@ -4,11 +4,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Map;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.entity.StatManager;
+import pl.edu.agh.to2.yadc.entity.Stats;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
+import pl.edu.agh.to2.yadc.item.Armor;
+import pl.edu.agh.to2.yadc.item.ArmorPiece;
+import pl.edu.agh.to2.yadc.item.Item;
+import pl.edu.agh.to2.yadc.item.MeleeWeapon;
+import pl.edu.agh.to2.yadc.item.RangedWeapon;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.render.Camera;
 import pl.edu.agh.to2.yadc.render.Renderable;
@@ -275,6 +283,47 @@ public class ChatBoxHUD implements Advanceable, Renderable {
             	}
             	else {
             		printToChatBox("Item can't be equipped");
+            	}
+            	break;
+            case "STATS":
+            	if (commands.length == 1) {
+	            	StatManager statManager = Player.getStatManager();
+	            	printToChatBox("Player stats:");
+	            	printToChatBox("STR: " + statManager.getStrength());
+	            	printToChatBox("INT: " + statManager.getIntelligence());
+	            	printToChatBox("SPEED: " + statManager.getSpeed());
+	            	printToChatBox("MAG_DMG: " + statManager.getMagicDmg());
+	            	printToChatBox("PHY_DMG: " + statManager.getPhysicalDmg());
+	            	printToChatBox("BASE_HP: " + statManager.getBaseHealth());
+	            	printToChatBox("BASE_MANA: " + statManager.getBaseMana());
+	            	break;
+            	}
+            	else if (commands.length == 2) {
+            		Item item = Player.getEquipment().getBackpack().getItemById(commands[1].toLowerCase());
+            		printToChatBox("Item (id: " + commands[1] + ") stats:");
+            		if (item instanceof Armor) {
+            			Armor armor = (Armor)item;
+            			printToChatBox("Class: Armor");
+            			printToChatBox("Piece: " + armor.getArmorPiece());
+            			printToChatBox("Type: " + armor.getArmorType());
+            		}
+            		if (item instanceof RangedWeapon) {
+            			printToChatBox("Class: Weapon");
+            			printToChatBox("Type: Ranged");
+            		}
+            		if (item instanceof MeleeWeapon) {
+            			printToChatBox("Class: Weapon");
+            			printToChatBox("Type: Melee");
+            		}
+            		Map<Stats, Integer> buffedStats = item.getBuffedStats();
+            		printToChatBox("STR: " + buffedStats.get(Stats.STR));
+	            	printToChatBox("INT: " + buffedStats.get(Stats.INT));
+	            	printToChatBox("SPEED: " + buffedStats.get(Stats.SPEED));
+	            	printToChatBox("MAG_DMG: " + buffedStats.get(Stats.MAG_DMG));
+	            	printToChatBox("PHY_DMG: " + buffedStats.get(Stats.PHY_DMG));
+	            	printToChatBox("BASE_HP: " + buffedStats.get(Stats.BASE_HP));
+	            	printToChatBox("BASE_MANA: " + buffedStats.get(Stats.BASE_MANA));
+	            	break;
             	}
             
             
