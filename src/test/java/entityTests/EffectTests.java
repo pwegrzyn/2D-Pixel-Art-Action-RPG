@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pl.edu.agh.to2.yadc.entity.Effect;
-import pl.edu.agh.to2.yadc.entity.Player;
 
 public class EffectTests {
 
