@@ -5,13 +5,23 @@ To build:
 gradle build
 ```
 
-To run:
+To play:
 ```
-gradle run
+gradle play
+```
+
+To unit test:
+```
+gradle test
+```
+
+To run the performance test:
+```
+gradle perf_test
 ```
 
 
-The game is currently configured to run properly only on Linux OS and Windows.
+The game is currently configured to run properly on Windows and Linux.
 
 
 
