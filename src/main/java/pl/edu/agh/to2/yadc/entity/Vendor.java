@@ -26,7 +26,7 @@ public class Vendor extends Entity {
     public void performCollisionAction(Entity entity) {
 
         if (entity instanceof Player) {
-            GlobalConfig.get().printToChatBox("---PRICES---");
+            GlobalConfig.get().printToChatBox("---Gnome Merchant---");
             GlobalConfig.get().printToChatBox("Shiny key: " + this.keyPrice + " gold");
             GlobalConfig.get().printToChatBox("Health Potion: " + this.HPPotPrice + " gold");
             GlobalConfig.get().printToChatBox("Mana Potion: " + this.ManaPotPrice + " gold");
