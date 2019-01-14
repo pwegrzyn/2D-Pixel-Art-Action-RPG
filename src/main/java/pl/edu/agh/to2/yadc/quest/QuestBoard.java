@@ -66,7 +66,6 @@ public class QuestBoard extends Entity {
                 GlobalConfig.get().printToChatBox(" - Exp: " + quest.getExpReward());
                 counter++;
             }
-            GlobalConfig.get().printToChatBox("Type QUEST <number> to accept");
         }
 		
     }

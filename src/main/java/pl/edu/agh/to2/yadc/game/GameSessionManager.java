@@ -33,7 +33,7 @@ public class GameSessionManager {
     private static boolean firstGameRun = true;
     private static Thread runningThread;
     private static boolean isThreadActive = false;
-    private static final int performanceMaxEntity = 400;
+    private static final int performanceMaxEntity = 250;
 
     public static void stopCurrentSession() {
         if(!isThreadActive) return;
@@ -257,6 +257,8 @@ public class GameSessionManager {
                 area.addEntity(questBoard);
 
                 player.godmode(true);
+                System.out.println("Running performance test...");
+                System.out.println("Simultaneously rendering " + performanceMaxEntity + " entites.");
 
                 for (;;) {
 

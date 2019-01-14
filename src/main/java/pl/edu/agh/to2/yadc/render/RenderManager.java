@@ -169,7 +169,8 @@ public class RenderManager {
 			if (currentFps > peakFps) {
 				peakFps = (int) currentFps;
 			}
-			if (currentFps < lowestFps) {
+			// below 1 fps the test is not conclusive
+			if (currentFps < lowestFps && currentFps > 0) {
 				lowestFps = (int) currentFps;
 			}
 			metricDisplayTimer += delta;
