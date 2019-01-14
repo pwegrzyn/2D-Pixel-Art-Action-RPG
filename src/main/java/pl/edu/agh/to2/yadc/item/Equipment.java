@@ -252,9 +252,6 @@ public class Equipment {
     }
     
     public boolean equipItem(String id) {
-    	for (Item i : backpack.getItems()) {
-    		System.out.println(i.id);
-    	}
     	Item item = backpack.getItemById(id.toLowerCase());
     	if (item != null) {
     		Equipment eq = Player.getEquipment();
@@ -303,16 +300,11 @@ public class Equipment {
     			if (rangedWeapon != null) backpack.addItem(rangedWeapon);
     			return true;
     		}
-//    		else if (item instanceof MeleeWeapon) {
-//    			
-//    		}
     		else {
-    			System.out.println("adfdsfsd");
     			return false;
     		}
     	}
     	else {
-    		System.out.println("bbbbasdasd");
     		return false;
     	}
     }

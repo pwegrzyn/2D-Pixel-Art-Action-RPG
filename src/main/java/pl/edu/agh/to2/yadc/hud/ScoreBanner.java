@@ -21,7 +21,7 @@ public class ScoreBanner implements Renderable, Advanceable {
 
     @Override
     public void renderSelf(Graphics graphics, Camera camera) {
-        graphics.setColor(Color.YELLOW);
+        graphics.setColor(Color.ORANGE);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 13);
         graphics.setFont(font);
         graphics.drawString(this.currentScoreString, 210, 20);

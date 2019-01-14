@@ -13,7 +13,6 @@ import pl.edu.agh.to2.yadc.entity.Stats;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.item.Armor;
-import pl.edu.agh.to2.yadc.item.ArmorPiece;
 import pl.edu.agh.to2.yadc.item.Item;
 import pl.edu.agh.to2.yadc.item.MeleeWeapon;
 import pl.edu.agh.to2.yadc.item.RangedWeapon;
@@ -222,12 +221,6 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                         printToChatBox("User Interface ON");
                         GlobalConfig.get().setUIVisibility(true);
                     break;
-                    case "BACKPACK":
-                        Player.showBackpack();
-                    break;
-                    case "GOLD":
-                        Player.showGold();
-                    break;
                     default:
                         printToChatBox("Invalid Command!");
                     break;
@@ -272,6 +265,12 @@ public class ChatBoxHUD implements Advanceable, Renderable {
             break;
             case "HELP":
                 printToChatBox("Git gud");
+            break;
+            case "BACKPACK":
+                Player.showBackpack();
+            break;
+            case "GOLD":
+                Player.showGold();
             break;
             case "EQUIP":
             	if(commands.length < 2) {

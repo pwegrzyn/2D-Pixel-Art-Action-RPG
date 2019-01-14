@@ -17,7 +17,7 @@ public class QuestTrackerHUD implements Renderable {
     @Override
     public void renderSelf(Graphics graphics, Camera camera) {
 
-        graphics.setColor(Color.YELLOW);
+        graphics.setColor(Color.ORANGE);
         Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
         graphics.setFont(font);
 

@@ -17,6 +17,7 @@ public class HUD implements Renderable, Advanceable {
     private QuestTrackerHUD questTracker;
     private ScoreBanner scoreBanner;
     private SkillBarHUD skillBar;
+    private PauseBannerHUD pauseBanner;
 
     public HUD() {
         this.playerInfo = new PlayerInfoHUD();
@@ -24,6 +25,7 @@ public class HUD implements Renderable, Advanceable {
         this.questTracker = new QuestTrackerHUD();
         this.scoreBanner = new ScoreBanner();
         this.skillBar = new SkillBarHUD();
+        this.pauseBanner = new PauseBannerHUD();
     }
     
     @Override
@@ -34,6 +36,7 @@ public class HUD implements Renderable, Advanceable {
         questTracker.renderSelf(graphics, camera);
         scoreBanner.renderSelf(graphics, camera);
         skillBar.renderSelf(graphics, camera);
+        pauseBanner.renderSelf(graphics, camera);
 	}
 
     @Override
@@ -41,6 +44,7 @@ public class HUD implements Renderable, Advanceable {
         chatbox.advanceSelf(delta);
         playerInfo.advanceSelf(delta);
         scoreBanner.advanceSelf(delta);
+        pauseBanner.advanceSelf(delta);
     }
 
     public void printToChatBox(String str) {
@@ -60,6 +64,7 @@ public class HUD implements Renderable, Advanceable {
         this.questTracker.bindQuestLog(player.getQuestLog());
         this.scoreBanner.bindPlayer(player);
         this.skillBar.bindPlayer(player);
+        this.pauseBanner.bindStatManager(player.getStatManager());
     }
 
     public SkillBarHUD getSkillBar() {
