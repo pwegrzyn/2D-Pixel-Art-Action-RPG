@@ -42,6 +42,7 @@ public class StatManager {
 		this.health = 73;
 		this.baseMana = 100;
 		this.mana = 24;
+		this.speed = 150;
 		
 		this.equipment = equipment;
 	}
@@ -63,8 +64,9 @@ public class StatManager {
 		this.health = 73;
 		this.baseMana = 100;
 		this.mana = 24;
+		this.speed = 150;
 		
-		this.equipment = new Equipment();
+		this.equipment = new Equipment(null);
 	}
 	
 	

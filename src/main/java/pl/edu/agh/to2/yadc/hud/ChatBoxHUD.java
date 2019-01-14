@@ -13,7 +13,10 @@ import pl.edu.agh.to2.yadc.entity.Stats;
 import pl.edu.agh.to2.yadc.game.App;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.item.Armor;
+import pl.edu.agh.to2.yadc.item.HealthPotion;
 import pl.edu.agh.to2.yadc.item.Item;
+import pl.edu.agh.to2.yadc.item.Key;
+import pl.edu.agh.to2.yadc.item.ManaPotion;
 import pl.edu.agh.to2.yadc.item.MeleeWeapon;
 import pl.edu.agh.to2.yadc.item.RangedWeapon;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
@@ -259,6 +262,41 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     printToChatBox("That's not a number man");
                 }
                 printToChatBox("The specified quest couldn't be accepted.");
+            break;
+            case "BUY":
+                if(commands.length < 2) {
+                    printToChatBox("Need to specify which item!");
+                    break;
+                }
+                switch(commands[1]) {
+                    case "KEY":
+                        if(Player.getEquipment().removeGoldPieces(3000)) {
+                            Player.getEquipment().addToBackpack(new Key());
+                            printToChatBox("Bought 1 shiny key.");
+                        } else {
+                            printToChatBox("You dont have the money :(");
+                        }
+                    break;
+                    case "HP":
+                        if(Player.getEquipment().removeGoldPieces(500)) {
+                            Player.getEquipment().addToBackpack(new HealthPotion());
+                            printToChatBox("Bought 1 health potion.");
+                        } else {
+                            printToChatBox("You dont have the money :(");
+                        }
+                    break;
+                    case "MANA":
+                        if(Player.getEquipment().removeGoldPieces(600)) {
+                            Player.getEquipment().addToBackpack(new ManaPotion());
+                            printToChatBox("Bought 1 mana potion.");
+                        } else {
+                            printToChatBox("You dont have the money :(");
+                        }
+                    break;
+                    default:
+                        printToChatBox("This item is not for sale!");
+                    break;
+                }
             break;
             case "QUIT":
                 App.quit();

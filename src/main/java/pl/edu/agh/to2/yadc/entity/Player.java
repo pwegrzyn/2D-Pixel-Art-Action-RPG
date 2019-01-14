@@ -7,7 +7,6 @@ import java.util.List;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.game.GameSessionManager;
 import pl.edu.agh.to2.yadc.input.InputManager;
-import pl.edu.agh.to2.yadc.item.Consumable;
 import pl.edu.agh.to2.yadc.item.Equipment;
 import pl.edu.agh.to2.yadc.item.HealthPotion;
 import pl.edu.agh.to2.yadc.item.Item;
@@ -21,7 +20,6 @@ import pl.edu.agh.to2.yadc.quest.SlayQuest;
 
 public class Player extends Entity {
 
-    private int velocity;
 	private InputManager inputManager;
 	private int attackCooldown = 0;
     private long lastAttackTime = 0;
@@ -38,11 +36,13 @@ public class Player extends Entity {
 	private double projectileSwitchTimer = 0;
 	private double consumableUseCooldown = 0.5;
 	private double consumableUseTimer = 0;
+	private double speedChangeTimer = 0;
+	private double speedChangeDuration = 0;
+	private double speedMultiplier = 1.0;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
-		this.velocity = 150;
-		equipment = new Equipment();
+		equipment = new Equipment(this);
 
 		statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
 		statManager.setRange(20);
@@ -72,13 +72,15 @@ public class Player extends Entity {
 	private boolean performingAttack;
 	private static List<Quest> availableQuests;
 	private static QuestBoard questBoard;
-	private int consumable_1_amount = 3;
-	private int consumable_2_amount = 3;
+	private int hppot_amount = 3;
+	private int manapot_amount = 3;
 
     @Override
     public void advanceSelf(double delta) {
 		
 		reactToUserInput(delta);
+
+		speedChangeHandler(delta);
 
 		// check if not walked out of the area
 		if(this.xPos >= area.getXSize()) {
@@ -131,16 +133,16 @@ public class Player extends Entity {
 		boolean isInputDisabled = inputManager.isNonChatInputDisabled();
 		
 		if (inputManager.getPressedByName("up") && !isInputDisabled) {
-	    	this.yPos -= this.velocity * delta;
+	    	this.yPos -= statManager.getSpeed() * this.speedMultiplier * delta;
 	    }
 	    if (inputManager.getPressedByName("down") && !isInputDisabled) {
-	    	this.yPos += this.velocity * delta;
+	    	this.yPos += statManager.getSpeed() * this.speedMultiplier * delta;
 	    }
 	    if (inputManager.getPressedByName("left") && !isInputDisabled) {
-	    	this.xPos -= this.velocity * delta;
+	    	this.xPos -= statManager.getSpeed() * this.speedMultiplier * delta;
 	    } 
 	    if (inputManager.getPressedByName("right") && !isInputDisabled) {
-    	    this.xPos += this.velocity * delta;  
+    	    this.xPos += statManager.getSpeed() * this.speedMultiplier * delta;  
 	    }
 		
 		if (inputManager.getPressedByName("lookUp") && !isInputDisabled) {
@@ -206,10 +208,10 @@ public class Player extends Entity {
 				
 				if((res = equipment.getBackpack().useHealthPotion(this)) != -1) {
 					GlobalConfig.get().printToChatBox(res + " health potions left");
-					consumable_1_amount = res;
+					hppot_amount = res;
 				} else {
 					GlobalConfig.get().printToChatBox("You dont have any pots left");
-					consumable_1_amount = 0;
+					hppot_amount = 0;
 				}
 				consumableUseTimer = 0;
 			}
@@ -217,10 +219,10 @@ public class Player extends Entity {
 	
 				if ((res = equipment.getBackpack().useManaPotion(this)) != -1) {
 					GlobalConfig.get().printToChatBox(res + " mana potions left");
-					consumable_2_amount = res;
+					manapot_amount = res;
 				} else {
 					GlobalConfig.get().printToChatBox("You dont have any pots left");
-					consumable_2_amount = 0;
+					manapot_amount = 0;
 				}
 				consumableUseTimer = 0;
 			}
@@ -249,6 +251,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void performCollisionAction(Entity entity) {
+
 		if(entity instanceof Projectile) {
 			if(((Projectile)entity).getOwner() == this) {
 				return;
@@ -379,16 +382,38 @@ public class Player extends Entity {
 		this.activeProjectile = type;
 	}
 
-	public int getConsumable_1() {
-		return this.consumable_1_amount;
+	public int getHPPot() {
+		return this.hppot_amount;
 	}
 
-	public int getConsumable_2() {
-		return this.consumable_2_amount;
+	public int getManaPot() {
+		return this.manapot_amount;
+	}
+
+	public void setHPPot(int val) {
+		this.hppot_amount = val;
+	}
+
+	public void setManaPot(int val) {
+		this.manapot_amount = val;
 	}
 
 	public void godmode(boolean val) {
 		this.godmode = val;
 	}
-	
+
+	private void speedChangeHandler(double delta) {
+		speedChangeTimer += delta;
+		if(this.speedChangeTimer > this.speedChangeDuration) {
+			this.speedChangeTimer = 0;
+			this.speedMultiplier = 1.0;
+			this.speedChangeDuration = 0.0;
+			return;
+		}
+	}
+
+	public void changeSpeedTemporarily(double time, double multiplier) {
+		this.speedChangeDuration = time;
+		this.speedMultiplier = multiplier;
+	}
 }

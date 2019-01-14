@@ -54,14 +54,14 @@ public class SkillBarHUD implements Renderable {
         }
         graphics.drawString("3", 205 + 22 + 22, 280);
 
-        if (player.getConsumable_1() > 0) {
+        if (player.getHPPot() > 0) {
             graphics.drawImage(this.consumable1, 196 + 22 + 22 + 22, 284, null);
         } else {
             graphics.drawImage(this.empty, 196 + 22 + 22 + 22, 284, null);
         }
         graphics.drawString("4", 205 + 22 + 22 + 22, 280);
 
-        if (player.getConsumable_2() > 0) {
+        if (player.getManaPot() > 0) {
             graphics.drawImage(this.consumable2, 196 + 22 + 22 + 22 + 22, 284, null);
         } else {
             graphics.drawImage(this.empty, 196 + 22 + 22 + 22 + 22, 284, null);

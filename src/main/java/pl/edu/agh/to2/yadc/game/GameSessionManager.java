@@ -5,7 +5,9 @@ import java.util.Random;
 import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.area.AreaManager;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.entity.Chest;
 import pl.edu.agh.to2.yadc.entity.HealthPowerUp;
+import pl.edu.agh.to2.yadc.entity.ManaPowerUp;
 import pl.edu.agh.to2.yadc.entity.MeleeMob;
 import pl.edu.agh.to2.yadc.entity.MobFactory;
 import pl.edu.agh.to2.yadc.entity.Player;
@@ -13,6 +15,8 @@ import pl.edu.agh.to2.yadc.entity.PowerUp;
 import pl.edu.agh.to2.yadc.entity.ProjectileFactory;
 import pl.edu.agh.to2.yadc.entity.RangedMob;
 import pl.edu.agh.to2.yadc.entity.ScorePowerUp;
+import pl.edu.agh.to2.yadc.entity.SpeedPowerUp;
+import pl.edu.agh.to2.yadc.entity.Vendor;
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.InputManager;
 import pl.edu.agh.to2.yadc.quest.QuestBoard;
@@ -46,7 +50,7 @@ public class GameSessionManager {
             public void run() {
                 Player player = new Player(700, 330);
                 player.setInputManager(inputManagerComp);
-                player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_f_idle_anim_f0.png"));
+                player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_m_idle_anim_f0.png"));
                 player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
                 hudComp.bindPlayer(player);
                 hudComp.getSkillBar().setSkill_1ActiveTexture(imageLoaderComp.fetchImage("resources/slow_active.png"));
@@ -89,6 +93,10 @@ public class GameSessionManager {
                 QuestBoard questBoard = new QuestBoard(600, 380);
                 questBoard.setTexture(imageLoaderComp.fetchImage("resources/questboard.png"));
                 area.addEntity(questBoard);
+
+                Vendor vendor = new Vendor(500, 380);
+                vendor.setTexture(imageLoaderComp.fetchImage("resources/elf_f_hit_anim_f0.png"));
+                area.addEntity(vendor);
 
                 for (;;) {
 
@@ -146,7 +154,7 @@ public class GameSessionManager {
                     randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                     randomLocY = random.nextInt(600 + 1 - 100) + 100;
                     PowerUp powerUp = null;
-                    switch(random.nextInt(4)) {
+                    switch(random.nextInt(10)) {
                         case 0:
                             powerUp = new HealthPowerUp(randomLocX, randomLocY, 100);
                             powerUp.setTexture(imageLoaderComp.fetchImage("resources/ui_heart_full.png"));
@@ -156,6 +164,23 @@ public class GameSessionManager {
                             powerUp = new ScorePowerUp(randomLocX, randomLocY, 5000);
                             powerUp.setTexture(imageLoaderComp.fetchImage("resources/star.png"));
                             area.addEntity(powerUp);
+                        break;
+                        case 2:
+                            powerUp = new ManaPowerUp(randomLocX, randomLocY, 100);
+                            powerUp.setTexture(imageLoaderComp.fetchImage("resources/mana_powerup.png"));
+                            area.addEntity(powerUp);
+                        break;
+                        case 3:
+                            powerUp = new SpeedPowerUp(randomLocX, randomLocY, 2.0, 5.0);
+                            powerUp.setTexture(imageLoaderComp.fetchImage("resources/speed_powerup.png"));
+                            area.addEntity(powerUp);
+                        break;
+                        case 4:
+                            Chest chest = new Chest(randomLocX, randomLocY, 5);
+                            chest.setTexture(imageLoaderComp.fetchImage("resources/chest_empty_open_anim_f0.png"));
+                            chest.setOpenTexture(imageLoaderComp.fetchImage("resources/chest_empty_open_anim_f2.png"));
+                            chest.setLootTexture(imageLoaderComp.fetchImage("resources/loot.png"));
+                            area.addEntity(chest);
                         break;
                         default: break;
                     }

@@ -20,8 +20,8 @@ public class Equipment {
     private RangedWeapon equippedRangedWeapon;
     private long goldPieces;
 
-    public Equipment() {
-        this.backpack = new Backpack(100);
+    public Equipment(Player player) {
+        this.backpack = new Backpack(100, player);
         this.goldPieces = 0;
     }
 

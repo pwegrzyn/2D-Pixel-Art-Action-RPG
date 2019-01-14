@@ -10,17 +10,25 @@ public class Backpack {
     private int baseCapacity;
     private int usedSpace;
     private List<Item> items;
+    private Player player;
 
-    public Backpack(int capacity) {
+    public Backpack(int capacity, Player player) {
         this.items = new ArrayList<>();
         this.usedSpace = 0;
         this.baseCapacity = capacity;
+        this.player = player;
     }
 
     public boolean addItem(Item item) {
         if(usedSpace + item.getWeight() < baseCapacity) {
             this.items.add(item);
             this.usedSpace += item.getWeight();
+            if(item instanceof HealthPotion && player != null) {
+                player.setHPPot(player.getHPPot()+ 1);
+            }
+            if (item instanceof ManaPotion && player != null) {
+                player.setManaPot(player.getManaPot() + 1);
+            }
             return true;
         }
         return false;
@@ -83,6 +91,21 @@ public class Backpack {
         else {
             found.consume(player);
             return res - 1;
+        }
+    }
+
+    public boolean useKey()  {
+        Key foundKey = null;
+        for(Item item : this.items) {
+            if(item instanceof Key) {
+                foundKey = (Key) item;
+            }
+        }
+        if(foundKey != null) {
+            removeItem(foundKey);
+            return true;
+        } else {
+            return false;
         }
     }
 
