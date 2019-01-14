@@ -72,7 +72,7 @@ public abstract class Mob extends Entity{
 	}
 
 	public StatManager getStatManager() {
-		return statManager;
+		return this.statManager;
 	}
 	
 	public void setExp(int exp) {
