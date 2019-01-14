@@ -14,7 +14,7 @@ import pl.edu.agh.to2.yadc.render.RenderManager;
 public class App {
 
 	public static void main(String[] args) {
-		
+	
 		Configuration cfg = new Configuration();
 		cfg.setTargetHeight(312);
 		cfg.setTargetWidth(500);
@@ -38,12 +38,27 @@ public class App {
 
 		GameSessionManager.init(inputManager, imageLoader, hud, areaManager, renderManager);
 
-		GameSessionManager.newGameSession();
+		handlePerfTest(args);
+
+		if(GlobalConfig.get().getPerfTestOn())
+			GameSessionManager.runPerfTest();
+		else
+			GameSessionManager.newGameSession();
 		
 	}
 
+	// Gracefully exit
 	public static void quit() {
 		System.exit(0);
+	}
+
+	// Check if performance test should be run
+	public static void handlePerfTest(String[] args) {
+		if(args.length > 0 && args[0].equals("perf_test")) {
+			GlobalConfig.get().setPerfTestOn(true);
+		} else {
+			GlobalConfig.get().setPerfTestOn(false);
+		}
 	}
 
 }

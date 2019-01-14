@@ -18,7 +18,7 @@ public class HealthPowerUp extends PowerUp {
             if(player.getStatManager().getCurrentHealth() + this.value >= player.getStatManager().getMaxHealth()) {
                 player.getStatManager().setHealth(player.getStatManager().getMaxHealth());
             } else {
-                player.getStatManager().setBaseHealth(player.getStatManager().getCurrentHealth() + this.value);
+                player.getStatManager().setHealth(player.getStatManager().getCurrentHealth() + this.value);
             }
             GlobalConfig.get().printToChatBox("You have gained " + this.value + " HP");
             area.removeEntity(this);

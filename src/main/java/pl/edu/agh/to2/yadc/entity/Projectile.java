@@ -9,7 +9,7 @@ public class Projectile extends Entity {
 	protected int physicalDmg = 20;
 	protected int magicDmg = 10;
 	protected Entity owner = null;
-	protected int coveredDistance;
+	protected double coveredDistance;
 	protected ProjectileTypes type;
 	
 	public Projectile(ProjectileTypes type, Entity owner, double collisionRadius) {
@@ -30,9 +30,10 @@ public class Projectile extends Entity {
 	public void advanceSelf(double delta) {
 		this.xPos += Math.cos(this.angularRotation) * delta * this.velocity;
 		this.yPos += Math.sin(this.angularRotation) * delta * this.velocity;
-		this.coveredDistance += 100*delta;
-		if(owner instanceof Player && this.coveredDistance >= ((Player)owner).getStatManager().getRange())
+		this.coveredDistance += 15*delta;
+		if(owner instanceof Player && this.coveredDistance >= ((Player)owner).getStatManager().getRange()) {
 			area.removeEntity(this);
+		}
 		if(owner instanceof Mob && this.coveredDistance >= ((Mob)owner).getStatManager().getRange())
 			area.removeEntity(this);
 	}
@@ -51,6 +52,10 @@ public class Projectile extends Entity {
 
 	public int getPhysicalDmg() {
 		return this.physicalDmg;
+	}
+	
+	public int getMagicDmg() {
+		return this.magicDmg;
 	}
 	
 	// @Override

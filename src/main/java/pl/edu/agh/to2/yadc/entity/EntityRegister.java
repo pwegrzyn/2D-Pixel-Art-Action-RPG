@@ -8,16 +8,16 @@ public class EntityRegister {
 
     private Set<Entity> activeEntities;
     private Set<Entity> toDeleteEntities;
-    private Set<Entity> toAddEntites;
+    private Set<Entity> toAddEntities;
 
     public EntityRegister() {
         activeEntities = new HashSet<>();
-        toAddEntites = new HashSet<>();
+        toAddEntities = new HashSet<>();
         toDeleteEntities = new HashSet<>();
     }
     
     public void register(Entity newEntity) {
-        toAddEntites.add(newEntity);
+        toAddEntities.add(newEntity);
     }
 
     public void unregister(Entity entity) {
@@ -26,9 +26,9 @@ public class EntityRegister {
 
     public void synchronize() {
         activeEntities.removeAll(toDeleteEntities);
-        activeEntities.addAll(toAddEntites);
+        activeEntities.addAll(toAddEntities);
         toDeleteEntities.clear();
-        toAddEntites.clear();
+        toAddEntities.clear();
     }
 
 	public void foreach(Consumer<Entity> mapper) {
@@ -40,6 +40,14 @@ public class EntityRegister {
 	
 	public Set<Entity> getActiveEntities(){
 		return activeEntities;
+	}
+	
+	public Set<Entity> getEnitiesToDelete(){
+		return toDeleteEntities;
+	}
+	
+	public Set<Entity> getEntitiesToAdd(){
+		return toAddEntities;
 	}
 
 }

@@ -31,6 +31,7 @@ public class Player extends Entity {
 	private static QuestLog questLog;
 	private static Equipment equipment;
 	private int score;
+	private boolean godmode;
 	private BufferedImage graveTexture;
 	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
 	private double ProjectileSwitchCooldown = 0.5;
@@ -42,12 +43,15 @@ public class Player extends Entity {
         super(xInit, yInit, 10);
 		this.velocity = 150;
 		equipment = new Equipment();
+
 		statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
 		statManager.setRange(20);
 		statManager.setBaseHealth(1000);
 		statManager.setHealth(1000);
 		statManager.setBaseMana(500);
 		statManager.setMana(500);
+		statManager.setPhysicalDmg(100);
+		statManager.setMagicDmg(20);
 		questLog = new QuestLog();
 		availableQuests = new LinkedList<>();
 		this.score = 0;
@@ -56,6 +60,8 @@ public class Player extends Entity {
 			equipment.addToBackpack(new HealthPotion());
 			equipment.addToBackpack(new ManaPotion());
 		}
+		
+		this.godmode = false;
     }
 
     private boolean up = false;
@@ -111,7 +117,7 @@ public class Player extends Entity {
 		}
 
 		// Player avatar death
-		if (statManager.getCurrentHealth() <= 0) {
+		if (statManager.getCurrentHealth() <= 0 && !godmode) {
 			setTexture(this.graveTexture);
 			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
 			GlobalConfig.get().printToChatBox("Click NEWGAME to start a new game");
@@ -287,22 +293,6 @@ public class Player extends Entity {
 	public QuestLog getQuestLog() {
 		return this.questLog;
 	}
-	
-	public void addExp(int exp) {
-		int currentExp = this.statManager.getCurrentExp();
-		int expToNextLvl = this.statManager.getExpToNextLvl();
-		GlobalConfig.get().printToChatBox("Received " + exp + " xp.");
-		if (currentExp + exp >= expToNextLvl) {
-			this.statManager.setLvl(this.statManager.getLvl() + 1);
-			GlobalConfig.get().printToChatBox("Congratulations! You have gained a new level.");
-			GlobalConfig.get().printToChatBox("You are now level " + this.statManager.getLvl() + ".");
-			this.statManager.setExpToNextLvl(this.statManager.getExpToNextLvl() * 2);
-			this.statManager.setExp(currentExp + exp - expToNextLvl);
-		}
-		else {
-			this.statManager.setExp(this.statManager.getExp() + exp);
-		}
-	}
 
 	public void addScore(int score) {
 		this.score += score;
@@ -341,7 +331,7 @@ public class Player extends Entity {
 				if(mobType.equals(slayQuest.getMonsterType()) || slayQuest.getMonsterType().equals("Any Mob Type")) {
 					if(slayQuest.progress()) {
 						toComplete.add(slayQuest);
-						addExp(slayQuest.getExpReward());
+						this.statManager.addExp(slayQuest.getExpReward());
 						addScore(slayQuest.getScoreReward());
 						GlobalConfig.get().printToChatBox("Quest " + slayQuest.getName() + " finished.");
 					}
@@ -395,6 +385,10 @@ public class Player extends Entity {
 
 	public int getConsumable_2() {
 		return this.consumable_2_amount;
+	}
+
+	public void godmode(boolean val) {
+		this.godmode = val;
 	}
 	
 }

@@ -29,6 +29,7 @@ public class GameSessionManager {
     private static boolean firstGameRun = true;
     private static Thread runningThread;
     private static boolean isThreadActive = false;
+    private static final int performanceMaxEntity = 400;
 
     public static void stopCurrentSession() {
         if(!isThreadActive) return;
@@ -164,6 +165,133 @@ public class GameSessionManager {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                }
+            }
+
+        };
+
+        isThreadActive = true;
+        runningThread.start();
+    }
+
+    public static void runPerfTest() {
+
+        runningThread = new Thread() {
+
+            @Override
+            public void run() {
+                boolean continueSpawning = true;
+                Player player = new Player(700, 330);
+                player.setInputManager(inputManagerComp);
+                player.setTexture(imageLoaderComp.fetchImage("resources/wizzard_f_idle_anim_f0.png"));
+                player.setGraveTexture(imageLoaderComp.fetchImage("resources/grave.png"));
+                hudComp.bindPlayer(player);
+                hudComp.getSkillBar().setSkill_1ActiveTexture(imageLoaderComp.fetchImage("resources/slow_active.png"));
+                hudComp.getSkillBar()
+                        .setSkill_1InactiveTexture(imageLoaderComp.fetchImage("resources/slow_inactive.png"));
+                hudComp.getSkillBar().setSkill_2ActiveTexture(imageLoaderComp.fetchImage("resources/stun_active.png"));
+                hudComp.getSkillBar()
+                        .setSkill_2InactiveTexture(imageLoaderComp.fetchImage("resources/stun_inactive.png"));
+                hudComp.getSkillBar()
+                        .setSkill_3ActiveTexture(imageLoaderComp.fetchImage("resources/multishot_inactive_new.png"));
+                hudComp.getSkillBar()
+                        .setSkill_3InactiveTexture(imageLoaderComp.fetchImage("resources/multishot_inactive.png"));
+                hudComp.getSkillBar().setConsumable_1Texture(imageLoaderComp.fetchImage("resources/health_potion.png"));
+                hudComp.getSkillBar().setConsumable_2Texture(imageLoaderComp.fetchImage("resources/mana_potion.png"));
+                hudComp.getSkillBar().setEmptyTexture(imageLoaderComp.fetchImage("resources/empty.png"));
+
+                ProjectileFactory.setNormalProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
+                ProjectileFactory
+                        .setSlowingProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet_slow.png"));
+                ProjectileFactory
+                        .setStunningProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet_stun.png"));
+                ProjectileFactory.setMobProjectileTexture(imageLoaderComp.fetchImage("resources/minibullet.png"));
+
+                Area area = new Area("Knowhere");
+                area.setTexture(imageLoaderComp.fetchImage("resources/grass_land.png"));
+                area.setSize(1475, 663);
+                area.addEntity(player);
+
+                player.setArea(area);
+
+                areaManagerComp.setCurrentArea(area);
+
+                if (firstGameRun) {
+                    renderManagerComp.startRendering(areaManagerComp);
+                    firstGameRun = false;
+                } else {
+                    GlobalConfig.get().setFrozenRender(false);
+                }
+
+                MobFactory factory = new MobFactory();
+
+                Random random = new Random();
+
+                QuestBoard questBoard = new QuestBoard(600, 380);
+                questBoard.setTexture(imageLoaderComp.fetchImage("resources/questboard.png"));
+                area.addEntity(questBoard);
+
+                player.godmode(true);
+
+                for (;;) {
+
+                    if (area.getEntityRegister().getActiveEntities().size() > performanceMaxEntity) {
+                        // fall asleep and say goodbye to your cpu [*]
+                        continueSpawning = false;
+                    } else {
+                        continueSpawning = true;
+                    }
+
+                    if(!continueSpawning) {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        continue;
+                    }
+
+                    if (GlobalConfig.get().getFrozenGameSessionThread()) {
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        continue;
+                    }
+
+                    int randomLocX = random.nextInt(1400 + 1 - 100) + 100;
+                    int randomLocY = random.nextInt(600 + 1 - 100) + 100;
+                    RangedMob mob = (RangedMob) factory.createRangedMob(randomLocX, randomLocY, 10,
+                            imageLoaderComp.fetchImage("resources/swampy_idle_anim_f0.png"),
+                            imageLoaderComp.fetchImage("resources/skull.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
+                    if (random.nextInt(5) == 0)
+                        mob.setAggresive(true);
+                    area.addEntity(mob);
+
+                    randomLocX = random.nextInt(1400 + 1 - 100) + 100;
+                    randomLocY = random.nextInt(600 + 1 - 100) + 100;
+                    MeleeMob mob2 = (MeleeMob) factory.createMeleeMob(randomLocX, randomLocY, 10,
+                            imageLoaderComp.fetchImage("resources/zombie_idle_anim_f0.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
+                    if (random.nextInt(5) == 0)
+                        mob.setAggresive(true);
+                    area.addEntity(mob2);
+
+                    randomLocX = random.nextInt(1400 + 1 - 100) + 100;
+                    randomLocY = random.nextInt(600 + 1 - 100) + 100;
+                    MeleeMob boss = (MeleeMob) factory.createMeleeBoss(randomLocX, randomLocY, 15,
+                            imageLoaderComp.fetchImage("resources/big_zombie_idle_anim_f0.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
+                    area.addEntity(boss);
+
+                    randomLocX = random.nextInt(1400 + 1 - 100) + 100;
+                    randomLocY = random.nextInt(600 + 1 - 100) + 100;
+                    RangedMob Rangedboss = (RangedMob) factory.createRangedBoss(randomLocX, randomLocY, 15,
+                            imageLoaderComp.fetchImage("resources/big_demon_idle_anim_f0.png"),
+                            imageLoaderComp.fetchImage("resources/loot.png"));
+                    area.addEntity(Rangedboss);
                 }
             }
 

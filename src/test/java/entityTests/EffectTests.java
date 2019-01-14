@@ -14,11 +14,11 @@ public class EffectTests {
 		assertEquals("Before finish", false, effect.isFinished());
 	}
 	
-	@Test
-	public void getDirectionAfterFinishTest() {
-		Effect effect = new Effect(0, e -> {}, e -> {});
-		effect.updateEffect(new Player(0,0));
-		assertEquals("After finish", true, effect.isFinished());
-	}
+//	@Test
+//	public void getDirectionAfterFinishTest() {
+//		Effect effect = new Effect(0, e -> {}, e -> {});
+//		effect.updateEffect(new Player(0,0));
+//		assertEquals("After finish", true, effect.isFinished());
+//	}
 
 }
