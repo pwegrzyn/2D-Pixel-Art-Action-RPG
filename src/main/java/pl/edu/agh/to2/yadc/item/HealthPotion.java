@@ -18,7 +18,7 @@ public class HealthPotion extends Item implements Consumable {
         if (player.getStatManager().getCurrentHealth() + this.healthValue >= player.getStatManager().getMaxHealth()) {
             player.getStatManager().setHealth(player.getStatManager().getMaxHealth());
         } else {
-            player.getStatManager().setBaseHealth(player.getStatManager().getCurrentHealth() + this.healthValue);
+            player.getStatManager().setHealth(player.getStatManager().getCurrentHealth() + this.healthValue);
         }
         player.getEquipment().getBackpack().removeItem(this);
     }

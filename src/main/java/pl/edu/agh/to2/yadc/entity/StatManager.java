@@ -138,8 +138,8 @@ public class StatManager {
 			this.intelligence ++;
 			this.baseHealth += 100;
 			this.baseMana += 100;
-			this.health = this.baseHealth;
-			this.mana = this.baseMana;
+			this.health = getMaxHealth();
+			this.mana = getMaxMana();
 		}
 		else {
 			this.currentExp += exp;
