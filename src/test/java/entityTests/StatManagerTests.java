@@ -2,12 +2,30 @@ package entityTests;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.agh.to2.yadc.area.Area;
+import pl.edu.agh.to2.yadc.config.Configuration;
+import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.entity.SpeedPowerUp;
 import pl.edu.agh.to2.yadc.entity.StatManager;
+import pl.edu.agh.to2.yadc.hud.HUD;
 
 public class StatManagerTests {
-
+	private Configuration config;
+	private HUD hud;
+	private SpeedPowerUp powerUp;
+	
+	@Before 
+	public void prepare() {
+		hud = new HUD();
+		config = new Configuration();
+		config.setHUD(hud);
+		GlobalConfig.setGlobalConfig(config);
+	}
+	
 	@Test
 	public void getMaxHealthTest(){
 		int strToHp = 10;
@@ -59,6 +77,26 @@ public class StatManagerTests {
 		statManager.setMagicDmg(baseDmg);
 		statManager.setIntelligence(baseInt);
 		assertEquals("Magic dmg formula", baseDmg + baseInt * intToDmg, statManager.getMagicDmg());
+	}
+	
+	@Test
+	public void addExpNormalTest() {
+		StatManager statManager = new StatManager(0, 0, 0, 0, 35, 0);
+		statManager.setExp(0);
+		statManager.setExpToNextLvl(1000);
+		statManager.addExp(100);
+		assertEquals("Bad number of added exp", statManager.getExp(), 100);
+	}
+	
+	@Test
+	public void addExpLvlUpTest() {
+		StatManager statManager = new StatManager(0, 0, 0, 0, 35, 0);
+		statManager.setExpToNextLvl(1000);
+		statManager.setExp(990);
+		statManager.setLvl(2);
+		statManager.addExp(100);
+		assertEquals("Bad number of added exp", statManager.getExp(), 90);
+		assertEquals("Bad lvl calculated", statManager.getLvl(), 3);
 	}
 
 }

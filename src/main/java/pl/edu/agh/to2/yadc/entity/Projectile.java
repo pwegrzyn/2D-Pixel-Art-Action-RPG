@@ -58,19 +58,4 @@ public class Projectile extends Entity {
 		return this.magicDmg;
 	}
 	
-	// @Override
-	// public void performCollisionAction(Entity entity) {
-	// 	if(entity instanceof Player) {
-	// 		return;
-	// 	}
-	// 	if(entity instanceof Mob) {
-	// 		this.area.removeEntity(this);
-	// 	}
-		
-	// 	if (this.owner != entity) {
-	// 		for (Effect effect : entity.spreadingEffects) {
-	// 			effect.activate(this);
-	// 		}
-	// 	}
-	// }
 }

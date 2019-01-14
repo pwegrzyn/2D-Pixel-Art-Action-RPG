@@ -417,4 +417,8 @@ public class Player extends Entity {
 		this.speedChangeDuration = time;
 		this.speedMultiplier = multiplier;
 	}
+	
+	public double getSpeedMultiplayer() {
+		return this.speedMultiplier;
+	}
 }

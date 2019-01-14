@@ -52,21 +52,4 @@ public class MobFactory {
 		return newMob;
 	}
 	
-	public Mob createFlyingMob(double xInit, double yInit, double collisionRadius, BufferedImage texture) {
-		MeleeMob newMob = new MeleeMob(xInit, yInit, collisionRadius);
-		newMob.setTexture(texture);
-		newMob.getStatManager().setHealth(400);
-		newMob.getStatManager().setBaseHealth(400);
-		return newMob;
-	}
-	
-	//tylko testowo
-	/*public Mob createTestMob(double xInit, double yInit, double collisionRadius, BufferedImage texture, BufferedImage projectileTexture) {
-		TestEnemy newMob = new TestEnemy(xInit, yInit, collisionRadius);
-		newMob.setTexture(texture);
-		newMob.setProjectileTexture(projectileTexture);
-		newMob.getStatManager().setHealth(400);
-		newMob.getStatManager().setBaseHealth(400);
-		return newMob;
-	}*/
 }

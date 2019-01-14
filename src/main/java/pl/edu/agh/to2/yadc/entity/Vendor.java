@@ -19,7 +19,7 @@ public class Vendor extends Entity {
 
     @Override
     public void advanceSelf(double delta) {
-        // TODO
+        // nothing
     }
 
     @Override
