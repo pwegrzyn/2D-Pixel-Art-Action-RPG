@@ -9,7 +9,7 @@ public class HealthPotion extends Item implements Consumable {
     
     public HealthPotion() {
         super(1);
-        this.healthValue = 30;
+        this.healthValue = 100;
         this.description = "Health Potion";
     }
     

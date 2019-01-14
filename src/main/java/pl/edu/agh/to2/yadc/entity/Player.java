@@ -336,6 +336,7 @@ public class Player extends Entity {
 						toComplete.add(slayQuest);
 						this.statManager.addExp(slayQuest.getExpReward());
 						addScore(slayQuest.getScoreReward());
+						equipment.addGoldPieces(slayQuest.getGoldReward());
 						GlobalConfig.get().printToChatBox("Quest " + slayQuest.getName() + " finished.");
 					}
 				}

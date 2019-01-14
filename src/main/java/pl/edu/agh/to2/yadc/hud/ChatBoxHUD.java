@@ -336,7 +336,10 @@ public class ChatBoxHUD implements Advanceable, Renderable {
 	            	break;
             	}
             	else if (commands.length == 2) {
-            		Item item = Player.getEquipment().getBackpack().getItemById(commands[1].toLowerCase());
+                    Item item = Player.getEquipment().getBackpack().getItemById(commands[1].toLowerCase());
+                    if(item == null) {
+                        return;
+                    }
             		printToChatBox("Item (id: " + commands[1] + ") stats:");
             		if (item instanceof Armor) {
             			Armor armor = (Armor)item;
