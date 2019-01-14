@@ -17,7 +17,7 @@ public class ManaPotion extends Item implements Consumable {
         if (player.getStatManager().getCurrentMana() + this.manaValue >= player.getStatManager().getMaxMana()) {
             player.getStatManager().setMana(player.getStatManager().getMaxMana());
         } else {
-            player.getStatManager().setBaseMana(player.getStatManager().getCurrentMana() + this.manaValue);
+            player.getStatManager().setMana(player.getStatManager().getCurrentMana() + this.manaValue);
         }
         player.getEquipment().getBackpack().removeItem(this);
     }
