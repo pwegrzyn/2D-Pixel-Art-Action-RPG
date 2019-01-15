@@ -14,7 +14,6 @@ import pl.edu.agh.to2.yadc.physics.CollisionEngine;
 import pl.edu.agh.to2.yadc.render.Animation;
 import pl.edu.agh.to2.yadc.render.AnimationType;
 import pl.edu.agh.to2.yadc.render.Camera;
-import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.Renderable;
 
 public class Entity implements Renderable, Advanceable {
@@ -47,14 +46,14 @@ public class Entity implements Renderable, Advanceable {
 	}
 
 	public void advanceSelf(double delta) {
+		checkCollisions();
+		updateEffects();
 		if(this.currentAnimation != null) {
 			this.currentAnimation.advanceSelf(delta);
 		}
 	}
 
 	public final void renderSelf(Graphics graphics, Camera currentCamera) {
-		checkCollisions();
-		updateEffects();
 		int width = GlobalConfig.get().getTargetWidth();
 		int height = GlobalConfig.get().getTargetHeight();
 		int xApparent = (int) xPos - currentCamera.getXPos() + width / 2;
@@ -67,7 +66,6 @@ public class Entity implements Renderable, Advanceable {
 			graphics.drawImage(frame, xApparent - frame.getWidth() / 2, yApparent - frame.getHeight() / 2,
 					frame.getWidth(), frame.getHeight(), null);
 		}
-
 	}
 
 	public final void pickAnimation(AnimationType type) {

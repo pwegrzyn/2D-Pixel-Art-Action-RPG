@@ -52,11 +52,14 @@ public class Player extends Entity {
 	private static QuestBoard questBoard;
 	private int hppot_amount = 0;
 	private int manapot_amount = 0;
+	private double idleTimer = 0;
+	private double idleCooldown = 0.1;
 	
     public Player(double xInit, double yInit) {
+
         super(xInit, yInit, 10);
 		equipment = new Equipment(this);
-
+		this.godmode = false;
 		statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
 		statManager.setRange(20);
 		statManager.setBaseHealth(1000);
@@ -73,16 +76,23 @@ public class Player extends Entity {
 			equipment.addToBackpack(new HealthPotion(300));
 			equipment.addToBackpack(new ManaPotion(150));
 		}
-		
-		this.godmode = false;
-		Animation animation = new Animation(AnimationType.IDLE, new BufferedImage[] { 
+
+		Animation animation = new Animation(AnimationType.WALK, new BufferedImage[] { 
 					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
 					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f1.png"),
 					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f2.png"),
 					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f3.png")	
 		}, 0.1);
 		assignAnimation(animation);
+		animation = new Animation(AnimationType.IDLE, new BufferedImage[] { 
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png")	
+		}, 0.1);
+		assignAnimation(animation);
 		pickAnimation(AnimationType.IDLE);
+
 		this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
     }
 
@@ -144,19 +154,33 @@ public class Player extends Entity {
 	private void reactToUserInput(double delta) {
 
 		boolean isInputDisabled = inputManager.isNonChatInputDisabled();
-		
+
+		boolean changedPosition = false;
 		if (inputManager.getPressedByName("up") && !isInputDisabled) {
-	    	this.yPos -= statManager.getSpeed() * this.speedMultiplier * delta;
+			this.yPos -= statManager.getSpeed() * this.speedMultiplier * delta;
+			changedPosition = true;
 	    }
 	    if (inputManager.getPressedByName("down") && !isInputDisabled) {
-	    	this.yPos += statManager.getSpeed() * this.speedMultiplier * delta;
+			this.yPos += statManager.getSpeed() * this.speedMultiplier * delta;
+			changedPosition = true;
 	    }
 	    if (inputManager.getPressedByName("left") && !isInputDisabled) {
-	    	this.xPos -= statManager.getSpeed() * this.speedMultiplier * delta;
+			this.xPos -= statManager.getSpeed() * this.speedMultiplier * delta;
+			changedPosition = true;
 	    } 
 	    if (inputManager.getPressedByName("right") && !isInputDisabled) {
-    	    this.xPos += statManager.getSpeed() * this.speedMultiplier * delta;  
-	    }
+			this.xPos += statManager.getSpeed() * this.speedMultiplier * delta; 
+			changedPosition = true; 
+		}
+		if(changedPosition) {
+			pickAnimation(AnimationType.WALK);
+		} else {
+			this.idleTimer += delta;
+			if(this.idleTimer > this.idleCooldown) {
+				idleTimer = 0;
+				pickAnimation(AnimationType.IDLE);
+			}
+		}
 		
 		if (inputManager.getPressedByName("lookUp") && !isInputDisabled) {
 	    	if (!up) {
