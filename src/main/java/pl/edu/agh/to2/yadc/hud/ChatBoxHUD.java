@@ -47,6 +47,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     private double cursorBlinkTimer = 0;
     private double cursorBlinkCooldown = 0.7;
     private boolean cursorBlinkOn = false;
+    private double relativeScrollBarSize = 0.0;
 
     public ChatBoxHUD() {
 
@@ -58,14 +59,20 @@ public class ChatBoxHUD implements Advanceable, Renderable {
     
     @Override
     public void advanceSelf(double delta) {
+
         if(inputManager == null) return;
-        if(!isUserTyping) {
-            updateTextArea(delta);
-        }
+        updateTextArea(delta);
         updateInputArea(delta);
         if(isUserTyping) {
             updateInputText(delta);
         }
+        
+        if(this.currentlyInAllBuffer <= this.ACTIVE_BUFFER_SIZE) {
+            this.relativeScrollBarSize = 1.0;
+        } else {
+            this.relativeScrollBarSize = ((double)this.ACTIVE_BUFFER_SIZE) / this.currentlyInAllBuffer;
+        }
+
     }
 
     @Override
@@ -76,8 +83,10 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         graphics.setColor(Color.LIGHT_GRAY);
         graphics.fillRect(329, 217, 1, 200);
         graphics.fillRect(329, 217, 200, 1);
-        graphics.fillRect(329, 297, 169, 1);
-        graphics.fillRect(329, 297, 169, 1);
+        graphics.fillRect(329, 297, 200, 1);
+
+        graphics.fillRect(329 + 166, 218 + (int)(80 * ((double)(this.startCursor) / this.currentlyInAllBuffer)), 5, (int)(80 * this.relativeScrollBarSize));
+
         graphics.setColor(Color.GRAY);
 
         graphics.setColor(Color.WHITE);
@@ -106,6 +115,14 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                 }
                 this.currentlyInAllBuffer++;
             }
+
+            for (int i = 0; i <= this.currentlyInAllBuffer; i++) {
+                if (endCursor + 1 <= this.currentlyInAllBuffer) {
+                    startCursor++;
+                    endCursor++;
+                }
+            }
+
             return;
         }
 
@@ -115,6 +132,13 @@ public class ChatBoxHUD implements Advanceable, Renderable {
             this.startCursor++;
         }
         this.currentlyInAllBuffer++;
+        for (int i = 0; i <= this.currentlyInAllBuffer; i++) {
+            if (endCursor + 1 <= this.currentlyInAllBuffer) {
+                startCursor++;
+                endCursor++;
+            }
+        }
+        return;
 
     }
 
@@ -174,7 +198,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         inputChangeTimer += delta;
         sameKeyTimer += delta;
         if(inputChangeTimer > inputChangeCooldown) {
-            for(int i = 32; i <= 90; i++) {
+            for(int i = 35; i <= 90; i++) {
                 if(inputManager.getPressedByCode(0x08)) {
                     String buffer = inputBuilder.toString();
                     if(!buffer.equals("")) {

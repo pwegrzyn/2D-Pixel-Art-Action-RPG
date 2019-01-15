@@ -17,8 +17,8 @@ public class KeybindSet {
 		keyBinds.put("left", KeyEvent.VK_A);
 		keyBinds.put("right", KeyEvent.VK_D);
         keyBinds.put("attack", KeyEvent.VK_SPACE);
-        keyBinds.put("chatUp", KeyEvent.VK_K);
-        keyBinds.put("chatDown", KeyEvent.VK_M);
+        keyBinds.put("chatUp", KeyEvent.VK_PAGE_UP);
+        keyBinds.put("chatDown", KeyEvent.VK_PAGE_DOWN);
         keyBinds.put("lookUp", KeyEvent.VK_UP);
         keyBinds.put("lookDown", KeyEvent.VK_DOWN);
         keyBinds.put("lookLeft", KeyEvent.VK_LEFT);
