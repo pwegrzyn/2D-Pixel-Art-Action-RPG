@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import pl.edu.agh.to2.yadc.entity.Player;
 import pl.edu.agh.to2.yadc.entity.ProjectileTypes;
 import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.Renderable;
 
 public class SkillBarHUD implements Renderable {
@@ -22,6 +23,18 @@ public class SkillBarHUD implements Renderable {
     private BufferedImage consumable1;
     private BufferedImage consumable2;
     private BufferedImage empty;
+
+    public SkillBarHUD() {
+        this.skill_1Active = ImageLoader.active.fetchImage("resources/slow_active.png");
+        this.skill_1Inactive = ImageLoader.active.fetchImage("resources/slow_inactive.png");
+        this.skill_2Active = ImageLoader.active.fetchImage("resources/stun_active.png");
+        this.skill_2Inactive = ImageLoader.active.fetchImage("resources/stun_inactive.png");
+        this.skill_3Active = ImageLoader.active.fetchImage("resources/multishot_inactive_new.png");
+        this.skill_3Inactive = ImageLoader.active.fetchImage("resources/multishot_inactive.png");
+        this.consumable1 = ImageLoader.active.fetchImage("resources/health_potion.png");
+        this.consumable2 = ImageLoader.active.fetchImage("resources/mana_potion.png");
+        this.empty = ImageLoader.active.fetchImage("resources/empty.png");
+    }
 
     @Override
     public void renderSelf(Graphics graphics, Camera camera) {

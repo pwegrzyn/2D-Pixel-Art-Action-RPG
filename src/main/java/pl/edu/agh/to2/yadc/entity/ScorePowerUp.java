@@ -1,6 +1,7 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 public class ScorePowerUp extends PowerUp {
 
@@ -9,6 +10,7 @@ public class ScorePowerUp extends PowerUp {
     public ScorePowerUp(int xPos, int yPos, int value) {
         super(xPos, yPos);
         this.value = value;
+        this.texture = ImageLoader.active.fetchImage("resources/star.png");
     }
 
     @Override
@@ -23,6 +25,6 @@ public class ScorePowerUp extends PowerUp {
 
     @Override
     public void advanceSelf(double delta) {
-        // nothing
+        super.advanceSelf(delta);
     }
 }

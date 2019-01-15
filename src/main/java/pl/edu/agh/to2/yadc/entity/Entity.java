@@ -11,12 +11,17 @@ import pl.edu.agh.to2.yadc.area.Area;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.physics.Advanceable;
 import pl.edu.agh.to2.yadc.physics.CollisionEngine;
+import pl.edu.agh.to2.yadc.render.Animation;
+import pl.edu.agh.to2.yadc.render.AnimationType;
 import pl.edu.agh.to2.yadc.render.Camera;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 import pl.edu.agh.to2.yadc.render.Renderable;
 
-public abstract class Entity implements Renderable, Advanceable {
+public class Entity implements Renderable, Advanceable {
 
 	protected BufferedImage texture;
+	protected Map<AnimationType, Animation> animations;
+	protected Animation currentAnimation;
 	protected double xPos;
 	protected double yPos;
 	protected Boolean collidable;
@@ -38,9 +43,14 @@ public abstract class Entity implements Renderable, Advanceable {
 		this.activeEffects = new LinkedList<>();
 		this.spreadingActions = new LinkedList<>();
 		this.collisionCache = new HashMap<>();
+		this.animations = new HashMap<>();
 	}
 
-	abstract public void advanceSelf(double delta);
+	public void advanceSelf(double delta) {
+		if(this.currentAnimation != null) {
+			this.currentAnimation.advanceSelf(delta);
+		}
+	}
 
 	public final void renderSelf(Graphics graphics, Camera currentCamera) {
 		checkCollisions();
@@ -49,9 +59,23 @@ public abstract class Entity implements Renderable, Advanceable {
 		int height = GlobalConfig.get().getTargetHeight();
 		int xApparent = (int) xPos - currentCamera.getXPos() + width / 2;
 		int yApparent = (int) yPos - currentCamera.getYPos() + height / 2;
-		graphics.drawImage(this.texture, xApparent - texture.getWidth() / 2, yApparent - texture.getHeight() / 2,
-				texture.getWidth(), texture.getHeight(), null);
+		if(this.texture != null) {
+			graphics.drawImage(this.texture, xApparent - texture.getWidth() / 2, yApparent - texture.getHeight() / 2,
+					texture.getWidth(), texture.getHeight(), null);
+		} else if(this.currentAnimation != null) {
+			BufferedImage frame = this.currentAnimation.getCurrentFrame();
+			graphics.drawImage(frame, xApparent - frame.getWidth() / 2, yApparent - frame.getHeight() / 2,
+					frame.getWidth(), frame.getHeight(), null);
+		}
 
+	}
+
+	public final void pickAnimation(AnimationType type) {
+		this.currentAnimation = this.animations.get(type);
+	}
+
+	public final void assignAnimation(Animation anim) {
+		this.animations.put(anim.getType(), anim);
 	}
 
 	public final void checkCollisions() {

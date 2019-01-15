@@ -28,6 +28,7 @@ public class Projectile extends Entity {
 
 	@Override
 	public void advanceSelf(double delta) {
+		super.advanceSelf(delta);
 		this.xPos += Math.cos(this.angularRotation) * delta * this.velocity;
 		this.yPos += Math.sin(this.angularRotation) * delta * this.velocity;
 		this.coveredDistance += 15*delta;

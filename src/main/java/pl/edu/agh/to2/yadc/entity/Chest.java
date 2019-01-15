@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 public class Chest extends PowerUp {
 
@@ -17,6 +18,9 @@ public class Chest extends PowerUp {
     public Chest(int xPos, int yPos, int value) {
         super(xPos, yPos);
         this.numberOfLootz = value;
+        this.texture = ImageLoader.active.fetchImage("resources/chest_empty_open_anim_f0.png");
+        this.openTexture = ImageLoader.active.fetchImage("resources/chest_empty_open_anim_f2.png");
+        this.lootTexture = ImageLoader.active.fetchImage("resources/loot.png");
     }
 
     @Override
@@ -44,6 +48,7 @@ public class Chest extends PowerUp {
 
     @Override
     public void advanceSelf(double delta) {
+        super.advanceSelf(delta);
         if(this.isOpen) {
             this.openTimer += delta;
             if(this.openTimer > this.openCooldown) {

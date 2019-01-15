@@ -25,6 +25,7 @@ public abstract class Mob extends Entity{
 	
 	@Override
 	public void advanceSelf(double delta) {
+		super.advanceSelf(delta);
 		if(aggresive)
 			approachPlayer(delta);
 			makeAttack();

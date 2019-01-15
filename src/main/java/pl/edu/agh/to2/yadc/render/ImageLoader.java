@@ -20,6 +20,7 @@ import javax.imageio.ImageIO;
 
 public class ImageLoader {
 
+    public static ImageLoader active = new ImageLoader(null);
     private Map<String, BufferedImage> cachedImages;
     private final int MAX_IMAGE_CACHE_SIZE = 100;
     private Canvas canvas;
@@ -27,6 +28,7 @@ public class ImageLoader {
     public ImageLoader(Canvas canvas) {
         this.canvas = canvas;
         this.cachedImages = new HashMap<>();
+        active = this;
     }
 
     public BufferedImage fetchImage(String imagePath) {

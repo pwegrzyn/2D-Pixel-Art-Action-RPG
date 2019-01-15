@@ -1,6 +1,7 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 public class SpeedPowerUp extends PowerUp {
 
@@ -11,6 +12,7 @@ public class SpeedPowerUp extends PowerUp {
         super(xPos, yPos);
         this.multiplier = mult;
         this.duration = time;
+        this.texture = ImageLoader.active.fetchImage("resources/speed_powerup.png");
     }
 
     @Override
@@ -25,7 +27,7 @@ public class SpeedPowerUp extends PowerUp {
 
     @Override
     public void advanceSelf(double delta) {
-        // nothing
+        super.advanceSelf(delta);
     }
 
 }

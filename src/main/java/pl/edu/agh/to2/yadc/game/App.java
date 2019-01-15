@@ -25,12 +25,12 @@ public class App {
 		RenderManager renderManager = new RenderManager();
 		InputManager inputManager = new InputManager();
 		AreaManager areaManager = new AreaManager();
-		HUD hud = new HUD();
 		renderManager.setInputManager(inputManager);
-		hud.setInputManager(inputManager);
 		renderManager.initialSetup();
-		renderManager.setGameplayHUD(hud);
 		ImageLoader imageLoader = new ImageLoader(renderManager.getMainCanvas());
+		HUD hud = new HUD();
+		hud.setInputManager(inputManager);
+		renderManager.setGameplayHUD(hud);
 
 		GlobalConfig.get().setHUD(hud);
 

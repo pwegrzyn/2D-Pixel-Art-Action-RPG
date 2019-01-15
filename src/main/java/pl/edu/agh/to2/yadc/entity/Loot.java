@@ -83,7 +83,7 @@ public class Loot extends Entity {
     
     @Override
     public void advanceSelf(double delta) {
-        // nothing
+        super.advanceSelf(delta);
     }
 
 }

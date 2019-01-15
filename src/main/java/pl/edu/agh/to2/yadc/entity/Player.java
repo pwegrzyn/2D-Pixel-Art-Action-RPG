@@ -16,6 +16,9 @@ import pl.edu.agh.to2.yadc.quest.Quest;
 import pl.edu.agh.to2.yadc.quest.QuestBoard;
 import pl.edu.agh.to2.yadc.quest.QuestLog;
 import pl.edu.agh.to2.yadc.quest.SlayQuest;
+import pl.edu.agh.to2.yadc.render.Animation;
+import pl.edu.agh.to2.yadc.render.AnimationType;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 
 public class Player extends Entity {
@@ -72,10 +75,21 @@ public class Player extends Entity {
 		}
 		
 		this.godmode = false;
+		Animation animation = new Animation(AnimationType.IDLE, new BufferedImage[] { 
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f1.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f2.png"),
+					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f3.png")	
+		}, 0.1);
+		assignAnimation(animation);
+		pickAnimation(AnimationType.IDLE);
+		this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
     }
 
     @Override
     public void advanceSelf(double delta) {
+
+		super.advanceSelf(delta);
 		
 		reactToUserInput(delta);
 

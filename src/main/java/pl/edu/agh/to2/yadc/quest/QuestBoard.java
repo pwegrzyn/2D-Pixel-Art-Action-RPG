@@ -8,6 +8,7 @@ import java.util.Random;
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
 import pl.edu.agh.to2.yadc.entity.Entity;
 import pl.edu.agh.to2.yadc.entity.Player;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 
 public class QuestBoard extends Entity {
@@ -30,10 +31,12 @@ public class QuestBoard extends Entity {
         this.slayTypePool.add(Arrays.asList("Ranger", "Ranger Slayer"));
         this.slayTypePool.add(Arrays.asList("Marauder", "Marauder Slayer"));
         this.slayTypePool.add(Arrays.asList("Any Mob Type", "Universal Slayer"));
+        this.texture = ImageLoader.active.fetchImage("resources/questboard.png");
     }
     
     @Override
     public void advanceSelf(double delta) {
+        super.advanceSelf(delta);
         spawnQuestTimer += delta;
         if(spawnQuestTimer > spawnQuestCooldown) {
             spawnQuestTimer = 0;

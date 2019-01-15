@@ -2,6 +2,7 @@ package pl.edu.agh.to2.yadc.config;
 
 import pl.edu.agh.to2.yadc.hud.HUD;
 import pl.edu.agh.to2.yadc.input.KeybindSet;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 
 public class Configuration {
@@ -17,6 +18,7 @@ public class Configuration {
 	private boolean frozenRender = false;
 	private boolean frozenGameSessionThread = false;
 	private boolean perfTestOn = false;
+	private ImageLoader imgLoader;
 	
 	public Configuration() {
 		this.targetHeight = 312;

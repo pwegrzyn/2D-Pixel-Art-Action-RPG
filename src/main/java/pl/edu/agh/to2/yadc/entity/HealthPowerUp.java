@@ -1,6 +1,7 @@
 package pl.edu.agh.to2.yadc.entity;
 
 import pl.edu.agh.to2.yadc.config.GlobalConfig;
+import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 public class HealthPowerUp extends PowerUp {
 
@@ -9,6 +10,7 @@ public class HealthPowerUp extends PowerUp {
     public HealthPowerUp(int xPos, int yPos, int value) {
         super(xPos, yPos);
         this.value = value;
+        this.texture = ImageLoader.active.fetchImage("resources/ui_heart_full.png");
     }
     
     @Override
@@ -27,7 +29,7 @@ public class HealthPowerUp extends PowerUp {
 
     @Override
     public void advanceSelf(double delta) {
-        // nothing
+        super.advanceSelf(delta);
     }
 
 }
