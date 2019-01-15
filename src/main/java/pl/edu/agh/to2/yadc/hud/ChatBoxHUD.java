@@ -198,13 +198,15 @@ public class ChatBoxHUD implements Advanceable, Renderable {
         inputChangeTimer += delta;
         sameKeyTimer += delta;
         if(inputChangeTimer > inputChangeCooldown) {
-            for(int i = 35; i <= 90; i++) {
+            for(int i = 32; i <= 90; i++) {
                 if(inputManager.getPressedByCode(0x08)) {
                     String buffer = inputBuilder.toString();
                     if(!buffer.equals("")) {
                         inputBuilder = new StringBuilder();
                     }
                 }
+                // FML
+                if(i == 34 || i == 33) continue;
                 if(inputManager.getPressedByCode(i)) {
                     if(i == lastKeyPressed) {
                         if(sameKeyTimer > sameKeyCooldown) {
@@ -303,7 +305,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                     case "HP":
                         if(Player.getEquipment().removeGoldPieces(500)) {
-                            Player.getEquipment().addToBackpack(new HealthPotion());
+                            Player.getEquipment().addToBackpack(new HealthPotion(300));
                             printToChatBox("Bought 1 health potion.");
                         } else {
                             printToChatBox("You dont have the money :(");
@@ -311,7 +313,7 @@ public class ChatBoxHUD implements Advanceable, Renderable {
                     break;
                     case "MANA":
                         if(Player.getEquipment().removeGoldPieces(600)) {
-                            Player.getEquipment().addToBackpack(new ManaPotion());
+                            Player.getEquipment().addToBackpack(new ManaPotion(150));
                             printToChatBox("Bought 1 mana potion.");
                         } else {
                             printToChatBox("You dont have the money :(");

@@ -132,7 +132,7 @@ public class GameSessionManager {
                     if(random.nextInt(8) == 0) {
                         randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                         randomLocY = random.nextInt(600 + 1 - 100) + 100;
-                        MeleeMob boss = (MeleeMob) factory.createMeleeBoss(randomLocX, randomLocY, 15,
+                        MeleeMob boss = (MeleeMob) factory.createMeleeBoss(randomLocX, randomLocY, 10,
                                 imageLoaderComp.fetchImage("resources/big_zombie_idle_anim_f0.png"),
                                 imageLoaderComp.fetchImage("resources/loot.png"));
                         GlobalConfig.get().printToChatBox("A boss monster has spawned!");
@@ -143,7 +143,7 @@ public class GameSessionManager {
                     if(random.nextInt(8) == 0) {
                         randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                         randomLocY = random.nextInt(600 + 1 - 100) + 100;
-                        RangedMob boss = (RangedMob) factory.createRangedBoss(randomLocX, randomLocY, 15,
+                        RangedMob boss = (RangedMob) factory.createRangedBoss(randomLocX, randomLocY, 10,
                                 imageLoaderComp.fetchImage("resources/big_demon_idle_anim_f0.png"),
                                 imageLoaderComp.fetchImage("resources/loot.png"));
                         GlobalConfig.get().printToChatBox("A ranged boss monster has spawned");

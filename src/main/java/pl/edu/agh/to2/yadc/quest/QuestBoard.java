@@ -14,7 +14,7 @@ public class QuestBoard extends Entity {
 
     private List<Quest> availableQuests;
     private double spawnQuestTimer = 0;
-    private double spawnQuestCooldown = 10;
+    private double spawnQuestCooldown = 30;
     private final int MAX_AVAILABLE_QUESTS = 3;
     private final int SLAY_POOL_SIZE = 3;
     private final int SLAY_QUEST_MAX_SIZE = 25;
@@ -52,7 +52,7 @@ public class QuestBoard extends Entity {
 	public void performCollisionAction(Entity entity) {
 
 		if(entity instanceof Player) {
-            GlobalConfig.get().printToChatBox("Available Quests:");
+            GlobalConfig.get().printToChatBox("---Available Quests:---");
             int counter = 0;
             if(availableQuests.size() == 0) {
                 GlobalConfig.get().printToChatBox("None. Check back later.");

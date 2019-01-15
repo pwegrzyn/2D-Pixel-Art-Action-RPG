@@ -6,9 +6,9 @@ public class ManaPotion extends Item implements Consumable {
 
     private int manaValue;
 
-    public ManaPotion() {
+    public ManaPotion(int val) {
         super(1);
-        this.manaValue = 50;
+        this.manaValue = val;
         this.description = "Mana Potion";
     }
 

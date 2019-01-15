@@ -7,9 +7,9 @@ public class HealthPotion extends Item implements Consumable {
 
     private int healthValue;
     
-    public HealthPotion() {
+    public HealthPotion(int val) {
         super(1);
-        this.healthValue = 100;
+        this.healthValue = val;
         this.description = "Health Potion";
     }
     

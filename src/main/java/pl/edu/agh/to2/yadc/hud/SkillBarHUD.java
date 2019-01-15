@@ -56,6 +56,7 @@ public class SkillBarHUD implements Renderable {
 
         if (player.getHPPot() > 0) {
             graphics.drawImage(this.consumable1, 196 + 22 + 22 + 22, 284, null);
+            graphics.drawString("" + player.getHPPot(), 196 + 22 + 22 + 22 + 15, 284 + 20);
         } else {
             graphics.drawImage(this.empty, 196 + 22 + 22 + 22, 284, null);
         }
@@ -63,6 +64,7 @@ public class SkillBarHUD implements Renderable {
 
         if (player.getManaPot() > 0) {
             graphics.drawImage(this.consumable2, 196 + 22 + 22 + 22 + 22, 284, null);
+            graphics.drawString("" + player.getManaPot(), 196 + 22 + 22 + 22 + 22 + 15, 284 + 20);
         } else {
             graphics.drawImage(this.empty, 196 + 22 + 22 + 22 + 22, 284, null);
         }

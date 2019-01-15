@@ -39,6 +39,16 @@ public class Player extends Entity {
 	private double speedChangeTimer = 0;
 	private double speedChangeDuration = 0;
 	private double speedMultiplier = 1.0;
+	private boolean up = false;
+	private boolean down = false;
+	private boolean right = false;
+	private boolean left = false;
+	private Vector moveVector = new Vector(0, 0);
+	private boolean performingAttack;
+	private static List<Quest> availableQuests;
+	private static QuestBoard questBoard;
+	private int hppot_amount = 0;
+	private int manapot_amount = 0;
 	
     public Player(double xInit, double yInit) {
         super(xInit, yInit, 10);
@@ -57,23 +67,12 @@ public class Player extends Entity {
 		this.score = 0;
 
 		for(int i = 0; i < 3; i++) {
-			equipment.addToBackpack(new HealthPotion());
-			equipment.addToBackpack(new ManaPotion());
+			equipment.addToBackpack(new HealthPotion(300));
+			equipment.addToBackpack(new ManaPotion(150));
 		}
 		
 		this.godmode = false;
     }
-
-    private boolean up = false;
-    private boolean down = false;
-    private boolean right = false;
-    private boolean left = false;
-    private Vector moveVector = new Vector(0, 0);
-	private boolean performingAttack;
-	private static List<Quest> availableQuests;
-	private static QuestBoard questBoard;
-	private int hppot_amount = 3;
-	private int manapot_amount = 3;
 
     @Override
     public void advanceSelf(double delta) {

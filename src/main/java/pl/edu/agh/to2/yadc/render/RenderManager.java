@@ -217,7 +217,7 @@ public class RenderManager {
 			public void actionPerformed(ActionEvent e) {
 				Frame helpFrame = new Frame();
 				Label label = new Label(
-					"Up -> W | Down -> S | Left -> A | Right -> D | ChatDown -> M | ChatUp -> K"
+					"Check out README.md in the main folder"
 				);
 				helpFrame.add(label);
 
