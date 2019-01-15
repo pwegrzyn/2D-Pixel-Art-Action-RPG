@@ -133,7 +133,7 @@ public class GameSessionManager {
                         randomLocX = random.nextInt(1400 + 1 - 100) + 100;
                         randomLocY = random.nextInt(600 + 1 - 100) + 100;
                         MeleeMob boss = (MeleeMob) factory.createMeleeBoss(randomLocX, randomLocY, 10,
-                                imageLoaderComp.fetchImage("resources/big_zombie_idle_anim_f0.png"),
+                                imageLoaderComp.fetchImage("resources/Skeleton Idle.gif"),
                                 imageLoaderComp.fetchImage("resources/loot.png"));
                         GlobalConfig.get().printToChatBox("A boss monster has spawned!");
                         area.addEntity(boss);
