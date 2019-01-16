@@ -1,5 +1,7 @@
 # YADC
 
+![alt text](resources/promo.png)
+
 To build:
 ```
 gradle build
