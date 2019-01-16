@@ -50,6 +50,6 @@ The game is currently configured to run properly on Windows.
 Fun project which started as an uni course assignment.
 
 Original authors:
-* pwegrzy
+* pawegrzy
 * blatka
 * kajanda
