@@ -21,7 +21,7 @@ gradle perf_test
 ```
 
 
-The game is currently configured to run properly on Windows and Linux.
+The game is currently configured to run properly on Windows.
 
 
 #### Chat commands:
@@ -47,5 +47,9 @@ The game is currently configured to run properly on Windows and Linux.
 * Pause Game / Enter Chat - ESC/ENTER
 * Scroll Chat Up/Down - PageUp/PageDown
 
+Fun project which started as an uni course assignment.
 
-When finished, the YADC will be a RPG game where you will face your deepest fears in order to defeat the ancient Evil. Take your sword, your bow and the sax and prepare for an adventure.
+Original authors:
+* pwegrzy
+* blatka
+* kajanda
