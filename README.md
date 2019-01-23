@@ -1,6 +1,6 @@
 # YADC
 
-![alt text](resources/promo.png)
+![alt text](resources/demo2.png)
 
 To build:
 ```
