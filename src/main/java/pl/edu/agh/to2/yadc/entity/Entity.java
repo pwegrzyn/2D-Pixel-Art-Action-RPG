@@ -44,7 +44,7 @@ public class Entity implements Renderable, Advanceable {
 		this.collisionCache = new HashMap<>();
 		this.animations = new HashMap<>();
 	}
-
+		
 	public void advanceSelf(double delta) {
 		checkCollisions();
 		updateEffects();
@@ -64,7 +64,7 @@ public class Entity implements Renderable, Advanceable {
 		} else if(this.currentAnimation != null) {
 			BufferedImage frame = this.currentAnimation.getCurrentFrame();
 			graphics.drawImage(frame, xApparent - frame.getWidth() / 2, yApparent - frame.getHeight() / 2,
-					frame.getWidth(), frame.getHeight(), null);
+					 frame.getWidth(), frame.getHeight(), null);
 		}
 	}
 
