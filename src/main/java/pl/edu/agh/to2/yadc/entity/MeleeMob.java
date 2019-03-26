@@ -15,12 +15,6 @@ public class MeleeMob extends Mob {
 		this.statManager.setPhysicalDmg(50);
 		this.velocity0 = velocity;
 	}
-
-	/*@Override
-	public void advanceSelf(double delta) {
-		if(aggresive)
-			approachPlayer(delta);
-	}*/
 	
 	@Override
 	public void makeAttack() {

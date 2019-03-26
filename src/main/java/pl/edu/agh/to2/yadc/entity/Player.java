@@ -23,133 +23,135 @@ import pl.edu.agh.to2.yadc.render.ImageLoader;
 
 public class Player extends Entity {
 
-	private InputManager inputManager;
-	private int attackCooldown = 0;
-    private long lastAttackTime = 0;
-    private int manaRegenCooldown = 100;
-    private long lastManaRegenTime = 0;
-	private static StatManager statManager;
-	private static QuestLog questLog;
-	private static Equipment equipment;
-	private int score;
-	private boolean godmode;
-	private BufferedImage graveTexture;
-	private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
-	private double ProjectileSwitchCooldown = 0.5;
-	private double projectileSwitchTimer = 0;
-	private double consumableUseCooldown = 0.5;
-	private double consumableUseTimer = 0;
-	private double speedChangeTimer = 0;
-	private double speedChangeDuration = 0;
-	private double speedMultiplier = 1.0;
-	private boolean up = false;
-	private boolean down = false;
-	private boolean right = false;
-	private boolean left = false;
-	private Vector moveVector = new Vector(0, 0);
-	private boolean performingAttack;
-	private static List<Quest> availableQuests;
-	private static QuestBoard questBoard;
-	private int hppot_amount = 0;
-	private int manapot_amount = 0;
-	private double idleTimer = 0;
-	private double idleCooldown = 0.1;
+		private InputManager inputManager;
+		private int attackCooldown = 0;
+  	private long lastAttackTime = 0;
+  	private int manaRegenCooldown = 100;
+  	private long lastManaRegenTime = 0;
+		private static StatManager statManager;
+		private static QuestLog questLog;
+		private static Equipment equipment;
+		private int score;
+		private boolean godmode;
+		private BufferedImage graveTexture;
+		private ProjectileTypes activeProjectile = ProjectileTypes.NORMAL;
+		private double ProjectileSwitchCooldown = 0.5;
+		private double projectileSwitchTimer = 0;
+		private double consumableUseCooldown = 0.5;
+		private double consumableUseTimer = 0;
+		private double speedChangeTimer = 0;
+		private double speedChangeDuration = 0;
+		private double speedMultiplier = 1.0;
+		private boolean up = false;
+		private boolean down = false;
+		private boolean right = false;
+		private boolean left = false;
+		private Vector moveVector = new Vector(0, 0);
+		private boolean performingAttack;
+		private static List<Quest> availableQuests;
+		private static QuestBoard questBoard;
+		private int hppot_amount = 0;
+		private int manapot_amount = 0;
+		private double idleTimer = 0;
+		private double idleCooldown = 0.1;
+		private TurnDirection direction;
 	
     public Player(double xInit, double yInit) {
 
-        super(xInit, yInit, 10);
-		equipment = new Equipment(this);
-		this.godmode = false;
-		statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
-		statManager.setRange(20);
-		statManager.setBaseHealth(1000);
-		statManager.setHealth(1000);
-		statManager.setBaseMana(500);
-		statManager.setMana(500);
-		statManager.setPhysicalDmg(100);
-		statManager.setMagicDmg(20);
-		questLog = new QuestLog();
-		availableQuests = new LinkedList<>();
-		this.score = 0;
-
-		for(int i = 0; i < 3; i++) {
-			equipment.addToBackpack(new HealthPotion(300));
-			equipment.addToBackpack(new ManaPotion(150));
-		}
-
-		Animation animation = new Animation(AnimationType.WALK, new BufferedImage[] { 
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f1.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f2.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f3.png")	
-		}, 0.1);
-		assignAnimation(animation);
-		animation = new Animation(AnimationType.IDLE, new BufferedImage[] { 
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
-					ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png")	
-		}, 0.1);
-		assignAnimation(animation);
-		pickAnimation(AnimationType.IDLE);
-
-		this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
+    	super(xInit, yInit, 10);
+			equipment = new Equipment(this);
+			this.godmode = false;
+			statManager = new StatManager(equipment, 0, 0, 0, 0, 0, 0);
+			statManager.setRange(20);
+			statManager.setBaseHealth(1000);
+			statManager.setHealth(1000);
+			statManager.setBaseMana(500);
+			statManager.setMana(500);
+			statManager.setPhysicalDmg(100);
+			statManager.setMagicDmg(20);
+			questLog = new QuestLog();
+			availableQuests = new LinkedList<>();
+			this.score = 0;
+			this.direction = TurnDirection.RIGHT;
+			
+			for(int i = 0; i < 3; i++) {
+				equipment.addToBackpack(new HealthPotion(300));
+				equipment.addToBackpack(new ManaPotion(150));
+			}
+		
+			Animation animation = new Animation(AnimationType.WALK, new BufferedImage[] { 
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f1.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f2.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f3.png")	
+			}, 0.1);
+			assignAnimation(animation);
+			animation = new Animation(AnimationType.IDLE, new BufferedImage[] { 
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png"),
+						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png")	
+			}, 0.1);
+			assignAnimation(animation);
+			pickAnimation(AnimationType.IDLE);
+		
+			this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
     }
 
     @Override
     public void advanceSelf(double delta) {
 
-		super.advanceSelf(delta);
-		
-		reactToUserInput(delta);
+			super.advanceSelf(delta);
+			
+			reactToUserInput(delta);
 
-		speedChangeHandler(delta);
+			speedChangeHandler(delta);
 
-		// check if not walked out of the area
-		if(this.xPos >= area.getXSize()) {
-			this.xPos = area.getXSize();
-		}
-		if(this.yPos >= area.getYSize()) {
-			this.yPos = area.getYSize();
-		}
-		if(this.xPos < 0) {
-			this.xPos = 0;
-		}
-		if(this.yPos < 0) {
-			this.yPos = 0;
-		}
-    
-		if(this.getStatManager().getCurrentMana() < this.getStatManager().getMaxMana()) {
-			if (this.lastManaRegenTime == 0 || this.lastManaRegenTime + this.manaRegenCooldown < System.currentTimeMillis()) {
-				this.getStatManager().setMana(this.getStatManager().getCurrentMana()+1);
-				this.lastManaRegenTime = System.currentTimeMillis();
+			// check if not walked out of the area
+			if(this.xPos >= area.getXSize()) {
+				this.xPos = area.getXSize();
 			}
-		}
+			if(this.yPos >= area.getYSize()) {
+				this.yPos = area.getYSize();
+			}
+			if(this.xPos < 0) {
+				this.xPos = 0;
+			}
+			if(this.yPos < 0) {
+				this.yPos = 0;
+			}
 		
-        if (performingAttack) {
-        	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
-        		Projectile bullet = ProjectileFactory.createProjectile(activeProjectile, this, 4);
-		    	this.lastAttackTime = System.currentTimeMillis();
-		    	this.attackCooldown = 100;
-				if(activeProjectile!=ProjectileTypes.TRIPLE || !(bullet instanceof MultipleProjectile)) this.area.addEntity(bullet);
-				else {
-					for(Projectile p: ((MultipleProjectile)bullet).getProjectiles()) {
-						this.area.addEntity(p);
-					}
+			if(this.getStatManager().getCurrentMana() < this.getStatManager().getMaxMana()) {
+				if (this.lastManaRegenTime == 0 || this.lastManaRegenTime + this.manaRegenCooldown < System.currentTimeMillis()) {
+					this.getStatManager().setMana(this.getStatManager().getCurrentMana()+1);
+					this.lastManaRegenTime = System.currentTimeMillis();
 				}
 			}
-			performingAttack = false;
-		}
 
-		// Player avatar death
-		if (statManager.getCurrentHealth() <= 0 && !godmode) {
-			setTexture(this.graveTexture);
-			GlobalConfig.get().printToChatBox("Oh, snap! You died.");
-			GlobalConfig.get().printToChatBox("Click NEWGAME to start a new game");
-			GameSessionManager.stopCurrentSession();
-			GlobalConfig.get().setFrozenRender(true);
+    	    if (performingAttack) {
+    	    	if (this.lastAttackTime == 0 || this.lastAttackTime + this.attackCooldown < System.currentTimeMillis()) {
+    	    		Projectile bullet = ProjectileFactory.createProjectile(activeProjectile, this, 4);
+			    	this.lastAttackTime = System.currentTimeMillis();
+			    	this.attackCooldown = 100;
+					if(activeProjectile!=ProjectileTypes.TRIPLE || !(bullet instanceof MultipleProjectile)) this.area.addEntity(bullet);
+					else {
+						for(Projectile p: ((MultipleProjectile)bullet).getProjectiles()) {
+							this.area.addEntity(p);
+						}
+					}
+				}
+				performingAttack = false;
+			}
+
+			// Player avatar death
+			if (statManager.getCurrentHealth() <= 0 && !godmode) {
+				setTexture(this.graveTexture);
+				GlobalConfig.get().printToChatBox("Oh, snap! You died.");
+				GlobalConfig.get().printToChatBox("Click NEWGAME to start a new game");
+				GameSessionManager.stopCurrentSession();
+				GlobalConfig.get().setFrozenRender(true);
+			}
 		}
-	}
 	
 	private void reactToUserInput(double delta) {
 
@@ -459,3 +461,8 @@ public class Player extends Entity {
 		return this.speedMultiplier;
 	}
 }
+
+enum TurnDirection {
+	LEFT, RIGHT
+}
+

@@ -27,7 +27,6 @@ public class Entity implements Renderable, Advanceable {
 	protected double collisionRadius;
 	protected double angularRotation;
 	protected Area area;
-	
 	public List<Effect> activeEffects;
 	public List<Action> spreadingActions;
 	private Map<Entity, Integer> collisionCache;
@@ -38,7 +37,6 @@ public class Entity implements Renderable, Advanceable {
 		this.collidable = true;
 		this.collisionRadius = collisionRadius;
 		this.angularRotation = 0.0;
-		
 		this.activeEffects = new LinkedList<>();
 		this.spreadingActions = new LinkedList<>();
 		this.collisionCache = new HashMap<>();
