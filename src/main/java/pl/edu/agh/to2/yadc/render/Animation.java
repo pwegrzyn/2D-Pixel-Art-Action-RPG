@@ -36,4 +36,8 @@ public class Animation implements Advanceable {
         return this.type;
     }
 
+    public BufferedImage[] getAllFrames() {
+        return this.animationFrames;
+    }
+
 }

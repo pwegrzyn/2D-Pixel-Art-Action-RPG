@@ -55,6 +55,8 @@ public class Player extends Entity {
 		private double idleTimer = 0;
 		private double idleCooldown = 0.1;
 		private TurnDirection direction;
+		private TurnDirection lastDirection;
+		private boolean flipDirectionImage = false;
 	
     public Player(double xInit, double yInit) {
 
@@ -73,6 +75,7 @@ public class Player extends Entity {
 			availableQuests = new LinkedList<>();
 			this.score = 0;
 			this.direction = TurnDirection.RIGHT;
+			this.lastDirection = TurnDirection.RIGHT;
 			
 			for(int i = 0; i < 3; i++) {
 				equipment.addToBackpack(new HealthPotion(300));
@@ -93,9 +96,11 @@ public class Player extends Entity {
 						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png")	
 			}, 0.1);
 			assignAnimation(animation);
+
 			pickAnimation(AnimationType.IDLE);
 		
 			this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
+
     }
 
     @Override
@@ -157,6 +162,7 @@ public class Player extends Entity {
 
 		boolean isInputDisabled = inputManager.isNonChatInputDisabled();
 
+		// handle displacement
 		boolean changedPosition = false;
 		if (inputManager.getPressedByName("up") && !isInputDisabled) {
 			this.yPos -= statManager.getSpeed() * this.speedMultiplier * delta;
@@ -169,11 +175,13 @@ public class Player extends Entity {
 	    if (inputManager.getPressedByName("left") && !isInputDisabled) {
 			this.xPos -= statManager.getSpeed() * this.speedMultiplier * delta;
 			changedPosition = true;
+			this.direction = TurnDirection.LEFT;
 	    } 
 	    if (inputManager.getPressedByName("right") && !isInputDisabled) {
 			this.xPos += statManager.getSpeed() * this.speedMultiplier * delta; 
 			changedPosition = true; 
-		}
+			this.direction = TurnDirection.RIGHT;
+			}
 		if(changedPosition) {
 			pickAnimation(AnimationType.WALK);
 		} else {
@@ -183,7 +191,16 @@ public class Player extends Entity {
 				pickAnimation(AnimationType.IDLE);
 			}
 		}
+
+		// Check if need to flip avatar direction
+		if(this.direction != this.lastDirection) {
+			for(BufferedImage img : this.currentAnimation.getAllFrames()) {
+				ImageLoader.active.flipImageHorizontally(img);
+			}
+			this.lastDirection = this.direction;
+		}
 		
+		// check character facing look
 		if (inputManager.getPressedByName("lookUp") && !isInputDisabled) {
 	    	if (!up) {
 		        this.angularRotation = moveVector.addAndUpdate(0,  -1, this.angularRotation);
@@ -240,6 +257,7 @@ public class Player extends Entity {
 	    	}
 		}
 
+		// check if using consumables
 		consumableUseTimer += delta;
 		if(consumableUseTimer > consumableUseCooldown) {
 			int res;
@@ -267,6 +285,7 @@ public class Player extends Entity {
 			}
 		}
 
+		// check if firing
 		projectileSwitchTimer += delta;
 	    if(projectileSwitchTimer > ProjectileSwitchCooldown) {
 		    if (inputManager.getPressedByName("slowingProjectile") && !isInputDisabled) {
