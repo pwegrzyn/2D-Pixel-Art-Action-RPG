@@ -55,3 +55,7 @@ Original authors:
 * pawegrzy
 * blatka
 * kajanda
+
+WARNING:
+    This was coded in a total of 15 hours I think, during the last weeks of the semester, when we had like a gazillion other projects to finish,
+    so there's a fair amount of non-clean-code practices here and a ton of refactor-potential. Poor excuse, I know, but ¯\_(ツ)_/¯
