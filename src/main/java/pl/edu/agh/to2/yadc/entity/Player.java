@@ -55,8 +55,7 @@ public class Player extends Entity {
 		private double idleTimer = 0;
 		private double idleCooldown = 0.1;
 		private TurnDirection direction;
-		private TurnDirection lastDirection;
-		private boolean flipDirectionImage = false;
+		private static TurnDirection textureDirection = TurnDirection.RIGHT;
 	
     public Player(double xInit, double yInit) {
 
@@ -74,8 +73,7 @@ public class Player extends Entity {
 			questLog = new QuestLog();
 			availableQuests = new LinkedList<>();
 			this.score = 0;
-			this.direction = TurnDirection.RIGHT;
-			this.lastDirection = TurnDirection.RIGHT;
+			this.direction = textureDirection;
 			
 			for(int i = 0; i < 3; i++) {
 				equipment.addToBackpack(new HealthPotion(300));
@@ -96,8 +94,6 @@ public class Player extends Entity {
 						ImageLoader.active.fetchImage("resources/wizzard_m_idle_anim_f0.png")	
 			}, 0.1);
 			assignAnimation(animation);
-
-			pickAnimation(AnimationType.IDLE);
 		
 			this.graveTexture = ImageLoader.active.fetchImage("resources/grave.png");
 
@@ -193,11 +189,14 @@ public class Player extends Entity {
 		}
 
 		// Check if need to flip avatar direction
-		if(this.direction != this.lastDirection) {
-			for(BufferedImage img : this.currentAnimation.getAllFrames()) {
+		if(this.direction != textureDirection) {
+			for(BufferedImage img : this.animations.get(AnimationType.IDLE).getAllFrames()) {
 				ImageLoader.active.flipImageHorizontally(img);
 			}
-			this.lastDirection = this.direction;
+			for (BufferedImage img : this.animations.get(AnimationType.WALK).getAllFrames()) {
+				ImageLoader.active.flipImageHorizontally(img);
+			}
+			textureDirection = this.direction;
 		}
 		
 		// check character facing look
